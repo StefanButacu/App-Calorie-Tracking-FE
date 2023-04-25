@@ -1,16 +1,13 @@
-import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from '@ionic/react';
-import './Tab1.css';
-import {useState} from "react";
-import axios from "axios";
-import {add} from "ionicons/icons";
+// AddFoodPage.tsx
+import React, {useState} from 'react';
+import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from "@ionic/react";
 import CategoryItemComponent, {CategoryProps} from "../components/CategoryItemComponent";
-import DiaryPage from "./Diary";
+import {add} from "ionicons/icons";
+import axios from "axios";
 
-const baseURL = "http://localhost:8080";
-
-
-const Tab1: React.FC = () => {
-
+const baseURL = process.env.REACT_APP_JAVA_API_URL;
+const AddFoodPage: React.FC = () => {
+    console.log("Add Food Page")
     let [selectedImage, setSelectedImage] = useState(new Blob());
     let [base64Image, setBase64Image] = useState('');
     let [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
@@ -24,13 +21,14 @@ const Tab1: React.FC = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Tab 1</IonTitle>
-                    </IonToolbar>
+
                 </IonHeader>
-              <DiaryPage />
                 <div>
-                    <h1>Upload and Display Image usign React Hook's</h1>
+                    <div>
+                        <h1>Add Food</h1>
+                        <p>Here you can add a new food item.</p>
+
+                    </div>
                     {selectedImage && (
                         <div>
                             <img
@@ -77,7 +75,9 @@ const Tab1: React.FC = () => {
                         setBase64Image(base64ImageString);
 
 
-                    }).catch(err => console.log(err))
+                    }).catch(err => {
+                        console.log(err);
+                    })
                 }}>
                     <IonIcon icon={add}/>
                 </IonFabButton>
@@ -108,6 +108,7 @@ const Tab1: React.FC = () => {
             </IonContent>
         </IonPage>
     );
+
 };
 
-export default Tab1;
+export default AddFoodPage;
