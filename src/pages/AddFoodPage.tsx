@@ -1,7 +1,7 @@
 // AddFoodPage.tsx
 import React, {useState} from 'react';
 import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from "@ionic/react";
-import CategoryItemComponent, {CategoryProps} from "../components/CategoryItemComponent";
+import CategoryComponent, {CategoryProps} from "../components/CategoryComponent";
 import {add} from "ionicons/icons";
 import axios from "axios";
 
@@ -90,7 +90,7 @@ const AddFoodPage: React.FC = () => {
                             {
                                 categoryResult ?
                                     categoryResult.map(categoryProps =>
-                                        <CategoryItemComponent key={categoryProps.category_id}
+                                        <CategoryComponent key={categoryProps.category_id}
                                                                category_id={categoryProps.category_id}
                                                                category_color={categoryProps.category_color}/>
                                     ) :

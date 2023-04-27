@@ -1,16 +1,10 @@
 import {Redirect, Route} from 'react-router-dom';
 import {
     IonApp,
-    IonIcon,
-    IonLabel,
     IonRouterOutlet,
-    IonTabBar,
-    IonTabs,
     setupIonicReact
 } from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
-import {ellipse, square, triangle} from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -48,7 +42,6 @@ const App: React.FC = () => (
                 <Route exact path="/">
                     <Redirect to="/diary"/>
                 </Route>
-
             </IonRouterOutlet>
         </IonReactRouter>
     </IonApp>

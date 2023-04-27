@@ -3,7 +3,7 @@ import './Tab1.css';
 import {useState} from "react";
 import axios from "axios";
 import {add} from "ionicons/icons";
-import CategoryItemComponent, {CategoryProps} from "../components/CategoryItemComponent";
+import CategoryComponent, {CategoryProps} from "../components/CategoryComponent";
 import DiaryPage from "./Diary";
 
 const baseURL = "http://localhost:8080";
@@ -90,7 +90,7 @@ const Tab1: React.FC = () => {
                             {
                                 categoryResult ?
                                     categoryResult.map(categoryProps =>
-                                        <CategoryItemComponent key={categoryProps.category_id}
+                                        <CategoryComponent key={categoryProps.category_id}
                                                                category_id={categoryProps.category_id}
                                                                category_color={categoryProps.category_color}/>
                                     ) :

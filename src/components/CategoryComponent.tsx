@@ -7,7 +7,7 @@ export interface CategoryProps {
     category_color: number[]
 }
 
-const CategoryItemComponent: React.FC<CategoryProps> = ({category_id, category_color}) => {
+const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color}) => {
 
     let [categoryName, setCategoryName] = useState();
 
@@ -40,4 +40,4 @@ const CategoryItemComponent: React.FC<CategoryProps> = ({category_id, category_c
         </div>
     )
 }
-export default CategoryItemComponent;
+export default CategoryComponent;
