@@ -5,6 +5,13 @@ import CategoryComponent, {CategoryProps} from "../components/CategoryComponent"
 import {add} from "ionicons/icons";
 import axios from "axios";
 
+// TODO
+//  -  LocalDate - localDate
+//  - POST - /api/diary/{date}
+//  - create the diary_page - based on DiaryDayMealFoodDTO response
+//  - go on AddFoodPage - create a post - /api/diary/diary_day_id/meal/meal_id/food/food_id - for moment
+//  - get the response and go to diary_page
+
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 const AddFoodPage: React.FC = () => {
     console.log("Add Food Page")

@@ -1,22 +1,17 @@
 import '../assets/styles/meal-item.css'
-
-export interface MealItemProps {
-    name: string
-    serving_size: string
-    calories: number
-}
+import {Food} from "../pages/MealFood.types";
 
 
-const MealItemComponent: React.FC<MealItemProps> = ({name, serving_size, calories}) => {
+const MealItemComponent: React.FC<Food> = ({foodId, name, protein, carbohydrate,lipid }) => {
 
     return (
         <div className="meal-item-container">
             <div>
-                <p className="meal-item-title">{name}</p>
-                <p className="meal-item-subtitle">{serving_size}</p>
+                <p className="meal-item-title">{foodId}</p>
+                <p className="meal-item-subtitle">{name}</p>
             </div>
             <div>
-                <span className="meal-item-calorie">{calories}</span>
+                <span className="meal-item-calorie">{protein * 4 + carbohydrate * 4 + lipid * 9 }</span>
             </div>
         </div>
     )
