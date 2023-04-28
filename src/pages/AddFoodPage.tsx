@@ -4,6 +4,8 @@ import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonTool
 import CategoryComponent, {CategoryProps} from "../components/CategoryComponent";
 import {add} from "ionicons/icons";
 import axios from "axios";
+import {useParams} from "react-router";
+import {getDiaryDayMeals, postFoodToMeal} from "../services/actions/diaryDayAction";
 
 // TODO
 //  -  LocalDate - localDate
@@ -12,9 +14,21 @@ import axios from "axios";
 //  - go on AddFoodPage - create a post - /api/diary/diary_day_id/meal/meal_id/food/food_id - for moment
 //  - get the response and go to diary_page
 
+interface RouteParams {
+    mealId: string
+}
+
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
+
 const AddFoodPage: React.FC = () => {
     console.log("Add Food Page")
+    let {mealId} = useParams<RouteParams>()
+
+    let handleAddFoodToMeal = async (mealId: string, foodId: number) => {
+        return await postFoodToMeal(mealId, foodId);
+    }
+
+
     let [selectedImage, setSelectedImage] = useState(new Blob());
     let [base64Image, setBase64Image] = useState('');
     let [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
@@ -99,7 +113,11 @@ const AddFoodPage: React.FC = () => {
                                     categoryResult.map(categoryProps =>
                                         <CategoryComponent key={categoryProps.category_id}
                                                                category_id={categoryProps.category_id}
-                                                               category_color={categoryProps.category_color}/>
+                                                               category_color={categoryProps.category_color}
+                                                           onAddFoodToMealClick={(foodId) => handleAddFoodToMeal(mealId, foodId)}
+
+
+                                        />
                                     ) :
                                     <p>Loading categories</p>
                             }

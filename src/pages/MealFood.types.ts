@@ -12,3 +12,9 @@ export interface Food {
     carbohydrate: number,
     lipid: number,
 }
+
+
+export interface FoodQuantity {
+    foodId: number;
+    quantity: number;
+}

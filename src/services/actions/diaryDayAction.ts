@@ -1,10 +1,15 @@
 import axios from "axios";
+import {FoodQuantity} from "../../pages/MealFood.types";
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
-// TODO - diaryDay might not be needed.
-export const addFoodToDiaryDayMeal = (diaryDayId: number, mealId: number, foodId: number) => {
-    return axios.post(baseURL + `/api/diary/${diaryDayId}/meal/{mealId}/food/{foodId}`)
+export const postFoodToMeal = ( mealId: string, foodId: number) => {
+    let quantity:number = 3.5 // TODO - add quality as a parameter
+    const foodQuantity: FoodQuantity = {
+        foodId,
+        quantity
+    }
+    return axios.post(baseURL + `/api/diary/meal/${mealId}/food`, foodQuantity)
 }
 
 

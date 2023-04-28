@@ -4,23 +4,24 @@ import {IonLabel} from "@ionic/react";
 import {Food} from "../pages/MealFood.types";
 
 export interface MealProps {
-    title: string;
+    mealName: string,
+    mealId: number,
     foodList: Food[];
 }
 
 
-const MealComponent: React.FC<MealProps> = ({title, foodList}) => {
+const MealComponent: React.FC<MealProps> = ({mealName,mealId, foodList}) => {
 
     const history = useHistory();
 
     const handleAddFoodClick = () => {
         console.log("History push")
-        history.push('/add-food');
+        history.push(`/add-food/${mealId}`);
     };
 
     return (
         <div>
-            <h2>{title}</h2>
+            <h2>{mealName}</h2>
             <div>
                 {foodList.map((food, index) => (
                     <MealItemComponent

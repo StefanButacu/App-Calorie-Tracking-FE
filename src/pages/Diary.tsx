@@ -50,7 +50,8 @@ const DiaryPage: React.FC = () => {
                     diaryDay ?
                         diaryDay.mealDTOList.map(mealFoodProps =>
                             <MealComponent key={mealFoodProps.mealId}
-                                           title={mealFoodProps.mealName}
+                                           mealId = {mealFoodProps.mealId}
+                                           mealName={mealFoodProps.mealName}
                                                foodList={mealFoodProps.foodList}/>
                         ) :
                         <p>Loading Meals Page</p>
