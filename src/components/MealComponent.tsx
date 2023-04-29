@@ -26,7 +26,7 @@ const MealComponent: React.FC<MealProps> = ({mealName,mealId, foodList}) => {
                 {foodList.map((food, index) => (
                     <MealItemComponent
                         key={index} name={food.name}
-                        carbohydrate={food.carbohydrate} foodId={food.foodId} lipid={food.lipid}
+                        carbohydrate={food.carbohydrate} id={food.id} lipid={food.lipid}
                         protein={food.protein}/>
                 ))}
             </div>

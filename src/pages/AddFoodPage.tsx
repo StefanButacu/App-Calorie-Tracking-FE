@@ -24,8 +24,8 @@ const AddFoodPage: React.FC = () => {
     console.log("Add Food Page")
     let {mealId} = useParams<RouteParams>()
 
-    let handleAddFoodToMeal = async (mealId: string, foodId: number) => {
-        return await postFoodToMeal(mealId, foodId);
+    let handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
+        return await postFoodToMeal(mealId, foodId, quantityId);
     }
 
 
@@ -36,19 +36,14 @@ const AddFoodPage: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Tab 1</IonTitle>
-                </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
                 <IonHeader collapse="condense">
-
                 </IonHeader>
                 <div>
                     <div>
                         <h1>Add Food</h1>
                         <p>Here you can add a new food item.</p>
-
                     </div>
                     {selectedImage && (
                         <div>
@@ -65,8 +60,6 @@ const AddFoodPage: React.FC = () => {
                         type="file"
                         name="myImage"
                         onChange={(event) => {
-                            // @ts-ignore
-                            console.log(event.target.files[0]);
                             // @ts-ignore
                             setSelectedImage(event.target.files[0]);
                         }}
@@ -114,7 +107,7 @@ const AddFoodPage: React.FC = () => {
                                         <CategoryComponent key={categoryProps.category_id}
                                                                category_id={categoryProps.category_id}
                                                                category_color={categoryProps.category_color}
-                                                           onAddFoodToMealClick={(foodId) => handleAddFoodToMeal(mealId, foodId)}
+                                                           onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
 
 
                                         />

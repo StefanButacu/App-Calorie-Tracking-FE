@@ -3,8 +3,7 @@ import {FoodQuantity} from "../../pages/MealFood.types";
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
-export const postFoodToMeal = ( mealId: string, foodId: number) => {
-    let quantity:number = 3.5 // TODO - add quality as a parameter
+export const postFoodToMeal = ( mealId: string, foodId: number, quantity: number) => {
     const foodQuantity: FoodQuantity = {
         foodId,
         quantity

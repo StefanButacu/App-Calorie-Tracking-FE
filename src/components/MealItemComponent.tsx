@@ -1,13 +1,15 @@
 import '../assets/styles/meal-item.css'
 import {Food} from "../pages/MealFood.types";
 
-
-const MealItemComponent: React.FC<Food> = ({foodId, name, protein, carbohydrate,lipid }) => {
+// TODO
+//   - difference between MealItem (foodName, servingSize, calories)
+//   - FoodItem (name, prot, carbo, lipid, chooseQuantity)
+const MealItemComponent: React.FC<Food> = ({id, name, protein, carbohydrate,lipid }) => {
 
     return (
         <div className="meal-item-container">
             <div>
-                <p className="meal-item-title">{foodId}</p>
+                <p className="meal-item-title">{id}</p>
                 <p className="meal-item-subtitle">{name}</p>
             </div>
             <div>

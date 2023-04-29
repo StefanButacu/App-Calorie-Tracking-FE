@@ -6,11 +6,12 @@ export interface MealFood {
 }
 
 export interface Food {
-    foodId: number,
+    id: number,
     name: string,
     protein: number,
     carbohydrate: number,
     lipid: number,
+    onAddFoodToMealClick?: (foodId: number, quantity:number) => any;
 }
 
 
