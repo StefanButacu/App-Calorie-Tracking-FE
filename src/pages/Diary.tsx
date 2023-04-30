@@ -1,25 +1,31 @@
 import MealComponent from "../components/MealComponent";
 import {IonPage} from "@ionic/react";
 import {DiaryDayMealFood, MealFood} from "./MealFood.types";
-import {getDiaryDayMeals} from "../services/actions/diaryDayAction";
+import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {diaryDayReduce, RootState} from "../store";
 
 
 const DiaryPage: React.FC = () => {
 
-    console.log("diary page");
-    const [diaryDay, setDiaryDay] = useState<DiaryDayMealFood>();
+    const dispatch = useDispatch();
+    // const [diaryDay, setDiaryDay] = useState<DiaryDayMealFood>();
+
+    const diaryDay = useSelector((state: RootState) => state.diaryDay);
 
     const handleGetDiaryDayMealsHandle = async (diaryDayDate: string) => {
-        return await getDiaryDayMeals(diaryDayDate);
+        return await requestGetDiaryDayMeals(diaryDayDate);
     }
     const day = '2011-12-03'
 
     useEffect(() => {
         handleGetDiaryDayMealsHandle(day)
             .then((r) => {
-                console.log("diary-day", r.data)
-                setDiaryDay(r.data)
+                if(r.data) {
+                    // setDiaryDay(r.data)
+                    dispatch(diaryDayReduce(r.data))
+                }
             })
             .catch(err => console.log("Error" + err))
 
@@ -33,7 +39,7 @@ const DiaryPage: React.FC = () => {
                     diaryDay ?
                         (<>
                                 <p> {diaryDay.diaryDayId} </p>
-                                <p> {diaryDay.diaryDayDate} </p>
+                                {/*<p> {diaryDay.} </p>*/}
                             </>
 
                         ) :

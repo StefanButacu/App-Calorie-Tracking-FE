@@ -2,9 +2,17 @@ import {Food} from "../pages/MealFood.types";
 import React, {useState} from "react";
 import {IonFabButton, IonIcon, IonInput} from "@ionic/react";
 import {addCircleOutline, addSharp, settings} from "ionicons/icons";
+import {useDispatch} from "react-redux";
+import {addFoodReduce} from "../store";
+
+interface FoodDetailsProps extends Food {
+    mealId: number;
+}
 
 
-const FoodDetailsComponent: React.FC<Food> = ({id, name, protein, carbohydrate, lipid, onAddFoodToMealClick}) => {
+const FoodDetailsComponent: React.FC<FoodDetailsProps> = ({mealId, id, name, protein, carbohydrate, lipid, onAddFoodToMealClick}) => {
+    const dispatch = useDispatch();
+
     const servingSize = 100.0
     const [quantity, setQuantiy] = useState(1 * servingSize )
 
@@ -19,7 +27,9 @@ const FoodDetailsComponent: React.FC<Food> = ({id, name, protein, carbohydrate, 
     const handleAddFoodClick = () => {
         if (onAddFoodToMealClick) {
             console.log("food id + ", id)
-            onAddFoodToMealClick(id, quantity);
+            const response = onAddFoodToMealClick(id, quantity);
+            console.log(response);
+            dispatch(addFoodReduce({ mealId: mealId, food:{id, name, protein, carbohydrate, lipid}}));
         }
     }
 

@@ -5,7 +5,7 @@ import CategoryComponent, {CategoryProps} from "../components/CategoryComponent"
 import {add} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
-import {getDiaryDayMeals, postFoodToMeal} from "../services/actions/diaryDayAction";
+import {requestGetDiaryDayMeals, requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 
 // TODO
 //  -  LocalDate - localDate
@@ -25,7 +25,7 @@ const AddFoodPage: React.FC = () => {
     let {mealId} = useParams<RouteParams>()
 
     let handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
-        return await postFoodToMeal(mealId, foodId, quantityId);
+        return await requestPostFoodToMeal(mealId, foodId, quantityId);
     }
 
 
@@ -107,6 +107,7 @@ const AddFoodPage: React.FC = () => {
                                         <CategoryComponent key={categoryProps.category_id}
                                                                category_id={categoryProps.category_id}
                                                                category_color={categoryProps.category_color}
+                                                           mealId = {parseInt(mealId, 10)}
                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
 
 

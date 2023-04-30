@@ -5,7 +5,7 @@ import {addCircleOutline} from "ionicons/icons";
 import {useHistory} from "react-router";
 import FoodDetailsComponent from "./FoodDetailsComponent";
 import {Food} from "../pages/MealFood.types";
-import {getFoodDetails} from "../services/actions/foodAction";
+import {requestGetFoodDetails} from "../services/actions/foodAction";
 
 
 export interface CategoryProps {
@@ -14,8 +14,18 @@ export interface CategoryProps {
     onAddFoodToMealClick?: (foodId: number, quantity: number) => any;
 }
 
+interface CategoryComponentProps extends CategoryProps {
+    mealId: number;
+}
+
+
 // TODO - replace category_id with food_id
-const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color, onAddFoodToMealClick}) => {
+const CategoryComponent: React.FC<CategoryComponentProps> = ({
+                                                                 mealId,
+                                                                 category_id,
+                                                                 category_color,
+                                                                 onAddFoodToMealClick
+                                                             }) => {
     let [food, setFood] = useState<Food>();
     let [categoryName, setCategoryName] = useState();
     const [showModal, setShowModal] = useState(false);
@@ -31,7 +41,7 @@ const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color
     }
 
     const getFoodHandle = async (food_id: number) => {
-        return await getFoodDetails(food_id)
+        return await requestGetFoodDetails(food_id)
     }
 
 
@@ -40,8 +50,11 @@ const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color
             .then((r) => {
                 setCategoryName(r.data.category)
                 getFoodHandle(category_id).then((foodResponse) => {
-                    console.log("foodResponse", foodResponse.data);
-                    setFood(foodResponse.data)
+                    if (foodResponse.status === 200) {
+                        setFood(foodResponse.data)
+                    } else {
+                        console.log("Error reponse")
+                    }
                 })
             })
             .catch(err => console.log("Error" + err))
@@ -53,13 +66,13 @@ const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color
     return (
         <>
             <IonModal isOpen={showModal}>
-                <FoodDetailsComponent {...food as Food} onAddFoodToMealClick={(...args) => {
+                <FoodDetailsComponent mealId={mealId} {...food as Food} onAddFoodToMealClick={(...args) => {
                     if (onAddFoodToMealClick) {
                         onAddFoodToMealClick(...args);
                     }
                     setShowModal(false);
                 }}/>
-                <IonFabButton onClick={handleModalClick} >
+                <IonFabButton onClick={handleModalClick}>
                     <IonIcon icon={addCircleOutline}></IonIcon>
                 </IonFabButton>
             </IonModal>
