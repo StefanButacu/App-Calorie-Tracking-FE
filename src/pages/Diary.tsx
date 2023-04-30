@@ -1,14 +1,8 @@
 import MealComponent from "../components/MealComponent";
 import {IonPage} from "@ionic/react";
-import {MealFood} from "./MealFood.types";
+import {DiaryDayMealFood, MealFood} from "./MealFood.types";
 import {getDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
-
-export interface DiaryDayMealFood {
-    diaryDayId: number,
-    diaryDayDate: string,
-    mealDTOList: MealFood[];
-}
 
 
 const DiaryPage: React.FC = () => {
@@ -52,7 +46,7 @@ const DiaryPage: React.FC = () => {
                             <MealComponent key={mealFoodProps.mealId}
                                            mealId = {mealFoodProps.mealId}
                                            mealName={mealFoodProps.mealName}
-                                               foodList={mealFoodProps.foodList}/>
+                                           foodList={mealFoodProps.foodList}/>
                         ) :
                         <p>Loading Meals Page</p>
                 }

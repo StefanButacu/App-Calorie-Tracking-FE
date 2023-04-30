@@ -53,7 +53,12 @@ const CategoryComponent: React.FC<CategoryProps> = ({category_id, category_color
     return (
         <>
             <IonModal isOpen={showModal}>
-                <FoodDetailsComponent {...food as Food} onAddFoodToMealClick={onAddFoodToMealClick}/>
+                <FoodDetailsComponent {...food as Food} onAddFoodToMealClick={(...args) => {
+                    if (onAddFoodToMealClick) {
+                        onAddFoodToMealClick(...args);
+                    }
+                    setShowModal(false);
+                }}/>
                 <IonFabButton onClick={handleModalClick} >
                     <IonIcon icon={addCircleOutline}></IonIcon>
                 </IonFabButton>

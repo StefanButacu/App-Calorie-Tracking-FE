@@ -1,3 +1,8 @@
+export interface DiaryDayMealFood {
+    diaryDayId: number,
+    diaryDayDate: string,
+    mealDTOList: MealFood[];
+}
 
 export interface MealFood {
     mealId: number,
@@ -19,3 +24,6 @@ export interface FoodQuantity {
     foodId: number;
     quantity: number;
 }
+// FoodDetails with nutrition values for 100 grams
+// FoodFromMeal - to display name and total calories FoodDetail.proteine * 100 / Quantity
+
