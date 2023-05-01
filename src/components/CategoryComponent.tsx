@@ -2,22 +2,10 @@ import React, {useEffect, useState} from "react";
 import {getCategory} from "../services/actions/categoryAction";
 import {IonFabButton, IonIcon, IonModal} from "@ionic/react";
 import {addCircleOutline} from "ionicons/icons";
-import {useHistory} from "react-router";
 import FoodDetailsComponent from "./FoodDetailsComponent";
 import {Food} from "../pages/MealFood.types";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
-
-
-export interface CategoryProps {
-    category_id: number
-    category_color: number[]
-    onAddFoodToMealClick?: (foodId: number, quantity: number) => any;
-}
-
-interface CategoryComponentProps extends CategoryProps {
-    mealId: number;
-}
-
+import {CategoryComponentProps} from "./Category.types";
 
 // TODO - replace category_id with food_id
 const CategoryComponent: React.FC<CategoryComponentProps> = ({

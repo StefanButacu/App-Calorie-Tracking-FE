@@ -1,13 +1,10 @@
 import MealItemComponent from "./MealItemComponent";
 import {useHistory} from "react-router";
 import {IonLabel} from "@ionic/react";
-import {Food} from "../pages/MealFood.types";
+import {Food, MealProps} from "../pages/MealFood.types";
+import React from "react";
 
-export interface MealProps {
-    mealName: string,
-    mealId: number,
-    foodList: Food[];
-}
+
 
 
 const MealComponent: React.FC<MealProps> = ({mealName,mealId, foodList}) => {
@@ -23,11 +20,9 @@ const MealComponent: React.FC<MealProps> = ({mealName,mealId, foodList}) => {
         <div>
             <h2>{mealName}</h2>
             <div>
-                {foodList.map((food, index) => (
+                {foodList.map((foodWithCalorie, index) => (
                     <MealItemComponent
-                        key={index} name={food.name}
-                        carbohydrate={food.carbohydrate} id={food.id} lipid={food.lipid}
-                        protein={food.protein}/>
+                        key={index} {...foodWithCalorie}/>
                 ))}
             </div>
             <IonLabel onClick={handleAddFoodClick} style={{cursor: 'pointer', textDecoration: 'underline'}}>

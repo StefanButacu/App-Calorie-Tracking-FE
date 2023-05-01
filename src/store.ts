@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import {DiaryDayMealFood, Food, MealFood} from "./pages/MealFood.types";
+import {DiaryDayMealFood, Food, FoodWithCalorie, MealFood} from "./pages/MealFood.types";
 import { loggingMiddleware} from "./reducers/loggingMiddleware";
 
 interface State {
@@ -26,7 +26,7 @@ export const diarySlice = createSlice({
             return  {...action.payload, isLoading: false}
 
         },
-        addFoodReduce: (state, action: PayloadAction<{ mealId: number, food: Food }>) => {
+        addFoodReduce: (state, action: PayloadAction<{ mealId: number, food: FoodWithCalorie }>) => {
             const { mealId, food } = action.payload;
 
             // Find the meal in the mealDTOList array

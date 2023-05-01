@@ -7,7 +7,12 @@ export interface DiaryDayMealFood {
 export interface MealFood {
     mealId: number,
     mealName: string;
-    foodList: Food[]
+    foodList: FoodWithCalorie[]
+}
+export interface MealProps {
+    mealName: string,
+    mealId: number,
+    foodList: FoodWithCalorie[];
 }
 
 export interface Food {
@@ -17,6 +22,14 @@ export interface Food {
     carbohydrate: number,
     lipid: number,
     onAddFoodToMealClick?: (foodId: number, quantity:number) => any;
+}
+
+
+export interface FoodWithCalorie {
+    id: number,
+    name: string,
+    quantity: number,
+    calories: number
 }
 
 

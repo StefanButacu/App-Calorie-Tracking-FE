@@ -1,11 +1,12 @@
 // AddFoodPage.tsx
 import React, {useState} from 'react';
 import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from "@ionic/react";
-import CategoryComponent, {CategoryProps} from "../components/CategoryComponent";
+import CategoryComponent from "../components/CategoryComponent";
 import {add} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
-import {requestGetDiaryDayMeals, requestPostFoodToMeal} from "../services/actions/diaryDayAction";
+import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
+import {CategoryProps} from "../components/Category.types";
 
 // TODO
 //  -  LocalDate - localDate
