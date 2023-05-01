@@ -1,12 +1,11 @@
 import MealComponent from "../components/MealComponent";
 import {IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from "@ionic/react";
-import {DiaryDayMealFood, MealFood} from "./MealFood.types";
 import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {diaryDayReduce, RootState} from "../store";
 import {format, addDays, subDays} from 'date-fns';
-
+import "../assets/styles/diary-page.scss"
 
 const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -47,30 +46,26 @@ const DiaryPage: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar>
+                <IonToolbar  className = "day-scrolling">
                     <IonButtons slot="start">
-                        <IonButton onClick={handlePreviousDayClick}>Previous Day</IonButton>
+                        <IonButton onClick={handlePreviousDayClick}>Previous</IonButton>
                     </IonButtons>
-                    <IonTitle>{format(currentDay, 'EEEE, MMMM d, yyyy')}</IonTitle>
+                    <IonTitle>{format(currentDay, 'EEEE')}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={handleNextDayClick}>Next Day</IonButton>
+                        <IonButton onClick={handleNextDayClick}>Next</IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                 <div>
-                    <h1>Diary Page</h1>
                     {
                         diaryDay ?
                             (<>
-                                    <p> {diaryDay.diaryDayId} </p>
-                                    {/*<p> {diaryDay.} </p>*/}
-                                </>
+                            </>
 
                             ) :
                             <p>Loading Diary Page</p>
                     }
-                    <h2>Today's Meals</h2>
                     {
                         diaryDay ?
                             diaryDay.mealDTOList.map(mealFoodProps =>

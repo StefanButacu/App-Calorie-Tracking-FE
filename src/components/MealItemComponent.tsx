@@ -1,4 +1,4 @@
-import '../assets/styles/meal-item.css'
+import '../assets/styles/meal-item.scss'
 import {FoodWithCalorie} from "../pages/MealFood.types";
 
 const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calories }) => {
@@ -6,12 +6,11 @@ const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calor
     return (
         <div className="meal-item-container">
             <div>
-                <p className="meal-item-title">{id}</p>
-                <p className="meal-item-subtitle">{name}</p>
+                <p className="meal-item-title food-name">{name}</p>
                 <p className="meal-item-subtitle">{quantity} g</p>
             </div>
             <div>
-                <span className="meal-item-calorie">{calories }</span>
+                <span className="meal-item-calorie">{calories}</span>
             </div>
         </div>
     )

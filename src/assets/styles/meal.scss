@@ -1,0 +1,42 @@
+@import "globals";
+
+
+.meal-name {
+  font-size: 35px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+
+.meal {
+  margin-top: 15px;
+  border-bottom: 1px solid #ccc;
+
+  .meal-header {
+      background: $light-blue;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+
+    .meal-calorie {
+      color: white;
+      margin-right: 10px;
+    }
+  }
+}
+
+
+.add-food-label {
+  color: $light-blue;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 10px
+}
+
+.meals-container{
+
+}

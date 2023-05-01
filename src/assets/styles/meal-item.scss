@@ -1,0 +1,34 @@
+@import "globals";
+
+.meal-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  .meal-item-title{
+    font-size: 20px;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color: black;
+  }
+  .meal-item-subtitle {
+    font-size: 16px;
+    color: gray;
+    margin: 0;
+  }
+
+  .meal-item-calorie {
+    font-size: 16px;
+    color: $light-blue;
+    margin: 0;
+
+  }
+
+
+}
+

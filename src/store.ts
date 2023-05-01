@@ -28,16 +28,26 @@ export const diarySlice = createSlice({
         },
         addFoodReduce: (state, action: PayloadAction<{ mealId: number, food: FoodWithCalorie }>) => {
             const { mealId, food } = action.payload;
-
-            // Find the meal in the mealDTOList array
+            // Find the index of the meal in mealDTOList based on mealId
             const mealIndex = state.mealDTOList.findIndex(m => m.mealId === mealId);
-
-            if (mealIndex === -1) {
-                // If the meal doesn't exist, create a new MealFood object and add it to the mealDTOList array
-                state.mealDTOList.push({ mealId, mealName: '', foodList: [food] });
-            } else {
-                // If the meal exists, add the food to its foodList array
-                state.mealDTOList[mealIndex].foodList.push(food);
+            if (mealIndex !== -1) {
+                // Find the index of the food in foodList based on id
+                const foodIndex = state.mealDTOList[mealIndex].foodList.findIndex(f => f.id === food.id);
+                if (foodIndex !== -1) {
+                    // Update the quantity and calories of the existing food
+                    const existingFood = state.mealDTOList[mealIndex].foodList[foodIndex];
+                    existingFood.quantity += food.quantity;
+                    existingFood.calories += food.calories;
+                } else {
+                    // Add the new food to the meal
+                    const foodWithCalorie: FoodWithCalorie = {
+                        id: food.id,
+                        name: food.name,
+                        quantity: food.quantity,
+                        calories: food.calories
+                    };
+                    state.mealDTOList[mealIndex].foodList.push(foodWithCalorie);
+                }
             }
         },
 
