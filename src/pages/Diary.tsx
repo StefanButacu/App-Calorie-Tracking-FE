@@ -27,12 +27,12 @@ const DiaryPage: React.FC = () => {
         setCurrentDay(addDays(currentDay, 1));
     };
 
-    const handleGetDiaryDayMealsHandle = async (diaryDayDate: string) => {
+    const handleGetDiaryDayMeals = async (diaryDayDate: string) => {
         return await requestGetDiaryDayMeals(diaryDayDate);
     }
 
     useEffect(() => {
-        handleGetDiaryDayMealsHandle(currentDay.toISOString().slice(0, 10))
+        handleGetDiaryDayMeals(currentDay.toISOString().slice(0, 10))
             .then((r) => {
                 if (r.data) {
                     console.log(r.data)

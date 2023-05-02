@@ -1,19 +1,29 @@
 // AddFoodPage.tsx
-import React, {useState} from 'react';
-import {IonContent, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import React, {useEffect, useState} from 'react';
+import {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonFab,
+    IonFabButton,
+    IonHeader,
+    IonIcon,
+    IonPage,
+    IonTitle,
+    IonToolbar
+} from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
-import {add} from "ionicons/icons";
+import {add, camera} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
-import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
+import {requestGetDiaryDayMeals, requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 import {CategoryProps} from "../components/Category.types";
-
-// TODO
-//  -  LocalDate - localDate
-//  - POST - /api/diary/{date}
-//  - create the diary_page - based on DiaryDayMealFoodDTO response
-//  - go on AddFoodPage - create a post - /api/diary/diary_day_id/meal/meal_id/food/food_id - for moment
-//  - get the response and go to diary_page
+import { Camera, CameraResultType } from '@capacitor/camera';
+import {usePhotoGallery} from "../hooks/usePhotoGallery";
+import {format} from "date-fns";
+import {requestGetMeal} from "../services/actions/mealAction";
+import MealComponent from "../components/MealComponent";
+import {MealDetailsProps} from "./MealFood.types";
 
 interface RouteParams {
     mealId: string
@@ -22,53 +32,64 @@ interface RouteParams {
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const AddFoodPage: React.FC = () => {
-    console.log("Add Food Page")
     let {mealId} = useParams<RouteParams>()
+
 
     let handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
         return await requestPostFoodToMeal(mealId, foodId, quantityId);
     }
+    const handleGetMeal = async (mealId: string) => {
+        return await requestGetMeal(mealId);
+    }
 
 
-    let [selectedImage, setSelectedImage] = useState(new Blob());
-    let [base64Image, setBase64Image] = useState('');
+    let [imageUploadedByUser, setImageUploadedByUser] = useState(new Blob());
+    let [segmentedImage, setSegmentedImage] = useState('');
     let [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
+    let [mealDetails, setMealDetails] = useState<MealDetailsProps>();
+    const {photoBase64, takePhoto} = usePhotoGallery();
+
+    useEffect(() => {
+        if(photoBase64) {
+            setImageUploadedByUser(convertBase64ToBlob(photoBase64))
+        }
+    }, [photoBase64])
+
+    useEffect( () => {
+        handleGetMeal(mealId).then((response) => {
+            setMealDetails(response.data);
+        }).catch(err => console.log("Error" + err))
+    }, [mealId])
+
 
     return (
         <IonPage>
             <IonHeader>
+                <IonToolbar>
+                    <IonTitle>{mealDetails?.name}</IonTitle>
+                </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                </IonHeader>
+                {photoBase64 ? (
+                    <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"} />
+                ) : (
+                    <></>
+                )}
+
                 <div>
                     <div>
                         <h1>Add Food</h1>
                         <p>Here you can add a new food item.</p>
+                        <IonFabButton onClick={() => {
+                            takePhoto();
+                        }}>
+                            <IonIcon icon={camera}/>
+                        </IonFabButton>
                     </div>
-                    {selectedImage && (
-                        <div>
-                            <img
-                                alt="not found"
-                                width={"250px"}
-                                src={URL.createObjectURL(selectedImage)}
-                            />
-                            <br />
-                        </div>
-                    )}
-
-                    <input
-                        type="file"
-                        name="myImage"
-                        onChange={(event) => {
-                            // @ts-ignore
-                            setSelectedImage(event.target.files[0]);
-                        }}
-                    />
                 </div>
                 <IonFabButton onClick={() => {
                     let formData = new FormData();
-                    formData.append('image', selectedImage);
+                    formData.append('image', imageUploadedByUser);
                     axios.post(baseURL + '/image', Object.fromEntries(formData), {
                         headers: {
                             'Content-type': 'multipart/form-data'
@@ -87,21 +108,17 @@ const AddFoodPage: React.FC = () => {
                         }
                         setCategoryResult(categoryList)
                         const base64ImageString = r.data.overlay;
-                        setBase64Image(base64ImageString);
-
-
+                        setSegmentedImage(base64ImageString);
                     }).catch(err => {
                         console.log(err);
                     })
                 }}>
                     <IonIcon icon={add}/>
                 </IonFabButton>
-
-
                 <div>
-                    {base64Image ? (
+                    {segmentedImage ? (
                         <div>
-                            <img src={`data:image/png;base64,${base64Image}`} alt="Rendered Image"/>
+                            <img src={`data:image/png;base64,${segmentedImage}`} alt="Rendered Image"/>
                             {
                                 categoryResult ?
                                     categoryResult.map(categoryProps =>
@@ -110,8 +127,6 @@ const AddFoodPage: React.FC = () => {
                                                                category_color={categoryProps.category_color}
                                                            mealId = {parseInt(mealId, 10)}
                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
-
-
                                         />
                                     ) :
                                     <p>Loading categories</p>
@@ -130,5 +145,17 @@ const AddFoodPage: React.FC = () => {
     );
 
 };
+/**
+ * Convert BASE64 to BLOB
+ * @param base64Image Pass Base64 image data to convert into the BLOB
+ */
+function convertBase64ToBlob(base64Image: string) {
+    const decodedData = atob(base64Image);
+    const uInt8Array = new Uint8Array(decodedData.length);
+    for (let i = 0; i < decodedData.length; ++i) {
+        uInt8Array[i] = decodedData.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], { type: "image/jpeg" });
+}
 
 export default AddFoodPage;

@@ -15,6 +15,11 @@ export interface MealProps {
     foodList: FoodWithCalorie[];
 }
 
+export interface MealDetailsProps {
+    id: string,
+    name: number,
+}
+
 export interface Food {
     id: number,
     name: string,
