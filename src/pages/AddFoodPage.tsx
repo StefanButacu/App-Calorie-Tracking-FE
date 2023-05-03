@@ -22,7 +22,7 @@ import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods} from "../services/actions/foodAction";
 import AvailableFoodComponent from "../components/AvailableFood";
 
-interface RouteParams {
+export interface RouteParams {
     mealId: string
 }
 
@@ -47,9 +47,9 @@ const AddFoodPage: React.FC = () => {
         return await requestGetMeal(mealId);
     }
 
-    async function fetchAvailableFoods() {
+    async function fetchAvailableFoods(searchFoodName?: string) {
         try {
-            const response = await requestGetAvailableFoods(page);
+            const response = await requestGetAvailableFoods(page, searchFoodName);
             const newAvailableFoods = response.data;
             setAvailableFoods((prevState) => [...prevState, ...newAvailableFoods])
             setPage((prevPage) => prevPage + 1)
@@ -61,33 +61,38 @@ const AddFoodPage: React.FC = () => {
         }
     }
 
+    const handleSearch = (event: SearchbarCustomEvent) => {
+        console.log(event.target.value)
+        setSearchFoodName(event.target.value!);
+        setAvailableFoods([]);
+        setPage(0);
+        setAllPagesFetched(false);
+        fetchAvailableFoods(searchFoodName);
+    };
+
     useEffect(() => {
         if (photoBase64) {
             setImageUploadedByUser(convertBase64ToBlob(photoBase64))
         }
     }, [photoBase64])
 
-
-    useIonViewWillEnter(() => {
+    useEffect(() => {
         fetchAvailableFoods();
-    });
+    }, [])
+
 
     async function loadMore(event: CustomEvent<void>) {
         setTimeout(() => {
             fetchAvailableFoods();
-           (event.target as HTMLIonInfiniteScrollElement).complete();
+            (event.target as HTMLIonInfiniteScrollElement).complete();
         }, 1000);
     }
+
     useEffect(() => {
         handleGetMeal(mealId).then((response) => {
             setMealDetails(response.data);
         }).catch(err => console.log("Error" + err))
     }, [mealId])
-
-    const handleSearch = (event: SearchbarCustomEvent) => {
-        console.log(event.target.value)
-        setSearchFoodName(event.target.value!);
-    };
 
     return (
         <IonPage>
@@ -97,6 +102,7 @@ const AddFoodPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="add-meal-page" fullscreen>
+                <p>Here you can add your meal.</p>
                 <div className="photo-upload-section">
                     {photoBase64 ? (
                         <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"}
@@ -105,7 +111,6 @@ const AddFoodPage: React.FC = () => {
                         // <div className="photo-preview"></div>
                         <></>
                     )}
-                    <p>Here you can add your foods.</p>
                     <IonFab horizontal="center">
                         <IonFabButton onClick={() => {
                             takePhoto();
@@ -146,34 +151,37 @@ const AddFoodPage: React.FC = () => {
                 <div>
                     {segmentedImage ? (
                         <>
-                            <p>Is this what are you eating?</p>
                             <div>
                                 <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
-                                {
-                                    categoryResult ?
-                                        categoryResult.map(categoryProps =>
-                                            <CategoryComponent key={categoryProps.category_id}
-                                                               category_id={categoryProps.category_id}
-                                                               category_color={categoryProps.category_color}
-                                                               mealId={parseInt(mealId, 10)}
-                                                               onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
-                                            />
-                                        ) :
-                                        <p>Loading categories</p>
-                                }
-
+                                <p>Is this what are you eating?</p>
+                                <div>
+                                    {
+                                        categoryResult ?
+                                            categoryResult.map(categoryProps =>
+                                                <CategoryComponent key={categoryProps.category_id}
+                                                                   category_id={categoryProps.category_id}
+                                                                   category_color={categoryProps.category_color}
+                                                                   mealId={parseInt(mealId, 10)}
+                                                                   onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                                />)
+                                            : <></>
+                                    }
+                                </div>
                             </div>
                         </>
                     ) : (
-                        <p>Loading image...</p>
+                        <></>
                     )}
                 </div>
                 <div className="food-selection-section">
-                    <IonSearchbar placeholder="Search for a food" onIonChange={event => handleSearch(event)}/>
+                    <IonSearchbar placeholder="Search for a food" value={searchFoodName}
+                                  onIonChange={event => handleSearch(event)}/>
                     <IonList>
                         {
                             availableFoods.map(food =>
-                                <AvailableFoodComponent key={food.id} {...food} />
+                                <AvailableFoodComponent key={food.id} {...food}
+                                                        onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                />
                             )
                         }
                     </IonList>

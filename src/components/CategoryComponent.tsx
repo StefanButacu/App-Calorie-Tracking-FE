@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {getCategory} from "../services/actions/categoryAction";
-import {IonFabButton, IonIcon, IonModal} from "@ionic/react";
+import {IonButton, IonFabButton, IonIcon, IonModal} from "@ionic/react";
 import {addCircleOutline} from "ionicons/icons";
 import FoodDetailsComponent from "./FoodDetailsComponent";
 import {Food} from "../pages/MealFood.types";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
 import {CategoryComponentProps} from "./Category.types";
+import AddFoodToMealModal from "./AddFoodToMealModal";
 
 // TODO - replace category_id with food_id
 const CategoryComponent: React.FC<CategoryComponentProps> = ({
@@ -32,6 +33,13 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
         return await requestGetFoodDetails(food_id)
     }
 
+    const handleAddToMealClick = (selectedQuantity: number) => {
+        if (onAddFoodToMealClick) {
+            onAddFoodToMealClick(category_id, selectedQuantity);
+        }
+        setShowModal(false);
+    };
+
 
     useEffect(() => {
         getCategoryHandle(category_id)
@@ -39,7 +47,7 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                 setCategoryName(r.data.category)
                 getFoodHandle(category_id).then((foodResponse) => {
                     if (foodResponse.status === 200) {
-                        setFood(foodResponse.data)
+                        setFood({...foodResponse.data, onAddFoodToMealClick: handleAddToMealClick})
                     } else {
                         console.log("Error response")
                     }
@@ -53,26 +61,36 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     const rgbColor = `rgb(${category_color[0]}, ${category_color[1]}, ${category_color[2]})`;
     return (
         <>
-            <IonModal isOpen={showModal}>
-                <FoodDetailsComponent mealId={mealId} {...food as Food} onAddFoodToMealClick={(...args) => {
-                    if (onAddFoodToMealClick) {
-                        onAddFoodToMealClick(...args);
-                    }
-                    setShowModal(false);
-                }}/>
-                <IonFabButton onClick={handleModalClick}>
-                    <IonIcon icon={addCircleOutline}></IonIcon>
-                </IonFabButton>
-            </IonModal>
+            {/*<IonModal isOpen={showModal}>*/}
+            {/*    <FoodDetailsComponent mealId={mealId} {...food as Food} onAddFoodToMealClick={(...args) => {*/}
+            {/*        if (onAddFoodToMealClick) {*/}
+            {/*            onAddFoodToMealClick(...args);*/}
+            {/*        }*/}
+            {/*        setShowModal(false);*/}
+            {/*    }}/>*/}
+            {/*    <IonFabButton onClick={handleModalClick}>*/}
+            {/*        <IonIcon icon={addCircleOutline}></IonIcon>*/}
+            {/*    </IonFabButton>*/}
+            {/*</IonModal>*/}
+
             <div style={{backgroundColor: rgbColor, width: '100px', height: '100px'}}>
                 {category_id}
                 {
                     categoryName ?
                         (<p>
                             {categoryName}
-                            <IonFabButton onClick={handleModalClick}>
-                                <IonIcon icon={addCircleOutline}></IonIcon>
-                            </IonFabButton>
+                            {/*<IonFabButton onClick={handleModalClick}>*/}
+                            {/*    <IonIcon icon={addCircleOutline}></IonIcon>*/}
+                            {/*</IonFabButton>*/}
+                            <IonButton onClick={() => setShowModal(true)}>Add me</IonButton>
+                            {
+                                showModal && (
+                                    <AddFoodToMealModal
+                                        isOpen={showModal}
+                                        food= { food!}
+                                        onClose={() => setShowModal(false)}
+                                    />
+                                )}
                         </p>) :
                         <></>
                 }
