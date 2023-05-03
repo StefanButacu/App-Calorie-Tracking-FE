@@ -11,9 +11,9 @@
 //
 // const Tab1: React.FC = () => {
 //
-//     let [selectedImage, setSelectedImage] = useState(new Blob());
-//     let [base64Image, setBase64Image] = useState('');
-//     let [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
+//     const [selectedImage, setSelectedImage] = useState(new Blob());
+//     const [base64Image, setBase64Image] = useState('');
+//     const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
 //
 //     return (
 //         <IonPage>
@@ -54,7 +54,7 @@
 //                     />
 //                 </div>
 //                 <IonFabButton onClick={() => {
-//                     let formData = new FormData();
+//                     const formData = new FormData();
 //                     formData.append('image', selectedImage);
 //                     axios.post(baseURL + '/image', Object.fromEntries(formData), {
 //                         headers: {
@@ -62,8 +62,8 @@
 //                         }
 //                     }).then(r => {
 //                         console.log(r)
-//                         let result_category_data = r.data.category;
-//                         let categoryList: CategoryProps[] = [];
+//                         const result_category_data = r.data.category;
+//                         const categoryList: CategoryProps[] = [];
 //                         for (const key in result_category_data) {
 //                             const category_id = parseInt(key);
 //                             const category_color = result_category_data[key];

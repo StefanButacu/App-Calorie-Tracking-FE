@@ -41,7 +41,7 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                     if (foodResponse.status === 200) {
                         setFood(foodResponse.data)
                     } else {
-                        console.log("Error reponse")
+                        console.log("Error response")
                     }
                 })
             })
