@@ -6,8 +6,10 @@ export const requestGetFoodDetails = (foodId: number) => {
     return axios.get(baseURL + `/api/food/${foodId}`)
 }
 
-export const requestGetAvailableFoods = (page: number, searchFoodName?:string) => {
-    if(searchFoodName)
-        return axios.get(baseURL + `/api/food/foods?page=${page}&name=${searchFoodName}`)
+export const requestGetAvailableFoods = (page: number) => {
     return axios.get(baseURL + `/api/food/foods?page=${page}`)
+}
+
+export const requestGetFoodsByName = (searchFoodName: string) => {
+    return axios.get(baseURL + `/api/food/foods/search?name=${searchFoodName}`)
 }

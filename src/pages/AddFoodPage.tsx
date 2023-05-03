@@ -19,7 +19,7 @@ import {usePhotoGallery} from "../hooks/usePhotoGallery";
 import {requestGetMeal} from "../services/actions/mealAction";
 import {Food, MealDetailsProps} from "./MealFood.types";
 import "../assets/styles/add-food-page.scss"
-import {requestGetAvailableFoods} from "../services/actions/foodAction";
+import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
 import AvailableFoodComponent from "../components/AvailableFood";
 
 export interface RouteParams {
@@ -47,28 +47,24 @@ const AddFoodPage: React.FC = () => {
         return await requestGetMeal(mealId);
     }
 
-    async function fetchAvailableFoods(searchFoodName?: string) {
-        try {
-            const response = await requestGetAvailableFoods(page, searchFoodName);
-            const newAvailableFoods = response.data;
-            setAvailableFoods((prevState) => [...prevState, ...newAvailableFoods])
-            setPage((prevPage) => prevPage + 1)
-            if (newAvailableFoods.length < 20) {
-                setAllPagesFetched(true);
-            }
-        } catch (error) {
-            console.log("Error:", error);
-        }
+    function fetchAvailableFoods() {
+        requestGetAvailableFoods(page)
+            .then(response => {
+                const newAvailableFoods = response.data;
+                setAvailableFoods((prevState) => [...prevState, ...newAvailableFoods])
+                setPage((prevPage) => prevPage + 1)
+                if (newAvailableFoods.length < 20) {
+                    setAllPagesFetched(true);
+                }
+            })
+            .catch(err => console.log("Error:", err))
     }
 
-    const handleSearch = (event: SearchbarCustomEvent) => {
-        console.log(event.target.value)
-        setSearchFoodName(event.target.value!);
-        setAvailableFoods([]);
-        setPage(0);
-        setAllPagesFetched(false);
-        fetchAvailableFoods(searchFoodName);
-    };
+    function fetchFoodsByName(searchFoodName: string) {
+        requestGetFoodsByName(searchFoodName)
+            .then(response => setAvailableFoods(response?.data))
+            .catch(err => console.log('pula', err))
+    }
 
     useEffect(() => {
         if (photoBase64) {
@@ -80,7 +76,6 @@ const AddFoodPage: React.FC = () => {
         fetchAvailableFoods();
     }, [])
 
-
     async function loadMore(event: CustomEvent<void>) {
         setTimeout(() => {
             fetchAvailableFoods();
@@ -88,11 +83,33 @@ const AddFoodPage: React.FC = () => {
         }, 1000);
     }
 
+
     useEffect(() => {
         handleGetMeal(mealId).then((response) => {
             setMealDetails(response.data);
         }).catch(err => console.log("Error" + err))
     }, [mealId])
+
+    const handleSearch = (event: SearchbarCustomEvent) => {
+        let inputFoodName = event.target.value;
+        setSearchFoodName(inputFoodName ? inputFoodName : '');
+        console.log('input', inputFoodName, "has smth= ", !!inputFoodName)
+        if (!!inputFoodName) {
+            // are ceva
+            // console.log("Search and page=", page)
+            setAvailableFoods([])
+            setPage(0);
+            setAllPagesFetched(true);
+            fetchFoodsByName(inputFoodName);
+        } else {
+            // e vid
+            // console.log("Fetch and page=", page)
+            setAvailableFoods([])
+            setPage(0);
+            setAllPagesFetched(false);
+            fetchAvailableFoods();
+        }
+    };
 
     return (
         <IonPage>
@@ -178,11 +195,12 @@ const AddFoodPage: React.FC = () => {
                                   onIonChange={event => handleSearch(event)}/>
                     <IonList>
                         {
-                            availableFoods.map(food =>
-                                <AvailableFoodComponent key={food.id} {...food}
-                                                        onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
-                                />
-                            )
+                            availableFoods.length > 0 ?
+                                availableFoods.map(food =>
+                                    <AvailableFoodComponent key={food.id} {...food}
+                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                    />
+                                ) : <p>No results</p>
                         }
                     </IonList>
                     <IonInfiniteScroll disabled={allPagesFetched}
