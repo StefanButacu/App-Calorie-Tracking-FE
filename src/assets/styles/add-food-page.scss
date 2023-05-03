@@ -31,7 +31,6 @@
 }
 .food-selection-section {
   flex: 1;
-  margin-left: 32px;
 }
 .food-selection-section input[type="text"] {
   width: 100%;
@@ -51,4 +50,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -5,12 +5,12 @@ import {
     IonFabButton,
     IonHeader,
     IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList,
-    IonPage,
+    IonPage, IonSearchbar,
     IonTitle,
-    IonToolbar, useIonViewWillEnter
+    IonToolbar, SearchbarCustomEvent, useIonViewWillEnter
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
-import {add, camera} from "ionicons/icons";
+import {add, camera, fastFoodOutline, search} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
@@ -30,8 +30,6 @@ const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const AddFoodPage: React.FC = () => {
     const {mealId} = useParams<RouteParams>()
-
-
     const [imageUploadedByUser, setImageUploadedByUser] = useState(new Blob());
     const [segmentedImage, setSegmentedImage] = useState('');
     const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
@@ -40,6 +38,7 @@ const AddFoodPage: React.FC = () => {
     const [page, setPage] = useState<number>(0);
     const [availableFoods, setAvailableFoods] = useState<Food[]>([]);
     const [allPagesFetched, setAllPagesFetched] = useState<boolean>(false);
+    const [searchFoodName, setSearchFoodName] = useState<string>('');
 
     const handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
         return await requestPostFoodToMeal(mealId, foodId, quantityId);
@@ -85,6 +84,10 @@ const AddFoodPage: React.FC = () => {
         }).catch(err => console.log("Error" + err))
     }, [mealId])
 
+    const handleSearch = (event: SearchbarCustomEvent) => {
+        console.log(event.target.value)
+        setSearchFoodName(event.target.value!);
+    };
 
     return (
         <IonPage>
@@ -96,7 +99,8 @@ const AddFoodPage: React.FC = () => {
             <IonContent className="add-meal-page" fullscreen>
                 <div className="photo-upload-section">
                     {photoBase64 ? (
-                        <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"} alt="Your food"/>
+                        <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"}
+                             alt="Your food"/>
                     ) : (
                         // <div className="photo-preview"></div>
                         <></>
@@ -144,7 +148,7 @@ const AddFoodPage: React.FC = () => {
                         <>
                             <p>Is this what are you eating?</p>
                             <div>
-                                <img src={`data:image/png;base64,${segmentedImage}`}  alt="Your meal segmented"/>
+                                <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
                                 {
                                     categoryResult ?
                                         categoryResult.map(categoryProps =>
@@ -165,7 +169,7 @@ const AddFoodPage: React.FC = () => {
                     )}
                 </div>
                 <div className="food-selection-section">
-                    <div>Search for a food</div>
+                    <IonSearchbar placeholder="Search for a food" onIonChange={event => handleSearch(event)}/>
                     <IonList>
                         {
                             availableFoods.map(food =>
@@ -174,11 +178,13 @@ const AddFoodPage: React.FC = () => {
                         }
                     </IonList>
                     <IonInfiniteScroll disabled={allPagesFetched}
-                                       onIonInfinite={(event: CustomEvent<void>) => loadMore(event)}
-                                     >
-                        <IonInfiniteScrollContent loadingSpinner="bubbles"
-                                                  loadingText="Loading more foods..."/>
-
+                                       onIonInfinite={(event: CustomEvent<void>) => loadMore(event)}>
+                        <IonInfiniteScrollContent loadingSpinner={null}
+                                                  loadingText="Loading more foods...">
+                            <div style={{textAlign: 'center'}}>
+                                <IonIcon icon={fastFoodOutline} size="large" className="rotate"/>
+                            </div>
+                        </IonInfiniteScrollContent>
                     </IonInfiniteScroll>
                 </div>
                 <div>End foods</div>
