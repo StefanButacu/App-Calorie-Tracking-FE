@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonPicker, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import FoodDetailsComponent from './FoodDetailsComponent';
-import {Food} from "../pages/MealFood.types";
+import {Food} from "../types/MealFood.types";
 import {useParams} from "react-router";
 import {RouteParams} from "../pages/AddFoodPage";
 import {useDispatch} from "react-redux";

@@ -1,5 +1,5 @@
 import '../assets/styles/meal-item.scss'
-import {FoodWithCalorie} from "../pages/MealFood.types";
+import {FoodWithCalorie} from "../types/MealFood.types";
 
 const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calories }) => {
 

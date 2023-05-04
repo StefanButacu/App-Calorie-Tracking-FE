@@ -3,7 +3,7 @@ import {IonFabButton, IonIcon, IonInput} from "@ionic/react";
 import {addCircleOutline, addSharp, car, settings} from "ionicons/icons";
 import {useDispatch} from "react-redux";
 import {addFoodReduce} from "../store";
-import {FoodDetailsProps} from "./FoodDetails.types";
+import {FoodDetailsProps} from "../types/FoodDetails.types";
 import '../assets/styles/food.scss'
 
 const FoodDetailsComponent: React.FC<FoodDetailsProps> = ({mealId, id, name, protein, carbohydrate, lipid, onAddFoodToMealClick}) => {

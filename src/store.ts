@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import {DiaryDayMealFood, Food, FoodWithCalorie, MealFood} from "./pages/MealFood.types";
+import {DiaryDayMealFood, Food, FoodWithCalorie, MealFood} from "./types/MealFood.types";
 import { loggingMiddleware} from "./reducers/loggingMiddleware";
 
 interface State {

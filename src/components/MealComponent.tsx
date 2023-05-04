@@ -1,7 +1,7 @@
 import MealItemComponent from "./MealItemComponent";
 import {useHistory} from "react-router";
 import {IonLabel} from "@ionic/react";
-import {Food, MealProps} from "../pages/MealFood.types";
+import {Food, MealProps} from "../types/MealFood.types";
 import React from "react";
 import '../assets/styles/meal.scss'
 

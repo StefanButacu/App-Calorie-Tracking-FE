@@ -7,17 +7,17 @@ import {
     IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList,
     IonPage, IonSearchbar,
     IonTitle,
-    IonToolbar, SearchbarCustomEvent, useIonViewWillEnter
+    IonToolbar, SearchbarCustomEvent
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
-import {add, camera, fastFoodOutline, search} from "ionicons/icons";
+import {add, camera, fastFoodOutline} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
-import {CategoryProps} from "../components/Category.types";
+import {CategoryProps} from "../types/Category.types";
 import {usePhotoGallery} from "../hooks/usePhotoGallery";
 import {requestGetMeal} from "../services/actions/mealAction";
-import {Food, MealDetailsProps} from "./MealFood.types";
+import {Food, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
 import AvailableFoodComponent from "../components/AvailableFood";
@@ -191,7 +191,9 @@ const AddFoodPage: React.FC = () => {
                     )}
                 </div>
                 <div className="food-selection-section">
-                    <IonSearchbar placeholder="Search for a food" value={searchFoodName}
+                    <IonSearchbar placeholder="Search for a food"
+                                  value={searchFoodName}
+                                  show-clear-button="focus"
                                   onIonChange={event => handleSearch(event)}/>
                     <IonList>
                         {
@@ -207,8 +209,8 @@ const AddFoodPage: React.FC = () => {
                                        onIonInfinite={(event: CustomEvent<void>) => loadMore(event)}>
                         <IonInfiniteScrollContent loadingSpinner={null}
                                                   loadingText="Loading more foods...">
-                            <div style={{textAlign: 'center'}}>
-                                <IonIcon icon={fastFoodOutline} size="large" className="rotate"/>
+                            <div >
+                                <IonIcon icon={fastFoodOutline} size="large" className="my-rotate"/>
                             </div>
                         </IonInfiniteScrollContent>
                     </IonInfiniteScroll>

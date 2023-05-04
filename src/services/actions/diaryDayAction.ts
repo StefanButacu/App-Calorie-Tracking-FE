@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FoodQuantity} from "../../pages/MealFood.types";
+import {FoodQuantity} from "../../types/MealFood.types";
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 

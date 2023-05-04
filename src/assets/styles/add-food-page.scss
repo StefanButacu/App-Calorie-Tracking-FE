@@ -1,6 +1,5 @@
 @import "globals";
 
-
 .add-meal-page {
   display: flex;
   flex-direction: row;
@@ -59,4 +58,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.my-rotate {
+  animation: rotate 2s linear infinite;
 }
