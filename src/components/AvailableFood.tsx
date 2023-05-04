@@ -11,7 +11,6 @@ const AvailableFoodComponent: React.FC<Food> = ({id, name, protein, carbohydrate
 
 
     const handleAddToMealClick = (foodId:number, selectedQuantity: number) => {
-        console.log("available food handle", foodId, "Quantity", selectedQuantity)
         if (onAddFoodToMealClick) {
             onAddFoodToMealClick(foodId, selectedQuantity);
         }

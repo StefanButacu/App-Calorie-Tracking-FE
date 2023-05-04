@@ -2,8 +2,14 @@ $background-color: #ecf0f1;
 $dark-blue: #2c3e50;
 $orange: #f39c12;
 $dark-gray: #34495e;
-$green: #1abc9c;
+$green: #1abc48;
 $red: #e74c3c;
 $medium-gray: #95a5a6;
 $light-orange:  #FFE5CC;
 $light-blue: #215196;
+
+$protein: $green;
+$lipid: $red;
+$carbohydrate: $orange;
+
+.center-toolbar-title { text-align: center}

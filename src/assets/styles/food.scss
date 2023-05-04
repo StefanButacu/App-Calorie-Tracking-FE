@@ -1,2 +1,26 @@
 @import "globals";
 
+.food-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.macronutrient {
+  font-weight: bold;
+}
+
+.protein {
+  color: $protein;
+}
+
+.carbs {
+  color: $carbohydrate;
+}
+
+.lipid {
+  color: $lipid;
+}
+

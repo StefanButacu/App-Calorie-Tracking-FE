@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {getCategory} from "../services/actions/categoryAction";
 import {IonButton, IonFabButton, IonIcon, IonModal} from "@ionic/react";
-import {addCircleOutline} from "ionicons/icons";
-import FoodDetailsComponent from "./FoodDetailsComponent";
 import {Food} from "../types/MealFood.types";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
 import {CategoryComponentProps} from "../types/Category.types";
