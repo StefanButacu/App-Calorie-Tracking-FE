@@ -59,7 +59,9 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                             marginRight: "0.5rem",
                         }}
                     ></div>
-                    <AvailableFoodComponent {...food!} />
+                    <div style={{width: "100%"}}>
+                        <AvailableFoodComponent {...food!} />
+                    </div>
                 </div>)
                 : <></>
         }

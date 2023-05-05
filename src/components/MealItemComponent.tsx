@@ -4,6 +4,7 @@ import React from "react";
 
 const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calories }) => {
 
+    // TODO - handle here on click in order to add
     return (
         <div className="meal-item-container">
             <div>

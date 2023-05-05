@@ -7,10 +7,10 @@ import {
     IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList,
     IonPage, IonSearchbar,
     IonTitle,
-    IonToolbar, SearchbarCustomEvent
+    IonToolbar, SearchbarCustomEvent, IonBackButton, IonButtons
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
-import {add, camera, fastFoodOutline} from "ionicons/icons";
+import {add, camera, caretBack, fastFoodOutline} from "ionicons/icons";
 import axios from "axios";
 import {useParams} from "react-router";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
@@ -30,7 +30,6 @@ const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const AddFoodPage: React.FC = () => {
     const {mealId} = useParams<RouteParams>()
-    const [imageUploadedByUser, setImageUploadedByUser] = useState(new Blob());
     const [segmentedImage, setSegmentedImage] = useState('');
     const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
     const [mealDetails, setMealDetails] = useState<MealDetailsProps>();
@@ -67,12 +66,6 @@ const AddFoodPage: React.FC = () => {
             .then(response => setAvailableFoods(response?.data))
             .catch(err => console.log(err))
     }
-
-    useEffect(() => {
-        if (photoBase64) {
-            setImageUploadedByUser(convertBase64ToBlob(photoBase64))
-        }
-    }, [photoBase64])
 
     useEffect(() => {
         fetchAvailableFoods();
@@ -138,42 +131,41 @@ const AddFoodPage: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonBackButton text="Back" icon={caretBack}></IonBackButton>
+                    </IonButtons>
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent id="content" className="add-meal-page" fullscreen>
                 <h1 ref={refToTop}></h1> {/* add a ref to the h1 element */}
-                <p>Here you can add your meal.</p>
-                <div className="photo-upload-section">
-                    {photoBase64 ? (
-                        <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"}
-                             alt="Your food"/>
-                    ) : (
-                        // <div className="photo-preview"></div>
-                        <></>
-                    )}
-                </div>
+                {
+                photoBase64 ? (
+                    <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"}
+                         alt="Your food"/>
+                ) : (
+                    // <div className="photo-preview"></div> // Create a dummy image here?
+                    <></>
+                )}
                 <div>
                     {segmentedImage ? (
-                        <>
-                            <div>
-                                <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
-                                <p>Is this what you are eating?</p>
-                                <div>
-                                    {
-                                        categoryResult ?
-                                            categoryResult.map(categoryProps =>
-                                                <CategoryComponent key={categoryProps.category_id}
-                                                                   category_id={categoryProps.category_id}
-                                                                   category_color={categoryProps.category_color}
-                                                                   mealId={parseInt(mealId, 10)}
-                                                                   onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
-                                                />)
-                                            : <></>
-                                    }
-                                </div>
-                            </div>
-                        </>
+                        <div className="food-selection-section">
+                            <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
+                            <p>Is this what you are eating?</p>
+                            <IonList>
+                                {
+                                    categoryResult ?
+                                        categoryResult.map(categoryProps =>
+                                            <CategoryComponent key={categoryProps.category_id}
+                                                               category_id={categoryProps.category_id}
+                                                               category_color={categoryProps.category_color}
+                                                               mealId={parseInt(mealId, 10)}
+                                                               onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                            />)
+                                        : <></>
+                                }
+                            </IonList>
+                        </div>
                     ) : (
                         <></>
                     )}
