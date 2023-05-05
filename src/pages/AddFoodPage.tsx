@@ -132,7 +132,7 @@ const AddFoodPage: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonBackButton text="Back" icon={caretBack}></IonBackButton>
+                        <IonBackButton icon={caretBack}></IonBackButton>
                     </IonButtons>
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>

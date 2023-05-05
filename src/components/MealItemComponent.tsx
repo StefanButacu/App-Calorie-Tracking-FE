@@ -4,7 +4,8 @@ import React from "react";
 
 const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calories }) => {
 
-    // TODO - handle here on click in order to add
+    // TODO - handle here on click in order
+    //  - but have to change the meal item from the diary meal
     return (
         <div className="meal-item-container">
             <div>

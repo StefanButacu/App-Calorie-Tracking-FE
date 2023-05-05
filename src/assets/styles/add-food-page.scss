@@ -7,7 +7,9 @@
   align-items: center;
   padding: 16px;
 }
-
+ion-back-button {
+  display: block;
+}
 .photo-preview {
   width: 200px;
   height: 200px;
