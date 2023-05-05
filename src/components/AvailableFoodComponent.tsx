@@ -1,7 +1,7 @@
 import {Food} from "../types/MealFood.types";
 import MealItemComponent from "./MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
-import {useState} from "react";
+import React, {useState} from "react";
 import {IonButton} from "@ionic/react";
 import AddFoodToMealModal from "./AddFoodToMealModal";
 

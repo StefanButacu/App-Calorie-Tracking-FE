@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {getCategory} from "../services/actions/categoryAction";
-import {IonButton, IonFabButton, IonIcon, IonModal} from "@ionic/react";
 import {Food} from "../types/MealFood.types";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
 import {CategoryComponentProps} from "../types/Category.types";
-import AddFoodToMealModal from "./AddFoodToMealModal";
+import AvailableFoodComponent from "./AvailableFoodComponent";
+import "../assets/styles/food.scss"
 
 // TODO - replace category_id with food_id
 const CategoryComponent: React.FC<CategoryComponentProps> = ({
@@ -14,9 +14,6 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                                                                  onAddFoodToMealClick
                                                              }) => {
     let [food, setFood] = useState<Food>();
-    let [categoryName, setCategoryName] = useState();
-    const [showModal, setShowModal] = useState(false);
-
 
     const getCategoryHandle = async (category_id: number) => {
         return await getCategory(category_id)
@@ -30,51 +27,44 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
         if (onAddFoodToMealClick) {
             onAddFoodToMealClick(category_id, selectedQuantity);
         }
-        setShowModal(false);
     };
 
 
     useEffect(() => {
         getCategoryHandle(category_id)
             .then((r) => {
-                setCategoryName(r.data.category)
                 getFoodHandle(category_id).then((foodResponse) => {
                     if (foodResponse.status === 200) {
                         setFood({...foodResponse.data, onAddFoodToMealClick: handleAddToMealClick})
                     } else {
                         console.log("Error response")
                     }
-                })
+                }).catch(err => console.log("Food handle err", err))
             })
             .catch(err => console.log("Error" + err))
-
-    }, [])
-
+    }, []);
 
     const rgbColor = `rgb(${category_color[0]}, ${category_color[1]}, ${category_color[2]})`;
     return (
-        <>
-            <div style={{backgroundColor: rgbColor, width: '100px', height: '100px'}}>
-                {category_id}
-                {
-                    categoryName ?
-                        (<p>
-                            {categoryName}
-                            <IonButton onClick={() => setShowModal(true)}>Add me</IonButton>
-                            {
-                                showModal && (
-                                    <AddFoodToMealModal
-                                        isOpen={showModal}
-                                        food= { food!}
-                                        onClose={() => setShowModal(false)}
-                                    />
-                                )}
-                        </p>) :
-                        <></>
-                }
 
-            </div>
+        <>{
+            food ?
+                (<div style={{display: "flex", alignItems: "center"}}>
+                    <div
+                        style={{
+                            backgroundColor: rgbColor,
+                            borderRadius: "50%",
+                            height: "1rem",
+                            width: "1rem",
+                            marginRight: "0.5rem",
+                        }}
+                    ></div>
+                    <AvailableFoodComponent {...food!} />
+                </div>)
+                : <></>
+        }
         </>
     )
 }
+
 export default CategoryComponent;

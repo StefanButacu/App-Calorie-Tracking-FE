@@ -12,6 +12,7 @@ export function usePhotoGallery() {
             quality: 100,
         });
         setPhotoBase64(photo.base64String!);
+        return photo
     };
     return {
         takePhoto,

@@ -1,11 +1,11 @@
 import MealItemComponent from "./MealItemComponent";
 import {useHistory} from "react-router";
 import {IonLabel} from "@ionic/react";
-import {Food, MealProps} from "../types/MealFood.types";
+import {MealProps} from "../types/MealFood.types";
 import React from "react";
 import '../assets/styles/meal.scss'
 
-const MealComponent: React.FC<MealProps> = ({mealName, mealId, foodList}) => {
+const DiaryMealComponent: React.FC<MealProps> = ({mealName, mealId, foodList}) => {
 
     const history = useHistory();
     const handleAddFoodClick = () => {
@@ -34,4 +34,4 @@ const MealComponent: React.FC<MealProps> = ({mealName, mealId, foodList}) => {
     );
 };
 
-export default MealComponent;
+export default DiaryMealComponent;

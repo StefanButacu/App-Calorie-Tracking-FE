@@ -1,4 +1,4 @@
-import MealComponent from "../components/MealComponent";
+import DiaryMealComponent from "../components/DiaryMealComponent";
 import {IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from "@ionic/react";
 import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
@@ -69,10 +69,10 @@ const DiaryPage: React.FC = () => {
                     {
                         diaryDay ?
                             diaryDay.mealDTOList.map(mealFoodProps =>
-                                <MealComponent key={mealFoodProps.mealId}
-                                               mealId={mealFoodProps.mealId}
-                                               mealName={mealFoodProps.mealName}
-                                               foodList={mealFoodProps.foodList}/>
+                                <DiaryMealComponent key={mealFoodProps.mealId}
+                                                    mealId={mealFoodProps.mealId}
+                                                    mealName={mealFoodProps.mealName}
+                                                    foodList={mealFoodProps.foodList}/>
                             ) :
                             <p>Loading Meals Page</p>
                     }

@@ -20,7 +20,7 @@ import {requestGetMeal} from "../services/actions/mealAction";
 import {Food, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
-import AvailableFoodComponent from "../components/AvailableFood";
+import AvailableFoodComponent from "../components/AvailableFoodComponent";
 
 export interface RouteParams {
     mealId: string
@@ -65,7 +65,7 @@ const AddFoodPage: React.FC = () => {
     function fetchFoodsByName(searchFoodName: string) {
         requestGetFoodsByName(searchFoodName)
             .then(response => setAvailableFoods(response?.data))
-            .catch(err => console.log('pula', err))
+            .catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -108,6 +108,32 @@ const AddFoodPage: React.FC = () => {
         }
     };
 
+    function uploadImageByUser(imageUploadedByUser: Blob) {
+        const formData = new FormData();
+        formData.append('image', imageUploadedByUser);
+        axios.post(baseURL + '/image', Object.fromEntries(formData), {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        }).then(r => {
+            const result_category_data = r.data.category;
+            const categoryList: CategoryProps[] = [];
+            for (const key in result_category_data) {
+                const category_id = parseInt(key);
+                const category_color = result_category_data[key];
+                categoryList.push({
+                    category_id,
+                    category_color,
+                });
+            }
+            setCategoryResult(categoryList)
+            const base64ImageString = r.data.overlay;
+            setSegmentedImage(base64ImageString);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -127,42 +153,12 @@ const AddFoodPage: React.FC = () => {
                         <></>
                     )}
                 </div>
-
-                <IonFabButton onClick={() => {
-                    const formData = new FormData();
-                    formData.append('image', imageUploadedByUser);
-                    axios.post(baseURL + '/image', Object.fromEntries(formData), {
-                        headers: {
-                            'Content-type': 'multipart/form-data'
-                        }
-                    }).then(r => {
-                        console.log(r)
-                        const result_category_data = r.data.category;
-                        console.log("category: ", result_category_data)
-                        const categoryList: CategoryProps[] = [];
-                        for (const key in result_category_data) {
-                            const category_id = parseInt(key);
-                            const category_color = result_category_data[key];
-                            categoryList.push({
-                                category_id,
-                                category_color,
-                            });
-                        }
-                        setCategoryResult(categoryList)
-                        const base64ImageString = r.data.overlay;
-                        setSegmentedImage(base64ImageString);
-                    }).catch(err => {
-                        console.log(err);
-                    })
-                }}>
-                    <IonIcon icon={add}/>
-                </IonFabButton>
                 <div>
                     {segmentedImage ? (
                         <>
                             <div>
                                 <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
-                                <p>Is this what are you eating?</p>
+                                <p>Is this what you are eating?</p>
                                 <div>
                                     {
                                         categoryResult ?
@@ -204,7 +200,8 @@ const AddFoodPage: React.FC = () => {
                     }}>
                         <IonFab slot="bottom" vertical="bottom" horizontal="end">
                             <IonFabButton onClick={() => {
-                                takePhoto().then(() => {
+                                takePhoto().then((response) => {
+                                    uploadImageByUser(convertBase64ToBlob(response.base64String!));
                                     if (refToTop.current) {
                                         setTimeout(() => {
                                             if (refToTop.current)
