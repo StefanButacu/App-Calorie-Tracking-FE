@@ -1,5 +1,5 @@
 // AddFoodPage.tsx
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     IonContent, IonFab,
     IonFabButton,
@@ -39,6 +39,8 @@ const AddFoodPage: React.FC = () => {
     const [availableFoods, setAvailableFoods] = useState<Food[]>([]);
     const [allPagesFetched, setAllPagesFetched] = useState<boolean>(false);
     const [searchFoodName, setSearchFoodName] = useState<string>('');
+    const refToTop = useRef<HTMLHeadingElement>(null);
+
 
     const handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
         return await requestPostFoodToMeal(mealId, foodId, quantityId);
@@ -93,17 +95,12 @@ const AddFoodPage: React.FC = () => {
     const handleSearch = (event: SearchbarCustomEvent) => {
         let inputFoodName = event.target.value;
         setSearchFoodName(inputFoodName ? inputFoodName : '');
-        console.log('input', inputFoodName, "has smth= ", !!inputFoodName)
         if (!!inputFoodName) {
-            // are ceva
-            // console.log("Search and page=", page)
             setAvailableFoods([])
             setPage(0);
             setAllPagesFetched(true);
             fetchFoodsByName(inputFoodName);
         } else {
-            // e vid
-            // console.log("Fetch and page=", page)
             setAvailableFoods([])
             setPage(0);
             setAllPagesFetched(false);
@@ -118,7 +115,8 @@ const AddFoodPage: React.FC = () => {
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="add-meal-page" fullscreen>
+            <IonContent id="content" className="add-meal-page" fullscreen>
+                <h1 ref={refToTop}></h1> {/* add a ref to the h1 element */}
                 <p>Here you can add your meal.</p>
                 <div className="photo-upload-section">
                     {photoBase64 ? (
@@ -128,14 +126,8 @@ const AddFoodPage: React.FC = () => {
                         // <div className="photo-preview"></div>
                         <></>
                     )}
-                    <IonFab horizontal="center">
-                        <IonFabButton onClick={() => {
-                            takePhoto();
-                        }}>
-                            <IonIcon icon={camera}/>
-                        </IonFabButton>
-                    </IonFab>
                 </div>
+
                 <IonFabButton onClick={() => {
                     const formData = new FormData();
                     formData.append('image', imageUploadedByUser);
@@ -205,20 +197,41 @@ const AddFoodPage: React.FC = () => {
                                 ) : <p>No results</p>
                         }
                     </IonList>
+                    <div style={{
+                        position: "fixed",
+                        bottom: "20px",
+                        right: "20px",
+                    }}>
+                        <IonFab slot="bottom" vertical="bottom" horizontal="end">
+                            <IonFabButton onClick={() => {
+                                takePhoto().then(() => {
+                                    if (refToTop.current) {
+                                        setTimeout(() => {
+                                            if (refToTop.current)
+                                                refToTop.current.scrollIntoView({behavior: 'smooth'})
+                                        }, 100)
+                                    }
+                                })
+
+                            }}>
+                                <IonIcon icon={camera}/>
+                            </IonFabButton>
+                        </IonFab>
+                    </div>
                     <IonInfiniteScroll disabled={allPagesFetched}
                                        onIonInfinite={(event: CustomEvent<void>) => loadMore(event)}>
                         <IonInfiniteScrollContent loadingSpinner={null}
                                                   loadingText="Loading more foods...">
-                            <div >
+                            <div>
                                 <IonIcon icon={fastFoodOutline} size="large" className="my-rotate"/>
                             </div>
                         </IonInfiniteScrollContent>
                     </IonInfiniteScroll>
                 </div>
-                <div>End foods</div>
             </IonContent>
         </IonPage>
-    );
+    )
+        ;
 
 };
 

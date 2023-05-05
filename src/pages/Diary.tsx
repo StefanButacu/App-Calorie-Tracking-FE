@@ -50,7 +50,7 @@ const DiaryPage: React.FC = () => {
                     <IonButtons slot="start">
                         <IonButton onClick={handlePreviousDayClick}>Previous</IonButton>
                     </IonButtons>
-                    <IonTitle className = "center-toolbar-title">{format(currentDay, 'EEEE')}</IonTitle>
+                    <IonTitle className = "center-toolbar-title">{format(currentDay, 'EEEE,  MMMM d')}</IonTitle>
                     <IonButtons slot="end">
                         <IonButton onClick={handleNextDayClick}>Next</IonButton>
                     </IonButtons>

@@ -42,11 +42,10 @@ const AddFoodToMealModal: React.FC<ModalProps> = ({isOpen, food, onClose}) => {
     const handleNumberOfServingsChange = (event: CustomEvent) => {
         const value = parseFloat(event.detail.value);
         console.log('value', value)
-        if(!!value) {
+        if (!!value) {
             setNumberOfServings(value);
 
-        }
-        else {
+        } else {
             setNumberOfServings(1)
         }
         setQuantiy(numberOfServings * servingSize);
@@ -54,6 +53,7 @@ const AddFoodToMealModal: React.FC<ModalProps> = ({isOpen, food, onClose}) => {
 
     const handleAddToMealClick = () => {
         if (food.onAddFoodToMealClick) {
+            console.log('Add to meal quantity', quantity)
             const response = food.onAddFoodToMealClick(food.id, quantity);
             dispatch(addFoodReduce({
                 mealId: parseInt(mealId, 10),
@@ -61,7 +61,7 @@ const AddFoodToMealModal: React.FC<ModalProps> = ({isOpen, food, onClose}) => {
                     id: food.id,
                     name: food.name,
                     quantity: quantity,
-                    calories: calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity * servingSize)
+                    calories: calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)
                 }
             }));
         }

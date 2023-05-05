@@ -18,11 +18,6 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     const [showModal, setShowModal] = useState(false);
 
 
-    const handleModalClick = () => {
-        setShowModal((prevState) => !prevState);
-    };
-
-
     const getCategoryHandle = async (category_id: number) => {
         return await getCategory(category_id)
     }
@@ -59,27 +54,12 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     const rgbColor = `rgb(${category_color[0]}, ${category_color[1]}, ${category_color[2]})`;
     return (
         <>
-            {/*<IonModal isOpen={showModal}>*/}
-            {/*    <FoodDetailsComponent mealId={mealId} {...food as Food} onAddFoodToMealClick={(...args) => {*/}
-            {/*        if (onAddFoodToMealClick) {*/}
-            {/*            onAddFoodToMealClick(...args);*/}
-            {/*        }*/}
-            {/*        setShowModal(false);*/}
-            {/*    }}/>*/}
-            {/*    <IonFabButton onClick={handleModalClick}>*/}
-            {/*        <IonIcon icon={addCircleOutline}></IonIcon>*/}
-            {/*    </IonFabButton>*/}
-            {/*</IonModal>*/}
-
             <div style={{backgroundColor: rgbColor, width: '100px', height: '100px'}}>
                 {category_id}
                 {
                     categoryName ?
                         (<p>
                             {categoryName}
-                            {/*<IonFabButton onClick={handleModalClick}>*/}
-                            {/*    <IonIcon icon={addCircleOutline}></IonIcon>*/}
-                            {/*</IonFabButton>*/}
                             <IonButton onClick={() => setShowModal(true)}>Add me</IonButton>
                             {
                                 showModal && (
