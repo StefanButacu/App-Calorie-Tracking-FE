@@ -1,5 +1,4 @@
 export interface DiaryDayMealFood {
-    diaryDayId: number,
     diaryDayDate: string,
     mealDTOList: MealFood[];
 }
@@ -10,6 +9,7 @@ export interface MealFood {
     foodList: FoodWithCalorie[]
 }
 export interface MealProps {
+    diaryDay: string,
     mealName: string,
     mealId: number,
     foodList: FoodWithCalorie[];

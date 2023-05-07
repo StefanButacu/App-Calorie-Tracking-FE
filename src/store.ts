@@ -6,14 +6,12 @@ import { loggingMiddleware} from "./reducers/loggingMiddleware";
 
 interface State {
     isLoading: boolean,
-    diaryDayId: number,
     mealDTOList: MealFood[];
 }
 
 
 const initialState: State = {
     isLoading: false,
-    diaryDayId: 0,
     mealDTOList: []
 }
 

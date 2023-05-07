@@ -23,13 +23,14 @@ import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actio
 import AvailableFoodComponent from "../components/AvailableFoodComponent";
 
 export interface RouteParams {
+    diaryDay: string,
     mealId: string
 }
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const AddFoodPage: React.FC = () => {
-    const {mealId} = useParams<RouteParams>()
+    const {diaryDay, mealId} = useParams<RouteParams>()
     const [segmentedImage, setSegmentedImage] = useState('');
     const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
     const [mealDetails, setMealDetails] = useState<MealDetailsProps>();
@@ -41,8 +42,8 @@ const AddFoodPage: React.FC = () => {
     const refToTop = useRef<HTMLHeadingElement>(null);
 
 
-    const handleAddFoodToMeal = async (mealId: string, foodId: number, quantityId: number) => {
-        return await requestPostFoodToMeal(mealId, foodId, quantityId);
+    const handleAddFoodToMeal = async (diaryDayDate: string, mealId: string, foodId: number, quantityId: number) => {
+        return await requestPostFoodToMeal(diaryDayDate, mealId, foodId, quantityId);
     }
     const handleGetMeal = async (mealId: string) => {
         return await requestGetMeal(mealId);
@@ -160,7 +161,7 @@ const AddFoodPage: React.FC = () => {
                                                                category_id={categoryProps.category_id}
                                                                category_color={categoryProps.category_color}
                                                                mealId={parseInt(mealId, 10)}
-                                                               onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                                               onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(diaryDay, mealId, foodId, quantity)}
                                             />)
                                         : <></>
                                 }
@@ -180,7 +181,7 @@ const AddFoodPage: React.FC = () => {
                             availableFoods.length > 0 ?
                                 availableFoods.map(food =>
                                     <AvailableFoodComponent key={food.id} {...food}
-                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(mealId, foodId, quantity)}
+                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(diaryDay, mealId, foodId, quantity)}
                                     />
                                 ) : <p>No results</p>
                         }

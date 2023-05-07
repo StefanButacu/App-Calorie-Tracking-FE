@@ -72,7 +72,9 @@ const DiaryPage: React.FC = () => {
                                 <DiaryMealComponent key={mealFoodProps.mealId}
                                                     mealId={mealFoodProps.mealId}
                                                     mealName={mealFoodProps.mealName}
-                                                    foodList={mealFoodProps.foodList}/>
+                                                    foodList={mealFoodProps.foodList}
+                                                    diaryDay={currentDay.toISOString().slice(0, 10)}
+                                />
                             ) :
                             <p>Loading Meals Page</p>
                     }

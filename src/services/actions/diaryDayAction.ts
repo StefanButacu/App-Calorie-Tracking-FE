@@ -3,17 +3,17 @@ import {FoodQuantity} from "../../types/MealFood.types";
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
-export const requestPostFoodToMeal = (mealId: string, foodId: number, quantity: number) => {
+export const requestPostFoodToMeal = (date: string, mealId: string, foodId: number, quantity: number) => {
     const foodQuantity: FoodQuantity = {
         foodId,
         quantity
     }
-    return axios.post(baseURL + `/api/diary/meal/${mealId}/food`, foodQuantity)
+    return axios.post(baseURL + `/api/diary/${date}/meal/${mealId}/food`, foodQuantity)
 }
 
-export const postFoodToMeal = (mealId: string, foodId: number, quantity: number) => {
+export const postFoodToMeal = (date: string, mealId: string, foodId: number, quantity: number) => {
     return function (dispatch: any) {
-        return requestPostFoodToMeal(mealId, foodId, quantity).then(response => dispatch(successPostFoodToMeal(response)))
+        return requestPostFoodToMeal(date, mealId, foodId, quantity).then(response => dispatch(successPostFoodToMeal(response)))
     }
 }
 

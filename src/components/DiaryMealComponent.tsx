@@ -5,11 +5,11 @@ import {MealProps} from "../types/MealFood.types";
 import React from "react";
 import '../assets/styles/meal.scss'
 
-const DiaryMealComponent: React.FC<MealProps> = ({mealName, mealId, foodList}) => {
+const DiaryMealComponent: React.FC<MealProps> = ({mealName, mealId, foodList, diaryDay}) => {
 
     const history = useHistory();
     const handleAddFoodClick = () => {
-        history.push(`/add-food/${mealId}`);
+        history.push(`/add-food/${diaryDay}/${mealId}`);
     };
     const totalCalories = foodList.reduce((acc, food) => acc + food.calories, 0);
 
