@@ -1,18 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {DiaryDayMealFood, Food, FoodWithCalorie, MealFood} from "./types/MealFood.types";
-import { loggingMiddleware} from "./reducers/loggingMiddleware";
+import {loggingMiddleware} from "./reducers/loggingMiddleware";
+import {stat} from "fs";
 
 interface State {
     isLoading: boolean,
-    mealDTOList: MealFood[];
+    mealDTOList: MealFood[]
+    token: string
+    isAuthenticated: boolean
 }
 
 
 const initialState: State = {
     isLoading: false,
-    mealDTOList: []
+    mealDTOList: [],
+    token: '',
+    isAuthenticated: false,
 }
 
 
@@ -21,11 +26,10 @@ export const diarySlice = createSlice({
     initialState,
     reducers: {
         diaryDayReduce: (state, action: PayloadAction<DiaryDayMealFood>) => {
-            return  {...action.payload, isLoading: false}
-
+            state.mealDTOList = action.payload.mealDTOList;
         },
         addFoodReduce: (state, action: PayloadAction<{ mealId: number, food: FoodWithCalorie }>) => {
-            const { mealId, food } = action.payload;
+            const {mealId, food} = action.payload;
             // Find the index of the meal in mealDTOList based on mealId
             const mealIndex = state.mealDTOList.findIndex(m => m.mealId === mealId);
             if (mealIndex !== -1) {
@@ -50,14 +54,27 @@ export const diarySlice = createSlice({
         },
 
     },
-
-
 })
-export const {diaryDayReduce, addFoodReduce} = diarySlice.actions
+export const loginSlice = createSlice({
+    name: 'login',
+    initialState,
+    reducers: {
+        loginReduce: (state, action: PayloadAction<{ token: string }>) => {
+            state.token = action.payload.token;
+            state.isAuthenticated = true;
+        },
+    }
+})
+
+
+export const {diaryDayReduce, addFoodReduce} = diarySlice.actions;
+export const {loginReduce} = loginSlice.actions;
+
 
 export const store = configureStore({
     reducer: {
         diaryDay: diarySlice.reducer,
+        login: loginSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggingMiddleware),
 

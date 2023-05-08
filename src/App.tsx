@@ -27,6 +27,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import AddFoodPage from "./pages/AddFoodPage";
 import DiaryPage from "./pages/Diary";
+import LoginPage from "./pages/LoginPage";
 
 setupIonicReact();
 
@@ -41,7 +42,10 @@ const App: React.FC = () => (
                     <DiaryPage/>
                 </Route>
                 <Route exact path="/">
-                    <Redirect to="/diary"/>
+                    <Redirect to="/login"/>
+                </Route>
+                <Route exact path="/login">
+                    <LoginPage/>
                 </Route>
             </IonRouterOutlet>
         </IonReactRouter>

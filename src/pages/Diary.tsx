@@ -11,6 +11,8 @@ const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
     const diaryDay = useSelector((state: RootState) => state.diaryDay);
 
+    const {token}  =useSelector((state: RootState) => state.login)
+
     const [currentDay, setCurrentDay] = useState(new Date());
     useEffect(() => {
         // Set the initial day to the current date when the component mounts
@@ -27,21 +29,24 @@ const DiaryPage: React.FC = () => {
         setCurrentDay(addDays(currentDay, 1));
     };
 
-    const handleGetDiaryDayMeals = async (diaryDayDate: string) => {
-        return await requestGetDiaryDayMeals(diaryDayDate);
+    const handleGetDiaryDayMeals = async (diaryDayDate: string, token: string) => {
+        console.log("Handle get meals: ", token);
+        return await requestGetDiaryDayMeals(diaryDayDate, token);
     }
 
     useEffect(() => {
-        handleGetDiaryDayMeals(currentDay.toISOString().slice(0, 10))
+        handleGetDiaryDayMeals(currentDay.toISOString().slice(0, 10), token)
             .then((r) => {
                 if (r.data) {
-                    console.log(r.data)
+                    console.log("Diary Meals", typeof r.data)
                     dispatch(diaryDayReduce(r.data))
+                    console.log("after dispatch"  + diaryDay.mealDTOList);
                 }
             })
             .catch(err => console.log("Error" + err))
 
     }, [currentDay])
+
 
     return (
         <IonPage>
