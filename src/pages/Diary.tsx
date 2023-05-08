@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {diaryDayReduce, RootState} from "../store";
 import {format, addDays, subDays} from 'date-fns';
 import "../assets/styles/diary-page.scss"
+import CalorieGoalComponent from "../components/CalorieGoalComponent";
 
 const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const DiaryPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <CalorieGoalComponent />
                 <div>
                     {
                         diaryDay ?

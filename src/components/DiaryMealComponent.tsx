@@ -27,9 +27,11 @@ const DiaryMealComponent: React.FC<MealProps> = ({mealName, mealId, foodList, di
                     ))}
                 </div>
             </div>
-            <IonLabel onClick={handleAddFoodClick} className="add-food-label">
-                Add food
-            </IonLabel>
+            <div style={{display: "flex", alignItems:"center"}}>
+                <IonLabel onClick={handleAddFoodClick} className="add-food-label">
+                    Add food
+                </IonLabel>
+            </div>
         </div>
     );
 };

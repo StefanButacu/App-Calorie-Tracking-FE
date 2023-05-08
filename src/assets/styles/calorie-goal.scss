@@ -1,0 +1,33 @@
+@import "globals";
+.calorie-remain {
+  margin-left: 30px;
+
+}
+
+.calorie-goal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 60px;
+
+  .user-calorie {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+
+    .number-type {
+      font-weight: lighter;
+    }
+  }
+
+  .number {
+    font-weight: bold;
+  }
+
+  .type {
+
+  }
+}

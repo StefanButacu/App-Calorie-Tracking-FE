@@ -10,7 +10,6 @@
 
 
 .meal {
-  margin-top: 15px;
   border-bottom: 1px solid #ccc;
 
   .meal-header {
@@ -34,9 +33,11 @@
   font-weight: bold;
   cursor: pointer;
   text-decoration: underline;
-  margin-left: 10px
+  margin-left: 10px;
+  height: 50px;
 }
 
 .meals-container{
-
+  display: flex;
+  flex-direction: column;
 }
