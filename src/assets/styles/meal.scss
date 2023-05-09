@@ -28,13 +28,15 @@
 
 
 .add-food-label {
+  cursor: pointer;
+  text-decoration: underline;
+  margin: auto 5000px;
+}
+.sc-ion-label-md-s>p {
   color: $light-blue;
   font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-  margin-left: 10px;
-  height: 50px;
+
 }
 
 .meals-container{
