@@ -7,6 +7,8 @@ import {diaryDayReduce, RootState} from "../store";
 import {format, addDays, subDays} from 'date-fns';
 import "../assets/styles/diary-page.scss"
 import CalorieGoalComponent from "../components/CalorieGoalComponent";
+import Footer from "../components/Footer";
+import {useHistory} from "react-router-dom";
 
 const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -31,7 +33,6 @@ const DiaryPage: React.FC = () => {
     };
 
     const handleGetDiaryDayMeals = async (diaryDayDate: string, token: string) => {
-        console.log("Handle get meals: ", token);
         return await requestGetDiaryDayMeals(diaryDayDate, token);
     }
 
@@ -39,14 +40,29 @@ const DiaryPage: React.FC = () => {
         handleGetDiaryDayMeals(currentDay.toISOString().slice(0, 10), token)
             .then((r) => {
                 if (r.data) {
-                    console.log("Diary Meals", typeof r.data)
                     dispatch(diaryDayReduce(r.data))
-                    console.log("after dispatch"  + diaryDay.mealDTOList);
                 }
             })
             .catch(err => console.log("Error" + err))
 
     }, [currentDay])
+
+
+    const [currentIcon, setCurrentIcon] = useState("diary")
+
+    const history = useHistory();
+
+    const handleDiaryClick = () => {
+        console.log("Diary page diary click ", currentIcon )
+        // setCurrentIcon("diary");
+        // history.push("/diary");
+    };
+
+    const handleUserClick = () => {
+        console.log("Diary page diary click ", currentIcon )
+        // setCurrentIcon("user");
+        history.push("/user");
+    };
 
 
     return (
@@ -88,6 +104,8 @@ const DiaryPage: React.FC = () => {
 
                 </div>
             </IonContent>
+            <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={handleUserClick}/>
+
         </IonPage>
     );
 };

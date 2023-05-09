@@ -1,0 +1,15 @@
+@import "globals";
+
+
+.footer {
+
+  display: flex;
+  justify-content: space-evenly;
+
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+}

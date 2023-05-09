@@ -28,6 +28,7 @@ import './theme/variables.css';
 import AddFoodPage from "./pages/AddFoodPage";
 import DiaryPage from "./pages/Diary";
 import LoginPage from "./pages/LoginPage";
+import UserPage from "./pages/UserPage";
 
 setupIonicReact();
 
@@ -46,6 +47,9 @@ const App: React.FC = () => (
                 </Route>
                 <Route exact path="/login">
                     <LoginPage/>
+                </Route>
+                <Route exact path="/user">
+                    <UserPage/>
                 </Route>
             </IonRouterOutlet>
         </IonReactRouter>

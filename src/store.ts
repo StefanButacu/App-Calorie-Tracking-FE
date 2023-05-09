@@ -38,14 +38,14 @@ export const diarySlice = createSlice({
                 if (foodIndex !== -1) {
                     // Update the quantity and calories of the existing food
                     const existingFood = state.mealDTOList[mealIndex].foodList[foodIndex];
-                    existingFood.quantity += food.quantity;
+                    existingFood.quantity = Math.floor(existingFood.quantity + food.quantity);
                     existingFood.calories += food.calories;
                 } else {
                     // Add the new food to the meal
                     const foodWithCalorie: FoodWithCalorie = {
                         id: food.id,
                         name: food.name,
-                        quantity: food.quantity,
+                        quantity: Math.floor(food.quantity),
                         calories: food.calories
                     };
                     state.mealDTOList[mealIndex].foodList.push(foodWithCalorie);

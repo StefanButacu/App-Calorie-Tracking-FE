@@ -4,6 +4,7 @@ import {RootState} from "../store";
 import {UserDetails} from "../types/User.types";
 import {requestGetUserDetails} from "../services/actions/userAction";
 import "../assets/styles/calorie-goal.scss"
+import {IonProgressBar} from "@ionic/react";
 
 
 const CalorieGoalComponent: React.FC = () => {
@@ -11,7 +12,7 @@ const CalorieGoalComponent: React.FC = () => {
     const diaryDay = useSelector((state: RootState) => state.diaryDay);
     const loginState = useSelector((state: RootState) => state.login);
     const token = loginState.token;
-
+    const [progress, setProgress] = useState(0);
     const [userDetails, setUserDetails] = useState<UserDetails>();
 
 
@@ -31,12 +32,19 @@ const CalorieGoalComponent: React.FC = () => {
             }, 0),
         0
     );
-    console.log(totalEatenCalories)
-
+    useEffect( () => {
+        if(userDetails) {
+            setProgress(totalEatenCalories / userDetails!.calorieGoal);
+        }
+    }, [userDetails, totalEatenCalories])
     return (<>
         {userDetails ?
             (<div style={{marginTop: "15px"}}>
-                <div className={"calorie-remain"}>Calories Remaining</div>
+                <div className={"calorie-remain"}>
+                    Calories Remaining
+                    <IonProgressBar type="determinate" value={progress} style={{ '--ion-color-custom': '#FF0000' }} className={"calorie-progressbar"} />
+
+                </div>
                 <div className={"calorie-goal"}>
                     <div className={"user-calorie"}>
                         {userDetails?.calorieGoal}
