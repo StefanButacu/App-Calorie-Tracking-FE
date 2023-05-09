@@ -29,6 +29,7 @@ import AddFoodPage from "./pages/AddFoodPage";
 import DiaryPage from "./pages/Diary";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
+import {PrivateRoute} from "./services/auth/PrivateRoute";
 
 setupIonicReact();
 
@@ -36,21 +37,25 @@ const App: React.FC = () => (
     <IonApp>
         <IonReactRouter>
             <IonRouterOutlet>
-                <Route exact path="/add-food/:diaryDay/:mealId">
-                    <AddFoodPage/>
-                </Route>
-                <Route exact path="/diary">
-                    <DiaryPage/>
-                </Route>
+                <PrivateRoute exact ={true} path="/add-food/:diaryDay/:mealId" component={AddFoodPage} />
+                <PrivateRoute exact ={true} path="/diary" component={DiaryPage} />
+                <PrivateRoute exact ={true} path="/user" component={UserPage} />
+
+                {/*<Route exact path="/add-food/:diaryDay/:mealId">*/}
+                {/*    <AddFoodPage/>*/}
+                {/*</Route>*/}
+                {/*<Route exact path="/diary">*/}
+                {/*    <DiaryPage/>*/}
+                {/*</Route>*/}
                 <Route exact path="/">
-                    <Redirect to="/login"/>
+                    <Redirect to="/diary"/>
                 </Route>
                 <Route exact path="/login">
                     <LoginPage/>
                 </Route>
-                <Route exact path="/user">
-                    <UserPage/>
-                </Route>
+                {/*<Route exact path="/user">*/}
+                {/*    <UserPage/>*/}
+                {/*</Route>*/}
             </IonRouterOutlet>
         </IonReactRouter>
     </IonApp>

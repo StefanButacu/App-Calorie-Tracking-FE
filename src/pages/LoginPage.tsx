@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
         });
     }
     if (isAuthenticated) {
-        return <Redirect to={{pathname: '/diary'}}/>
+        return <Redirect to={{pathname: '/'}}/>
     }
 
     return (
