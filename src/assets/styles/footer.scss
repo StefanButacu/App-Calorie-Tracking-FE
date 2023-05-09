@@ -12,4 +12,18 @@
     align-items: center;
     cursor: pointer;
   }
+
+  .ripple-parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+
+    user-select: none;
+
+    width: 100%;
+    height: 50px;
+  }
 }

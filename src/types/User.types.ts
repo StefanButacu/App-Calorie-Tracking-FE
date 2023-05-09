@@ -3,5 +3,6 @@ export interface UserDetails {
     username: string,
     calorieGoal: number,
     weight: number,
+    weightGoal: number,
     height: number,
 }
