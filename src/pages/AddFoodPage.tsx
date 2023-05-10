@@ -143,7 +143,7 @@ const AddFoodPage: React.FC = () => {
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent id="content" className="add-meal-page" fullscreen>
+            <IonContent id="content" className="add-meal-page ion-padding" fullscreen>
                 <h1 ref={refToTop}></h1> {/* add a ref to the h1 element */}
                 {
                 photoBase64 ? (

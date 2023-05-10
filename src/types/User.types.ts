@@ -2,7 +2,11 @@ export interface UserDetails {
     id: string,
     username: string,
     calorieGoal: number,
-    weight: number,
-    weightGoal: number,
+    currentWeight: number,
+    startWeight: number,
+    goalWeight: number,
     height: number,
+    protein: number,
+    carbohydrate: number,
+    lipid: number
 }

@@ -1,0 +1,21 @@
+.weight-progressbar {
+  height: 10px;
+  --progress-background: #383735;
+  --buffer-background: rgb(169 170 173 / 30%);
+  border-radius: 12rem 12rem 0 0;
+}
+
+.info-name {
+  font-size: 25px;
+  margin-bottom: 0;
+  font-weight: bold;
+
+}
+
+.user-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+div { margin-top: 5px}

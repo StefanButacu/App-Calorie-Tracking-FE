@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
                     <IonTitle>Login</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent class="ion-padding">
                 <IonInput placeholder="Username"
                           value={username}
                           onIonChange={e => setState({...state, username: e.detail.value || ''})}
