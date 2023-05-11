@@ -43,6 +43,12 @@ export interface FoodQuantity {
     foodId: number;
     quantity: number;
 }
-// FoodDetails with nutrition values for 100 grams
-// FoodFromMeal - to display name and total calories FoodDetail.proteine * 100 / Quantity
 
+export interface FoodUpdate {
+    id?: number,
+    name?:string,
+    proteinPerCent?: number,
+    carbohydratePerCent?: number,
+    lipidPerCent?: number,
+    quantity?: number,
+}

@@ -1,9 +1,6 @@
-import {configureStore} from '@reduxjs/toolkit'
-
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {DiaryDayMealFood, Food, FoodWithCalorie, MealFood} from "./types/MealFood.types";
+import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {DiaryDayMealFood, FoodWithCalorie, MealFood} from "./types/MealFood.types";
 import {loggingMiddleware} from "./reducers/loggingMiddleware";
-import {stat} from "fs";
 
 interface State {
     isLoading: boolean,
@@ -63,8 +60,21 @@ export const diarySlice = createSlice({
                 // Return the unchanged meal
                 return meal;
             })
+        },
+        updateFoodFromMealReduce: (state, action: PayloadAction<{ mealId: number, foodId: number, quantity: number, calories: number }>) => {
+            // Find the meal in mealDTOList based on mealId
+            const {mealId, foodId, quantity, calories} = action.payload;
+            const meal = state.mealDTOList.find(m => m.mealId === mealId);
+            if (meal) {
+                // Find the food item in foodList based on foodId
+                const foodItem = meal.foodList.find(f => f.id === foodId);
+                if (foodItem) {
+                    // Update the calories of the food item to the given calorie parameter
+                    foodItem.calories = calories;
+                    foodItem.quantity = quantity;
+                }
+            }
         }
-
     },
 })
 export const loginSlice = createSlice({
@@ -79,7 +89,7 @@ export const loginSlice = createSlice({
 })
 
 
-export const {diaryDayReduce, addFoodReduce, removeFoodReduce} = diarySlice.actions;
+export const {diaryDayReduce, addFoodReduce, removeFoodReduce, updateFoodFromMealReduce} = diarySlice.actions;
 export const {loginReduce} = loginSlice.actions;
 
 

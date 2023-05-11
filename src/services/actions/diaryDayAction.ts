@@ -5,9 +5,10 @@ import {authConfig} from "./index";
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 export const requestPostFoodToMeal = (date: string, mealId: string, foodId: number, quantity: number, token: string) => {
+    quantity = Math.floor(quantity * 100) / 100;
     const foodQuantity: FoodQuantity = {
         foodId,
-        quantity
+        quantity,
     }
     return axios.post(baseURL + `/api/diary/${date}/meal/${mealId}/food`, foodQuantity, authConfig(token))
 }

@@ -28,7 +28,7 @@ const AddFoodPage: React.FC = () => {
                 food: {
                     id: food!.id,
                     name: food!.name,
-                    quantity: quantity,
+                    quantity: Math.floor(quantity * 100) / 100,
                     calories: calculateCaloriesForQuantity(food!.protein, food!.carbohydrate, food!.lipid, quantity)
                 }
             }))
@@ -38,7 +38,6 @@ const AddFoodPage: React.FC = () => {
 
     useEffect(() => {
         requestGetFoodDetails(parseInt(foodId)).then(response => {
-            console.log(response.data);
             setFood(response.data);
         })
     }, [])

@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router";
 import {RouteParams} from "./ListingFoodPage";
-import {Food} from "../types/MealFood.types";
+import {Food, FoodUpdate} from "../types/MealFood.types";
 import {useDispatch, useSelector} from "react-redux";
-import {removeFoodReduce, RootState} from "../store";
-import {requestDeleteFoodFormMeal, requestGetFoodDetails} from "../services/actions/foodAction";
+import {removeFoodReduce, RootState, updateFoodFromMealReduce} from "../store";
 import {
-    IonBackButton,
+    requestDeleteFoodFormMeal,
+    requestGetFoodDetails,
+    requestGetFoodFromMeal,
+    requestUpdateFoodFromMeal
+} from "../services/actions/foodAction";
+import {
     IonButtons,
     IonContent,
     IonHeader,
@@ -14,12 +18,13 @@ import {
     IonInput,
     IonPage,
     IonTitle,
-    IonToolbar, ToastOptions,
+    IonToolbar,
+    ToastOptions,
     useIonToast
 } from "@ionic/react";
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
-import {caretBack, checkmarkOutline, trashBin} from "ionicons/icons";
+import {checkmarkOutline, trashBin} from "ionicons/icons";
 
 
 const EditFoodPage: React.FC = () => {
@@ -29,6 +34,8 @@ const EditFoodPage: React.FC = () => {
     const token = loginState.token;
     const {diaryDay, mealId, foodId} = useParams<RouteParams>()
     const [present] = useIonToast();
+    const servingSize = 100.0
+    const [numberOfServings, setNumberOfServings] = useState(1)
 
     const deleteOptions: ToastOptions = {
         message: 'Deleted successfully!',
@@ -48,35 +55,39 @@ const EditFoodPage: React.FC = () => {
         present(options).then(() => history.goBack());
     };
 
-    const [food, setFood] = useState<Food>();
+    const [foodDetails, setFoodDetails] = useState<FoodUpdate>({});
+
+
     const handleDeleteFood = () => {
         requestDeleteFoodFormMeal(diaryDay, mealId, foodId, token).then(() => {
                 dispatch(removeFoodReduce({
-                    mealId: parseInt(mealId, 10),
-                    foodId: food!.id
+                    mealId: parseInt(mealId),
+                    foodId: parseInt(foodId)
                 }))
                 presentToast(deleteOptions)
             }
         )
     }
     const handleUpdateFood = () => {
-        presentToast(updateOptions)
+        requestUpdateFoodFromMeal(diaryDay, mealId, parseInt(foodId), foodDetails.quantity!, token).then(() => {
+
+            dispatch(updateFoodFromMealReduce({
+                mealId: parseInt(mealId),
+                foodId: parseInt(foodId),
+                quantity: Math.floor(foodDetails.quantity! * 100) / 100 ,
+                calories: calculateCaloriesForQuantity(foodDetails.proteinPerCent!, foodDetails.carbohydratePerCent!, foodDetails.lipidPerCent!, foodDetails.quantity!)
+            }))
+            presentToast(updateOptions)
+        })
     }
 
-
     useEffect(() => {
-        requestGetFoodDetails(parseInt(foodId)).then(response => {
-            console.log(response.data);
-            setFood(response.data);
+        requestGetFoodFromMeal(diaryDay, mealId, foodId, token).then(response => {
+            setFoodDetails(response.data);
+            setNumberOfServings(response.data.quantity / servingSize)
         })
     }, [])
 
-
-    const servingSize = 100.0
-    const [quantity, setQuantiy] = useState(1.0 * servingSize)
-
-
-    const [numberOfServings, setNumberOfServings] = useState(1)
 
     const handleNumberOfServingsChange = (event: CustomEvent) => {
         const value = parseFloat(event.detail.value);
@@ -87,7 +98,7 @@ const EditFoodPage: React.FC = () => {
         } else {
             setNumberOfServings(1)
         }
-        setQuantiy(numberOfServings * servingSize);
+        setFoodDetails({...foodDetails, quantity: numberOfServings * servingSize});
     };
 
 
@@ -98,7 +109,7 @@ const EditFoodPage: React.FC = () => {
                     <IonButtons slot="start">
                         <IonIcon onClick={handleDeleteFood} icon={trashBin} size="large"/>
                     </IonButtons>
-                    <IonTitle>{food?.name}</IonTitle>
+                    <IonTitle>{foodDetails?.name}</IonTitle>
                     <IonButtons slot="end">
                         <IonIcon onClick={handleUpdateFood} icon={checkmarkOutline} size="large"/>
                     </IonButtons>
@@ -120,24 +131,24 @@ const EditFoodPage: React.FC = () => {
                         <p className={"left"}>Serving size</p>
                         <p className={"right"}>{servingSize} g</p>
                     </div>
-                    {food &&
+                    {foodDetails &&
                         <div className="food-details">
-                            <Circle protein={Math.floor(food.protein * quantity / 100)}
-                                    carbs={Math.floor(food.carbohydrate * quantity / 100)}
-                                    fats={Math.floor(food.lipid * quantity / 100)}
-                                    calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}
+                            <Circle protein={Math.floor(foodDetails.proteinPerCent! * foodDetails.quantity! / 100)}
+                                    carbs={Math.floor(foodDetails.carbohydratePerCent! * foodDetails.quantity! / 100)}
+                                    fats={Math.floor(foodDetails.lipidPerCent! * foodDetails.quantity! / 100)}
+                                    calories={calculateCaloriesForQuantity(foodDetails.proteinPerCent!, foodDetails.carbohydratePerCent!, foodDetails.lipidPerCent!, foodDetails.quantity!)}
                             />
                             <div>
                                 <p>Protein</p>
-                                <p className="macronutrient protein">{Math.floor(food.protein * quantity / 100)} g</p>
+                                <p className="macronutrient protein">{Math.floor(foodDetails.proteinPerCent! * foodDetails.quantity! / 100)} g</p>
                             </div>
                             <div>
                                 <p>Carbs</p>
-                                <p className="macronutrient carbs">{Math.floor(food.carbohydrate * quantity / 100)} g</p>
+                                <p className="macronutrient carbs">{Math.floor(foodDetails.carbohydratePerCent! * foodDetails.quantity! / 100)} g</p>
                             </div>
                             <div>
                                 <p>Fats</p>
-                                <p className="macronutrient lipid">{Math.floor(food.lipid * quantity / 100)} g</p>
+                                <p className="macronutrient lipid">{Math.floor(foodDetails.lipidPerCent! * foodDetails.quantity! / 100)} g</p>
                             </div>
                         </div>
                     }
