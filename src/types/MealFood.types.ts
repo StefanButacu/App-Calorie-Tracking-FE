@@ -26,7 +26,7 @@ export interface Food {
     protein: number,
     carbohydrate: number,
     lipid: number,
-    onAddFoodToMealClick?: (foodId: number, quantity:number) => any;
+    onAddFoodToMealClick?: (diaryDayDate: string, mealId: string, foodId: number, quantityId: number, token: string) => any;
 }
 
 
@@ -34,7 +34,8 @@ export interface FoodWithCalorie {
     id: number,
     name: string,
     quantity: number,
-    calories: number
+    calories: number,
+    handleAction?: (foodId: number) => void
 }
 
 

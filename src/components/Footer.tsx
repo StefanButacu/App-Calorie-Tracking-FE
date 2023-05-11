@@ -1,9 +1,7 @@
 import {IonFooter, IonIcon, IonRippleEffect, IonToolbar} from '@ionic/react';
-import {useHistory} from 'react-router-dom';
 import {bookOutline, bookSharp, personOutline, personSharp} from 'ionicons/icons';
 import "../assets/styles/footer.scss"
-import React, {useState} from "react";
-
+import React from "react";
 
 
 export interface FooterProps {

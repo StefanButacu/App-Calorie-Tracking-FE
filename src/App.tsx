@@ -25,11 +25,12 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import AddFoodPage from "./pages/AddFoodPage";
+import ListingFoodPage from "./pages/ListingFoodPage";
 import DiaryPage from "./pages/Diary";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
 import {PrivateRoute} from "./services/auth/PrivateRoute";
+import AddFoodPage from "./pages/AddFoodPage";
 
 setupIonicReact();
 
@@ -37,25 +38,18 @@ const App: React.FC = () => (
     <IonApp>
         <IonReactRouter>
             <IonRouterOutlet>
-                <PrivateRoute exact ={true} path="/add-food/:diaryDay/:mealId" component={AddFoodPage} />
+                <PrivateRoute exact ={true} path="/add-food/:diaryDay/:mealId" component={ListingFoodPage} />
                 <PrivateRoute exact ={true} path="/diary" component={DiaryPage} />
                 <PrivateRoute exact ={true} path="/user" component={UserPage} />
 
-                {/*<Route exact path="/add-food/:diaryDay/:mealId">*/}
-                {/*    <AddFoodPage/>*/}
-                {/*</Route>*/}
-                {/*<Route exact path="/diary">*/}
-                {/*    <DiaryPage/>*/}
-                {/*</Route>*/}
+                <Route exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage} />
+
                 <Route exact path="/">
                     <Redirect to="/diary"/>
                 </Route>
                 <Route exact path="/login">
                     <LoginPage/>
                 </Route>
-                {/*<Route exact path="/user">*/}
-                {/*    <UserPage/>*/}
-                {/*</Route>*/}
             </IonRouterOutlet>
         </IonReactRouter>
     </IonApp>

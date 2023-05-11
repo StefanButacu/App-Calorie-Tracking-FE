@@ -1,15 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {
-    IonButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonIcon,
-    IonInput,
-    IonPage,
-    IonTitle,
-    IonToolbar
-} from "@ionic/react";
+import {IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
 import Footer from "../components/Footer";
 import {useHistory} from "react-router-dom";
 import {UserDetails} from "../types/User.types";

@@ -4,7 +4,7 @@ import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {diaryDayReduce, RootState} from "../store";
-import {format, addDays, subDays} from 'date-fns';
+import {addDays, format, subDays} from 'date-fns';
 import "../assets/styles/diary-page.scss"
 import CalorieGoalComponent from "../components/CalorieGoalComponent";
 import Footer from "../components/Footer";
@@ -54,13 +54,10 @@ const DiaryPage: React.FC = () => {
 
     const handleDiaryClick = () => {
         console.log("Diary page diary click ", currentIcon )
-        // setCurrentIcon("diary");
-        // history.push("/diary");
     };
 
     const handleUserClick = () => {
         console.log("Diary page diary click ", currentIcon )
-        // setCurrentIcon("user");
         history.push("/user");
     };
 
