@@ -96,7 +96,7 @@ const EditFoodPage: React.FC = () => {
             setNumberOfServings(value);
 
         } else {
-            setNumberOfServings(1)
+            setNumberOfServings(0.10)
         }
         setFoodDetails({...foodDetails, quantity: numberOfServings * servingSize});
     };
@@ -121,7 +121,7 @@ const EditFoodPage: React.FC = () => {
                         <p className={"left"}>Number of servings</p>
                         <IonInput className={"right"}
                                   type="number" step="0.1"
-                                  min={0}
+                                  min={0.1}
                                   value={numberOfServings}
                                   placeholder="1"
                                   onIonChange={handleNumberOfServingsChange}
