@@ -121,7 +121,7 @@ const EditFoodPage: React.FC = () => {
                         <p className={"left"}>Number of servings</p>
                         <IonInput className={"right"}
                                   type="number" step="0.1"
-                                  min={1}
+                                  min={0}
                                   value={numberOfServings}
                                   placeholder="1"
                                   onIonChange={handleNumberOfServingsChange}

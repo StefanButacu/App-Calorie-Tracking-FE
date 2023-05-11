@@ -6,32 +6,53 @@ import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 import {useDispatch, useSelector} from "react-redux";
 import {addFoodReduce, RootState} from "../store";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
-import {IonButton, IonButtons, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonInput,
+    IonPage,
+    IonTitle,
+    IonToolbar,
+    ToastOptions, useIonToast
+} from "@ionic/react";
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
+import {checkmarkOutline} from "ionicons/icons";
 
 
 const AddFoodPage: React.FC = () => {
     let history = useHistory();
     const loginState = useSelector((state: RootState) => state.login);
     const token = loginState.token;
-    const goToPreviousPath = () => {
-        history.goBack()
-    }
     const {diaryDay, mealId, foodId} = useParams<RouteParams>()
-
     const [food, setFood] = useState<Food>();
+
+    const [present] = useIonToast();
+    const addOptions: ToastOptions = {
+        message: 'Added successfully!',
+        duration: 1000,
+        position: 'top',
+        icon: checkmarkOutline,
+        color: "success",
+    }
+    const presentToast = (options: ToastOptions) => {
+        present(options).then(() => history.goBack());
+    };
     const handleAddFood = () => {
-        requestPostFoodToMeal(diaryDay, mealId, parseInt(foodId), quantity, token).then(() =>
-            dispatch(addFoodReduce({
-                mealId: parseInt(mealId, 10),
-                food: {
-                    id: food!.id,
-                    name: food!.name,
-                    quantity: Math.floor(quantity * 100) / 100,
-                    calories: calculateCaloriesForQuantity(food!.protein, food!.carbohydrate, food!.lipid, quantity)
-                }
-            }))
+        requestPostFoodToMeal(diaryDay, mealId, parseInt(foodId), quantity, token).then(() => {
+                dispatch(addFoodReduce({
+                    mealId: parseInt(mealId, 10),
+                    food: {
+                        id: food!.id,
+                        name: food!.name,
+                        quantity: Math.floor(quantity * 100) / 100,
+                        calories: calculateCaloriesForQuantity(food!.protein, food!.carbohydrate, food!.lipid, quantity)
+                    }
+                }))
+                presentToast(addOptions)
+            }
         )
 
     }
@@ -67,7 +88,7 @@ const AddFoodPage: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonButton onClick={goToPreviousPath}>Back</IonButton>
+                        <IonButton onClick={() => history.goBack()}>Back</IonButton>
                     </IonButtons>
                     <IonTitle className="center-toolbar-title">{food?.name}</IonTitle>
                     <IonButtons slot="end">
@@ -82,7 +103,7 @@ const AddFoodPage: React.FC = () => {
                         <p className={"left"}>Number of servings</p>
                         <IonInput className={"right"}
                                   type="number" step="0.1"
-                                  min={1}
+                                  min={0}
                                   value={numberOfServings}
                                   placeholder="1"
                                   onIonChange={handleNumberOfServingsChange}
