@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
-import {addFoodReduce, loginReduce, RootState} from "../store";
-import {calculateCaloriesForQuantity} from "../services/utils";
+import {loginReduce, RootState} from "../store";
 import {useDispatch, useSelector} from "react-redux";
 import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";

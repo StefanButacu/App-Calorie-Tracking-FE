@@ -31,6 +31,8 @@ import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
 import {PrivateRoute} from "./services/auth/PrivateRoute";
 import AddFoodPage from "./pages/AddFoodPage";
+import EditFoodPage from "./pages/EditFoodPage";
+import React from "react";
 
 setupIonicReact();
 
@@ -43,6 +45,7 @@ const App: React.FC = () => (
                 <PrivateRoute exact ={true} path="/user" component={UserPage} />
 
                 <Route exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage} />
+                <Route exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage} />
 
                 <Route exact path="/">
                     <Redirect to="/diary"/>

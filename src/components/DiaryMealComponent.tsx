@@ -30,6 +30,7 @@ const DiaryMealComponent: React.FC<MealProps> = ({mealName, mealId, foodList, di
                             key={index} {...foodWithCalorie}
                             handleAction={(foodId) => {
                                 console.log("Diary meal click", foodId)
+                                showEditFoodPage(foodId);
                             }}
                         />
                     ))}

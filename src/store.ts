@@ -52,6 +52,18 @@ export const diarySlice = createSlice({
                 }
             }
         },
+        removeFoodReduce: (state, action: PayloadAction<{ mealId: number, foodId: number }>) => {
+            state.mealDTOList = state.mealDTOList.map(meal => {
+                if (meal.mealId === action.payload.mealId) {
+                    // Remove the food with the given foodId
+                    const updatedFoodList = meal.foodList.filter(food => food.id !== action.payload.foodId);
+                    // Return the updated meal with the filtered food list
+                    return {...meal, foodList: updatedFoodList};
+                }
+                // Return the unchanged meal
+                return meal;
+            })
+        }
 
     },
 })
@@ -67,7 +79,7 @@ export const loginSlice = createSlice({
 })
 
 
-export const {diaryDayReduce, addFoodReduce} = diarySlice.actions;
+export const {diaryDayReduce, addFoodReduce, removeFoodReduce} = diarySlice.actions;
 export const {loginReduce} = loginSlice.actions;
 
 
