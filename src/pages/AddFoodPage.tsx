@@ -4,7 +4,7 @@ import {RouteParams} from "./ListingFoodPage";
 import {Food} from "../types/MealFood.types";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 import {useDispatch, useSelector} from "react-redux";
-import {addFoodReduce, RootState} from "../store";
+import {addFoodReduce, loadingReduce, RootState} from "../store";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
 import {
     IonButton,
@@ -15,7 +15,8 @@ import {
     IonPage,
     IonTitle,
     IonToolbar,
-    ToastOptions, useIonToast
+    ToastOptions,
+    useIonToast
 } from "@ionic/react";
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
@@ -42,6 +43,7 @@ const AddFoodPage: React.FC = () => {
     };
     const handleAddFood = () => {
         requestPostFoodToMeal(diaryDay, mealId, parseInt(foodId), quantity, token).then(() => {
+                dispatch(loadingReduce({isLoading: true}))
                 dispatch(addFoodReduce({
                     mealId: parseInt(mealId, 10),
                     food: {
@@ -51,7 +53,8 @@ const AddFoodPage: React.FC = () => {
                         calories: calculateCaloriesForQuantity(food!.protein, food!.carbohydrate, food!.lipid, quantity)
                     }
                 }))
-                presentToast(addOptions)
+                dispatch(loadingReduce({isLoading: false}))
+            presentToast(addOptions)
             }
         )
 
@@ -82,7 +85,6 @@ const AddFoodPage: React.FC = () => {
         }
         setQuantiy(numberOfServings * servingSize);
     };
-
     return (
         <IonPage>
             <IonHeader>
@@ -94,7 +96,6 @@ const AddFoodPage: React.FC = () => {
                     <IonButtons slot="end">
                         <IonButton onClick={handleAddFood}>Add</IonButton>
                     </IonButtons>
-
                 </IonToolbar>
             </IonHeader>
             <IonContent>

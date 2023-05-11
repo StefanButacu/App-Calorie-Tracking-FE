@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
-import {loginReduce, RootState} from "../store";
+import {IonButton, IonContent, IonHeader, IonInput, IonLoading, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import {loadingReduce, loginReduce, RootState} from "../store";
 import {useDispatch, useSelector} from "react-redux";
 import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";
@@ -14,16 +14,18 @@ export const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
     const [state, setState] = useState<LoginState>({});
     const isAuthenticated = useSelector((state: RootState) => state.login.isAuthenticated)
+    const isLoading = useSelector((state: RootState) => state.loading).isLoading
 
     const {username, password} = state;
     const handleLogin = () => {
-        console.log('handleLogin...');
+        dispatch(loadingReduce({isLoading: true}))
         requestLogin(username!, password!).then(response => {
-            console.log("Token", response.data);
             dispatch(loginReduce({
                 token: response.data
             }))
-        });
+        })
+                .catch(err => console.log(err, err))
+            .finally(() => dispatch(loadingReduce({isLoading: false})));
     }
     if (isAuthenticated) {
         return <Redirect to={{pathname: '/'}}/>
@@ -36,6 +38,7 @@ export const LoginPage: React.FC = () => {
                     <IonTitle>Login</IonTitle>
                 </IonToolbar>
             </IonHeader>
+            <IonLoading isOpen={isLoading} message="Loading..." spinner="circles"/>
             <IonContent class="ion-padding">
                 <IonInput placeholder="Username"
                           value={username}

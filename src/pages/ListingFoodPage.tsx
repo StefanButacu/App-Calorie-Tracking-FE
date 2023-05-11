@@ -10,7 +10,7 @@ import {
     IonIcon,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonList,
+    IonList, IonLoading,
     IonPage,
     IonSearchbar,
     IonTitle,
@@ -28,8 +28,8 @@ import {requestGetMeal} from "../services/actions/mealAction";
 import {Food, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
+import {useDispatch, useSelector} from "react-redux";
+import {loadingReduce, RootState} from "../store";
 import MealItemComponent from "../components/MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
 
@@ -42,7 +42,9 @@ export interface RouteParams {
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const ListingFoodPage: React.FC = () => {
+    const dispatch = useDispatch();
     const loginState = useSelector((state: RootState) => state.login);
+    const isLoading = useSelector((state: RootState) => state.loading).isLoading
     const token = loginState.token;
     const history = useHistory();
     const {diaryDay, mealId} = useParams<RouteParams>()
@@ -117,14 +119,16 @@ const ListingFoodPage: React.FC = () => {
         }
     };
 
-    function uploadImageByUser(imageUploadedByUser: Blob) {
+    async function uploadImageByUser(imageUploadedByUser: Blob) {
         const formData = new FormData();
         formData.append('image', imageUploadedByUser);
-        axios.post(baseURL + '/image', Object.fromEntries(formData), {
+        let sendImage = axios.post(baseURL + '/image', Object.fromEntries(formData), {
             headers: {
                 'Content-type': 'multipart/form-data'
             }
-        }).then(r => {
+        });
+        dispatch(loadingReduce({isLoading: true}))
+        sendImage.then(r => {
             const result_category_data = r.data.category;
             const categoryList: CategoryProps[] = [];
             for (const key in result_category_data) {
@@ -140,7 +144,7 @@ const ListingFoodPage: React.FC = () => {
             setSegmentedImage(base64ImageString);
         }).catch(err => {
             console.log(err);
-        })
+        }).finally(() => dispatch(loadingReduce(({isLoading: false}))))
     }
 
     const quantity = 100.0
@@ -154,6 +158,7 @@ const ListingFoodPage: React.FC = () => {
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
+            <IonLoading isOpen={isLoading} message="Loading..." spinner="circles" />
             <IonContent id="content" className="add-meal-page ion-padding" fullscreen>
                 <h1 ref={refToTop}></h1> {/* add a ref to the h1 element */}
                 {
@@ -202,7 +207,8 @@ const ListingFoodPage: React.FC = () => {
                                                        name={food.name}
                                                        quantity={quantity}
                                                        calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}/>
-                                ) : <p>No results</p>
+                                ) :
+                                <p>No results</p>
                         }
                     </IonList>
                     <div style={{

@@ -89,14 +89,27 @@ export const loginSlice = createSlice({
 })
 
 
+export const loadingSlice = createSlice({
+    name: 'loading',
+    initialState,
+    reducers: {
+        loadingReduce: (state, action: PayloadAction<{isLoading: boolean}>) => {
+            state.isLoading = action.payload.isLoading;
+        },
+
+    }
+})
+
 export const {diaryDayReduce, addFoodReduce, removeFoodReduce, updateFoodFromMealReduce} = diarySlice.actions;
 export const {loginReduce} = loginSlice.actions;
+export const {loadingReduce} = loadingSlice.actions;
 
 
 export const store = configureStore({
     reducer: {
         diaryDay: diarySlice.reducer,
-        login: loginSlice.reducer
+        login: loginSlice.reducer,
+        loading: loadingSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggingMiddleware),
 
