@@ -3,16 +3,22 @@ import {getCategory} from "../services/actions/categoryAction";
 import {Food} from "../types/MealFood.types";
 import {requestGetFoodDetails} from "../services/actions/foodAction";
 import {CategoryComponentProps} from "../types/Category.types";
-import AvailableFoodComponent from "./AvailableFoodComponent";
 import "../assets/styles/food.scss"
+import MealItemComponent from "./MealItemComponent";
+import {calculateCaloriesForQuantity} from "../services/utils";
+import {useHistory, useParams} from "react-router";
+import {RouteParams} from "../pages/ListingFoodPage";
 
-// TODO - replace category_id with food_id
 const CategoryComponent: React.FC<CategoryComponentProps> = ({
                                                                  mealId,
                                                                  category_id,
                                                                  category_color,
                                                                  onAddFoodToMealClick
                                                              }) => {
+    const {diaryDay} = useParams<RouteParams>()
+    const quantity = 100.0;
+    const history = useHistory();
+
     let [food, setFood] = useState<Food>();
 
     const getCategoryHandle = async (category_id: number) => {
@@ -60,7 +66,15 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                         }}
                     ></div>
                     <div style={{width: "100%"}}>
-                        <AvailableFoodComponent {...food!} />
+                        <MealItemComponent id={food!.id} handleAction={(foodId) => {
+                            console.log("available food" + foodId)
+                            history.push(`/add-food/${diaryDay}/${mealId}/${foodId}`)
+                        }}
+                                           name={food.name}
+                                           quantity={quantity}
+                                           calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}/>
+
+
                     </div>
                 </div>)
                 : <></>

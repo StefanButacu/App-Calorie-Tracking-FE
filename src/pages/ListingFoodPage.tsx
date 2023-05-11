@@ -20,7 +20,7 @@ import {
 import CategoryComponent from "../components/CategoryComponent";
 import {camera, caretBack, fastFoodOutline} from "ionicons/icons";
 import axios from "axios";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 import {CategoryProps} from "../types/Category.types";
 import {usePhotoGallery} from "../hooks/usePhotoGallery";
@@ -28,9 +28,10 @@ import {requestGetMeal} from "../services/actions/mealAction";
 import {Food, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
-import AvailableFoodComponent from "../components/AvailableFoodComponent";
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
+import MealItemComponent from "../components/MealItemComponent";
+import {calculateCaloriesForQuantity} from "../services/utils";
 
 export interface RouteParams {
     diaryDay: string,
@@ -43,7 +44,7 @@ const baseURL = process.env.REACT_APP_JAVA_API_URL;
 const ListingFoodPage: React.FC = () => {
     const loginState = useSelector((state: RootState) => state.login);
     const token = loginState.token;
-
+    const history = useHistory();
     const {diaryDay, mealId} = useParams<RouteParams>()
     const [segmentedImage, setSegmentedImage] = useState('');
     const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
@@ -142,6 +143,7 @@ const ListingFoodPage: React.FC = () => {
         })
     }
 
+    const quantity = 100.0
     return (
         <IonPage>
             <IonHeader>
@@ -194,7 +196,12 @@ const ListingFoodPage: React.FC = () => {
                         {
                             availableFoods.length > 0 ?
                                 availableFoods.map(food =>
-                                    <AvailableFoodComponent key={food.id} {...food}/>
+                                    <MealItemComponent id={food.id} handleAction={(foodId) => {
+                                        history.push(`/add-food/${diaryDay}/${mealId}/${foodId}`)
+                                    }}
+                                                       name={food.name}
+                                                       quantity={quantity}
+                                                       calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}/>
                                 ) : <p>No results</p>
                         }
                     </IonList>
