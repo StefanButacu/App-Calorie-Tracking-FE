@@ -59,8 +59,6 @@ const ListingFoodPage: React.FC = () => {
     const [allPagesFetched, setAllPagesFetched] = useState<boolean>(false);
     const [searchFoodName, setSearchFoodName] = useState<string>('');
     const refToTop = useRef<HTMLHeadingElement>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
 
     const handleAddFoodToMeal = async (diaryDayDate: string, mealId: string, foodId: number, quantityId: number, token: string) => {
         return await requestPostFoodToMeal(diaryDayDate, mealId, foodId, quantityId, token);
