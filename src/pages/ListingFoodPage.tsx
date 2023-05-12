@@ -1,7 +1,7 @@
 // AddFoodPage.tsx
 import React, {useEffect, useRef, useState} from 'react';
 import {
-    IonBackButton,
+    IonBackButton, IonButton,
     IonButtons,
     IonContent,
     IonFab,
@@ -15,23 +15,25 @@ import {
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    SearchbarCustomEvent
+    SearchbarCustomEvent, useIonModal
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
-import {camera, caretBack, fastFoodOutline} from "ionicons/icons";
+import {addOutline, camera, caretBack, fastFoodOutline} from "ionicons/icons";
 import axios from "axios";
 import {useHistory, useParams} from "react-router";
 import {requestPostFoodToMeal} from "../services/actions/diaryDayAction";
 import {CategoryProps} from "../types/Category.types";
 import {usePhotoGallery} from "../hooks/usePhotoGallery";
 import {requestGetMeal} from "../services/actions/mealAction";
-import {Food, MealDetailsProps} from "../types/MealFood.types";
+import {Food, FoodUpdate, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
-import {requestGetAvailableFoods, requestGetFoodsByName} from "../services/actions/foodAction";
+import {requestGetAvailableFoods, requestGetFoodsByName, requestPostFood} from "../services/actions/foodAction";
 import {useDispatch, useSelector} from "react-redux";
 import {loadingReduce, RootState} from "../store";
 import MealItemComponent from "../components/MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
+import {OverlayEventDetail} from "@ionic/core/components";
+import AddFoodModal from "../components/AddFoodModal";
 
 export interface RouteParams {
     diaryDay: string,
@@ -57,6 +59,7 @@ const ListingFoodPage: React.FC = () => {
     const [allPagesFetched, setAllPagesFetched] = useState<boolean>(false);
     const [searchFoodName, setSearchFoodName] = useState<string>('');
     const refToTop = useRef<HTMLHeadingElement>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     const handleAddFoodToMeal = async (diaryDayDate: string, mealId: string, foodId: number, quantityId: number, token: string) => {
@@ -118,6 +121,32 @@ const ListingFoodPage: React.FC = () => {
             fetchAvailableFoods();
         }
     };
+    const [present, dismiss] = useIonModal(AddFoodModal, {
+        onDismiss: (data: FoodUpdate, role: string) => dismiss(data, role),
+        foodName: searchFoodName
+    });
+
+    function openModal() {
+        present({
+            onWillDismiss: (ev: CustomEvent<OverlayEventDetail>) => {
+                if (ev.detail.role === 'confirm') {
+                    requestPostFood(searchFoodName, ev.detail.data.proteinPerCent,
+                        ev.detail.data.carbohydratePerCent,  ev.detail.data.lipidPerCent,
+                        token).then( (response) => {
+                            console.log(response.data);
+                            setAvailableFoods([...availableFoods, response.data]);
+                        }
+                    ).catch(err => {
+                        alert(err.message)
+                    });
+
+                }
+            },
+        });
+    }
+
+
+
 
     async function uploadImageByUser(imageUploadedByUser: Blob) {
         const formData = new FormData();
@@ -208,7 +237,14 @@ const ListingFoodPage: React.FC = () => {
                                                        quantity={quantity}
                                                        calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}/>
                                 ) :
-                                <p>No results</p>
+                                <div style={{display: "flex", justifyContent:"center", flexDirection:"column", textAlign: "center"}}>
+                                    <p>No results.</p>
+                                    <p>Help us to improve.</p>
+                                    <IonButton style={{width: "100%", height:"50px"}} onClick={openModal}>
+                                        <IonIcon icon={addOutline}></IonIcon>
+                                        Add your food
+                                    </IonButton>
+                                </div>
                         }
                     </IonList>
                     <div style={{

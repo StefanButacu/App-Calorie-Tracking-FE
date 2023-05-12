@@ -1,5 +1,6 @@
 import axios from "axios";
 import {FoodQuantity} from "../../types/MealFood.types";
+import {authConfig} from "./index";
 
 const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
@@ -37,7 +38,6 @@ export const requestGetFoodFromMeal = (diaryDay: string, mealId: string, foodId:
 
 export const requestUpdateFoodFromMeal = (diaryDay: string, mealId: string, foodId: number, quantity: number, token: string) => {
     quantity = Math.floor(quantity * 100) / 100;
-
     const params = {date: diaryDay, meal: mealId, food: foodId};
     const foodQuantity: FoodQuantity = {
         foodId,
@@ -49,4 +49,10 @@ export const requestUpdateFoodFromMeal = (diaryDay: string, mealId: string, food
         },
         params: params,
     })
+}
+
+export const requestPostFood = (name: string, protein: number, carbohydrate: number, lipid:number, token: string) => {
+    const params = {name: name, protein: protein, carbohydrate: carbohydrate, lipid: lipid};
+    return axios.post(baseURL + `/api/food`, params,authConfig(token));
+
 }

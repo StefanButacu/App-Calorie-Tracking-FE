@@ -79,7 +79,6 @@ const AddFoodPage: React.FC = () => {
         console.log('value', value)
         if (!!value) {
             setNumberOfServings(value);
-
         } else {
             setNumberOfServings(1)
         }
