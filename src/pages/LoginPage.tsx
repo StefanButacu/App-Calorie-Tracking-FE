@@ -8,13 +8,14 @@ import {
     IonLoading,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar, ToastOptions, useIonToast
 } from "@ionic/react";
 import {loadingReduce, loginReduce, RootState} from "../store";
 import {useDispatch, useSelector} from "react-redux";
 import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
+import {checkmarkOutline, warningSharp} from "ionicons/icons";
 
 interface LoginState {
     username?: string;
@@ -26,8 +27,20 @@ export const LoginPage: React.FC = () => {
     const [state, setState] = useState<LoginState>({});
     const isAuthenticated = useSelector((state: RootState) => state.login.isAuthenticated)
     const isLoading = useSelector((state: RootState) => state.loading).isLoading
-
+    const [present] = useIonToast();
     const {username, password} = state;
+
+    const options: ToastOptions = {
+        message: 'Username or password incorrect!',
+        duration: 3000,
+        position: 'top',
+        icon: warningSharp,
+        color: "danger",
+    }
+    const presentToast = () => {
+        present(options);
+    };
+
     const handleLogin = () => {
         dispatch(loadingReduce({isLoading: true}))
         requestLogin(username!, password!).then(response => {
@@ -35,7 +48,7 @@ export const LoginPage: React.FC = () => {
                 token: response.data
             }))
         })
-            .catch(err => console.log(err, err))
+            .catch(err => presentToast())
             .finally(() => dispatch(loadingReduce({isLoading: false})));
     }
     if (isAuthenticated) {
