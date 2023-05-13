@@ -7,7 +7,7 @@ export function usePhotoGallery() {
     const takePhoto = async () => {
         const photo = await Camera.getPhoto({
             resultType: CameraResultType.Base64,
-            source: CameraSource.Camera,
+            source: CameraSource.Prompt,
             quality: 100,
         });
         setPhotoBase64(photo.base64String!);
