@@ -5,21 +5,21 @@ import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 
-export interface PrivateRouteProps{
+export interface PrivateRouteProps {
     component: PropTypes.ReactComponentLike,
     path: string,
     exact?: boolean;
 }
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = ({component: Component, ...rest}) =>{
+export const PrivateRoute: React.FC<PrivateRouteProps> = ({component: Component, ...rest}) => {
     const {token, isAuthenticated} = useSelector((state: RootState) => state.login)
     return (
         <Route {...rest} render={props => {
-            if(isAuthenticated){
+            if (isAuthenticated) {
                 return <Component {...props} />;
             }
-            return <Redirect to={{ pathname: '/login' }} />
-        }} />
+            return <Redirect to={{pathname: '/login'}}/>
+        }}/>
     );
 
 }

@@ -1,9 +1,8 @@
-
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
 import {useState} from "react";
 
 export function usePhotoGallery() {
-    const [photoBase64, setPhotoBase64] = useState<string|null>(null)
+    const [photoBase64, setPhotoBase64] = useState<string | null>(null)
 
     const takePhoto = async () => {
         const photo = await Camera.getPhoto({

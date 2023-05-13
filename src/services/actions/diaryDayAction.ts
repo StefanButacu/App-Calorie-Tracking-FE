@@ -21,11 +21,11 @@ export const requestPostFoodToMeal = (date: string, mealId: string, foodId: numb
 
 
 export function successPostFoodToMeal(response: any) {
-    if(response.status === 201 || response.status === 200) {
+    if (response.status === 201 || response.status === 200) {
         return {
             type: "foodAddedToMeal"
         }
-    }else {
+    } else {
         console.log("ERROR POST FOOD TO MEAL");
         return {type: "ERROR"}
     }

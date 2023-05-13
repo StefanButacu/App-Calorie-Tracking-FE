@@ -1,7 +1,8 @@
 // AddFoodPage.tsx
 import React, {useEffect, useRef, useState} from 'react';
 import {
-    IonBackButton, IonButton,
+    IonBackButton,
+    IonButton,
     IonButtons,
     IonContent,
     IonFab,
@@ -10,12 +11,14 @@ import {
     IonIcon,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonList, IonLoading,
+    IonList,
+    IonLoading,
     IonPage,
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    SearchbarCustomEvent, useIonModal
+    SearchbarCustomEvent,
+    useIonModal
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
 import {addOutline, camera, caretBack, fastFoodOutline} from "ionicons/icons";
@@ -129,8 +132,8 @@ const ListingFoodPage: React.FC = () => {
             onWillDismiss: (ev: CustomEvent<OverlayEventDetail>) => {
                 if (ev.detail.role === 'confirm') {
                     requestPostFood(searchFoodName, ev.detail.data.proteinPerCent,
-                        ev.detail.data.carbohydratePerCent,  ev.detail.data.lipidPerCent,
-                        token).then( (response) => {
+                        ev.detail.data.carbohydratePerCent, ev.detail.data.lipidPerCent,
+                        token).then((response) => {
                             console.log(response.data);
                             setAvailableFoods([...availableFoods, response.data]);
                         }
@@ -142,8 +145,6 @@ const ListingFoodPage: React.FC = () => {
             },
         });
     }
-
-
 
 
     async function uploadImageByUser(imageUploadedByUser: Blob) {
@@ -185,7 +186,7 @@ const ListingFoodPage: React.FC = () => {
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonLoading isOpen={isLoading} message="Loading..." spinner="circles" />
+            <IonLoading isOpen={isLoading} message="Loading..." spinner="circles"/>
             <IonContent id="content" className="add-meal-page ion-padding" fullscreen>
                 <h1 ref={refToTop}></h1> {/* add a ref to the h1 element */}
                 {
@@ -235,10 +236,15 @@ const ListingFoodPage: React.FC = () => {
                                                        quantity={quantity}
                                                        calories={calculateCaloriesForQuantity(food.protein, food.carbohydrate, food.lipid, quantity)}/>
                                 ) :
-                                <div style={{display: "flex", justifyContent:"center", flexDirection:"column", textAlign: "center"}}>
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    flexDirection: "column",
+                                    textAlign: "center"
+                                }}>
                                     <p>No results.</p>
                                     <p>Help us to improve.</p>
-                                    <IonButton style={{width: "100%", height:"50px"}} onClick={openModal}>
+                                    <IonButton style={{width: "100%", height: "50px"}} onClick={openModal}>
                                         <IonIcon icon={addOutline}></IonIcon>
                                         Add your food
                                     </IonButton>

@@ -93,7 +93,7 @@ export const loadingSlice = createSlice({
     name: 'loading',
     initialState,
     reducers: {
-        loadingReduce: (state, action: PayloadAction<{isLoading: boolean}>) => {
+        loadingReduce: (state, action: PayloadAction<{ isLoading: boolean }>) => {
             state.isLoading = action.payload.isLoading;
         },
 

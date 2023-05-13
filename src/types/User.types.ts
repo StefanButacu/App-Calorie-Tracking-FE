@@ -6,7 +6,7 @@ export interface UserDetails {
     startWeight: number,
     goalWeight: number,
     height: number,
-    protein: number,
-    carbohydrate: number,
-    lipid: number
+    proteinGoal: number,
+    carbohydrateGoal: number,
+    lipidGoal: number
 }

@@ -1,5 +1,5 @@
 // loggingMiddleware.ts
-import { Middleware } from '@reduxjs/toolkit';
+import {Middleware} from '@reduxjs/toolkit';
 import {RootState} from "../store";
 
 export const loggingMiddleware: Middleware = (storeAPI) => (next) => (action) => {

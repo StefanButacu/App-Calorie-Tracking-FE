@@ -54,7 +54,7 @@ const AddFoodPage: React.FC = () => {
                     }
                 }))
                 dispatch(loadingReduce({isLoading: false}))
-            presentToast(addOptions)
+                presentToast(addOptions)
             }
         )
 

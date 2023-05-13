@@ -46,12 +46,12 @@ const Circle: React.FC<CircleProps> = ({protein, carbs, fats, calories}) => {
                 text: `${calories} Kcal`,
                 align: 'center',
                 offsetY: 50,
-                floating:true,
+                floating: true,
                 style: {
-                    fontSize:  '12px',
-                    fontWeight:  'normal',
-                    fontFamily:  undefined,
-                    color:  'black'
+                    fontSize: '12px',
+                    fontWeight: 'normal',
+                    fontFamily: undefined,
+                    color: 'black'
                 },
             }
         };

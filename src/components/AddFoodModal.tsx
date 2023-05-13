@@ -1,18 +1,16 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
-    IonButtons,
     IonButton,
-    IonHeader,
+    IonButtons,
     IonContent,
-    IonToolbar,
-    IonTitle,
-    IonPage,
+    IonHeader,
+    IonInput,
     IonItem,
     IonLabel,
-    IonInput,
-    useIonModal,
+    IonPage,
+    IonTitle,
+    IonToolbar,
 } from '@ionic/react';
-import {OverlayEventDetail} from '@ionic/core/components';
 import {FoodUpdate} from "../types/MealFood.types";
 
 const AddFoodModal = ({
@@ -23,7 +21,6 @@ const AddFoodModal = ({
 }) => {
     const [foodUpdate, setFoodUpdate] = useState<FoodUpdate>({});
 
-    const inputRef = useRef<HTMLIonInputElement>(null);
     return (
         <IonPage>
             <IonHeader>
@@ -43,7 +40,7 @@ const AddFoodModal = ({
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonItem>
-                    <IonLabel position="stacked">Enter protein grams per cent:</IonLabel>
+                    <IonLabel position="stacked">Enter protein percentage:</IonLabel>
                     <IonInput type="number" placeholder="Protein grams" min="0" onIonChange={(event: CustomEvent) => {
                         const value = parseFloat(event.detail.value);
                         console.log('value', value)
@@ -53,7 +50,7 @@ const AddFoodModal = ({
                     }}/>
                 </IonItem>
                 <IonItem>
-                    <IonLabel position="stacked">Enter carbohydrate per cent:</IonLabel>
+                    <IonLabel position="stacked">Enter carbohydrate percentage:</IonLabel>
                     <IonInput type="number" placeholder="Carbohydrate grams" min="0"
                               onIonChange={(event: CustomEvent) => {
                                   const value = parseFloat(event.detail.value);

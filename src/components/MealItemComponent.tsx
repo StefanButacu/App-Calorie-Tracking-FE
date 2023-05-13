@@ -6,8 +6,9 @@ const MealItemComponent: React.FC<FoodWithCalorie> = ({id, name, quantity, calor
     return (
         <div className="meal-item-container" onClick={() => {
             if (handleAction)
-                handleAction(id)}
-            }>
+                handleAction(id)
+        }
+        }>
             <div style={{display: "flex", alignItems: "center"}}>
                 <div>
                     <p className="meal-item-title food-name">{name}</p>

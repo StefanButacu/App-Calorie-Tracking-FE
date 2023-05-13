@@ -69,10 +69,6 @@ const UserPage: React.FC = () => {
             </IonHeader>
             <IonContent class="ion-padding">
                 <div>
-                    {/*{userDetails && userDetails.username}*/}
-                </div>
-
-                <div>
                     {userDetails &&
                         <div>
                             <p className="info-name">Progress</p>
@@ -90,15 +86,15 @@ const UserPage: React.FC = () => {
                             </div>
                             <div className="user-detail">
                                 <p className="left">Proteins</p>
-                                <div className="right">{userDetails.protein} g</div>
+                                <div className="right">{userDetails.proteinGoal} g</div>
                             </div>
                             <div className="user-detail">
                                 <p className="left">Carbohydrates</p>
-                                <div className="right">{userDetails.carbohydrate} g</div>
+                                <div className="right">{userDetails.carbohydrateGoal} g</div>
                             </div>
                             <div className="user-detail">
                                 <p className=" left">Lipids</p>
-                                <div className="right">{userDetails.lipid} g</div>
+                                <div className="right">{userDetails.lipidGoal} g</div>
                             </div>
                         </div>
                     }

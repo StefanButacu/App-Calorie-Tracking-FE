@@ -11,7 +11,7 @@ export interface FooterProps {
 }
 
 
-const Footer:React.FC<FooterProps> = ({activeIcon, handleOnDiaryClick, handleUserClick}) => {
+const Footer: React.FC<FooterProps> = ({activeIcon, handleOnDiaryClick, handleUserClick}) => {
 
     return (
         <IonFooter>
@@ -24,7 +24,7 @@ const Footer:React.FC<FooterProps> = ({activeIcon, handleOnDiaryClick, handleUse
                             <IonIcon icon={bookOutline}/>
                         )}
                         <span>Diary</span>
-                        <IonRippleEffect />
+                        <IonRippleEffect/>
 
                     </div>
                     <div onClick={handleUserClick} className="footer-nav ion-activatable ripple-parent">
@@ -34,7 +34,7 @@ const Footer:React.FC<FooterProps> = ({activeIcon, handleOnDiaryClick, handleUse
                             <IonIcon icon={personOutline}/>
                         )}
                         <span>Me</span>
-                        <IonRippleEffect />
+                        <IonRippleEffect/>
                     </div>
                 </div>
             </IonToolbar>

@@ -40,12 +40,12 @@ const App: React.FC = () => (
     <IonApp>
         <IonReactRouter>
             <IonRouterOutlet>
-                <PrivateRoute exact ={true} path="/add-food/:diaryDay/:mealId" component={ListingFoodPage} />
-                <PrivateRoute exact ={true} path="/diary" component={DiaryPage} />
-                <PrivateRoute exact ={true} path="/user" component={UserPage} />
+                <PrivateRoute exact={true} path="/add-food/:diaryDay/:mealId" component={ListingFoodPage}/>
+                <PrivateRoute exact={true} path="/diary" component={DiaryPage}/>
+                <PrivateRoute exact={true} path="/user" component={UserPage}/>
 
-                <Route exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage} />
-                <Route exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage} />
+                <Route exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage}/>
+                <Route exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage}/>
 
                 <Route exact path="/">
                     <Redirect to="/diary"/>

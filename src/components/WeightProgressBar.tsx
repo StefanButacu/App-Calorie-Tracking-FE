@@ -15,7 +15,7 @@ const WeightProgressBar: React.FC<WeightProgressBarProps> = ({
                                                              }) => {
 
     const progress = (currentWeight - startWeight) / (goalWeight - startWeight);
-        // Math.abs(startWeight - currentWeight) / Math.abs(goalWeight - startWeight);
+    // Math.abs(startWeight - currentWeight) / Math.abs(goalWeight - startWeight);
     return (
         <div>
             <div style={{width: "80%", display: "flex", margin: "0 auto"}}>

@@ -13,10 +13,10 @@
   border-bottom: 1px solid #ccc;
 
   .meal-header {
-      background: $light-blue;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    background: $light-blue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
 
     .meal-calorie {
@@ -31,14 +31,15 @@
   cursor: pointer;
   text-decoration: underline;
 }
-.sc-ion-label-md-s>p {
+
+.sc-ion-label-md-s > p {
   color: $light-blue;
   font-size: 18px;
   font-weight: bold;
 
 }
 
-.meals-container{
+.meals-container {
   display: flex;
   flex-direction: column;
 }

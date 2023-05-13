@@ -8,6 +8,7 @@ export interface MealFood {
     mealName: string;
     foodList: FoodWithCalorie[]
 }
+
 export interface MealProps {
     diaryDay: string,
     mealName: string,
@@ -46,7 +47,7 @@ export interface FoodQuantity {
 
 export interface FoodUpdate {
     id?: number,
-    name?:string,
+    name?: string,
     proteinPerCent?: number,
     carbohydratePerCent?: number,
     lipidPerCent?: number,

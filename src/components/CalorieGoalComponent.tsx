@@ -32,17 +32,18 @@ const CalorieGoalComponent: React.FC = () => {
             }, 0),
         0
     );
-    useEffect( () => {
-        if(userDetails) {
+    useEffect(() => {
+        if (userDetails) {
             setProgress(totalEatenCalories / userDetails!.calorieGoal);
         }
     }, [userDetails, totalEatenCalories])
     return (<>
         {userDetails ?
-            (<div style={{marginTop: "15px", marginRight:"30px"}}>
+            (<div style={{marginTop: "15px", marginRight: "30px"}}>
                 <div className={"calorie-remain"}>
                     Calories Remaining
-                    <IonProgressBar type="determinate" value={progress} style={{ '--ion-color-custom': '#FF0000' }} className={"calorie-progressbar"} />
+                    <IonProgressBar type="determinate" value={progress} style={{'--ion-color-custom': '#FF0000'}}
+                                    className={"calorie-progressbar"}/>
 
                 </div>
                 <div className={"calorie-goal"}>

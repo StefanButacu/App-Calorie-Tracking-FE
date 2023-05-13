@@ -1,5 +1,5 @@
 import DiaryMealComponent from "../components/DiaryMealComponent";
-import {IonButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import {IonButtons, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar} from "@ionic/react";
 import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,12 +9,13 @@ import "../assets/styles/diary-page.scss"
 import CalorieGoalComponent from "../components/CalorieGoalComponent";
 import Footer from "../components/Footer";
 import {useHistory} from "react-router-dom";
+import {caretBackCircleSharp, caretForwardCircleSharp} from "ionicons/icons";
 
 const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
     const diaryDay = useSelector((state: RootState) => state.diaryDay);
 
-    const {token}  =useSelector((state: RootState) => state.login)
+    const {token} = useSelector((state: RootState) => state.login)
 
     const [currentDay, setCurrentDay] = useState(new Date());
     useEffect(() => {
@@ -47,17 +48,10 @@ const DiaryPage: React.FC = () => {
 
     }, [currentDay])
 
-
-    const [currentIcon, setCurrentIcon] = useState("diary")
-
+    const currentIcon = "diary"
     const history = useHistory();
 
-    const handleDiaryClick = () => {
-        console.log("Diary page diary click ", currentIcon )
-    };
-
     const handleUserClick = () => {
-        console.log("Diary page diary click ", currentIcon )
         history.push("/user");
     };
 
@@ -65,24 +59,23 @@ const DiaryPage: React.FC = () => {
     return (
         <IonPage>
             <IonHeader>
-                <IonToolbar  className = "day-scrolling">
+                <IonToolbar className="day-scrolling">
                     <IonButtons slot="start">
-                        <IonButton onClick={handlePreviousDayClick}>Previous</IonButton>
+                        <IonIcon icon={caretBackCircleSharp} size="large" onClick={handlePreviousDayClick}></IonIcon>
                     </IonButtons>
-                    <IonTitle className = "center-toolbar-title">{format(currentDay, 'EEEE,  MMMM d')}</IonTitle>
+                    <IonTitle className="center-toolbar-title">{format(currentDay, 'EEEE,  MMMM d')}</IonTitle>
                     <IonButtons slot="end">
-                        <IonButton onClick={handleNextDayClick}>Next</IonButton>
+                        <IonIcon icon={caretForwardCircleSharp} size="large" onClick={handleNextDayClick}></IonIcon>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <CalorieGoalComponent />
+                <CalorieGoalComponent/>
                 <div>
                     {
                         diaryDay ?
                             (<>
-                            </>
-
+                                </>
                             ) :
                             <p>Loading Diary Page</p>
                     }
@@ -101,7 +94,8 @@ const DiaryPage: React.FC = () => {
 
                 </div>
             </IonContent>
-            <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={handleUserClick}/>
+            <Footer activeIcon={currentIcon} handleOnDiaryClick={() => {
+            }} handleUserClick={handleUserClick}/>
 
         </IonPage>
     );

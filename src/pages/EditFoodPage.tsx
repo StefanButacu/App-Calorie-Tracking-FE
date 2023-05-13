@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router";
 import {RouteParams} from "./ListingFoodPage";
-import {Food, FoodUpdate} from "../types/MealFood.types";
+import {FoodUpdate} from "../types/MealFood.types";
 import {useDispatch, useSelector} from "react-redux";
 import {removeFoodReduce, RootState, updateFoodFromMealReduce} from "../store";
 import {
     requestDeleteFoodFormMeal,
-    requestGetFoodDetails,
     requestGetFoodFromMeal,
     requestUpdateFoodFromMeal
 } from "../services/actions/foodAction";
@@ -74,7 +73,7 @@ const EditFoodPage: React.FC = () => {
             dispatch(updateFoodFromMealReduce({
                 mealId: parseInt(mealId),
                 foodId: parseInt(foodId),
-                quantity: Math.floor(foodDetails.quantity! * 100) / 100 ,
+                quantity: Math.floor(foodDetails.quantity! * 100) / 100,
                 calories: calculateCaloriesForQuantity(foodDetails.proteinPerCent!, foodDetails.carbohydratePerCent!, foodDetails.lipidPerCent!, foodDetails.quantity!)
             }))
             presentToast(updateOptions)

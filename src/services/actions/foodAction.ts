@@ -43,7 +43,7 @@ export const requestUpdateFoodFromMeal = (diaryDay: string, mealId: string, food
         foodId,
         quantity
     }
-    return axios.put(baseURL + `/api/diary/food`, foodQuantity,{
+    return axios.put(baseURL + `/api/diary/food`, foodQuantity, {
         headers: {
             Authorization: `${token}`,
         },
@@ -51,8 +51,8 @@ export const requestUpdateFoodFromMeal = (diaryDay: string, mealId: string, food
     })
 }
 
-export const requestPostFood = (name: string, protein: number, carbohydrate: number, lipid:number, token: string) => {
+export const requestPostFood = (name: string, protein: number, carbohydrate: number, lipid: number, token: string) => {
     const params = {name: name, protein: protein, carbohydrate: carbohydrate, lipid: lipid};
-    return axios.post(baseURL + `/api/food`, params,authConfig(token));
+    return axios.post(baseURL + `/api/food`, params, authConfig(token));
 
 }
