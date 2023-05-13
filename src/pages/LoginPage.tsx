@@ -17,6 +17,7 @@ import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
 import {warningSharp} from "ionicons/icons";
+import {loginOptions} from "../services/toastOptions";
 
 interface LoginState {
     username?: string;
@@ -31,15 +32,9 @@ export const LoginPage: React.FC = () => {
     const [present] = useIonToast();
     const {username, password} = state;
 
-    const options: ToastOptions = {
-        message: 'Username or password incorrect!',
-        duration: 3000,
-        position: 'top',
-        icon: warningSharp,
-        color: "danger",
-    }
+
     const presentToast = () => {
-        present(options);
+        present(loginOptions);
     };
 
     const handleLogin = () => {
@@ -85,7 +80,7 @@ export const LoginPage: React.FC = () => {
                             />
                         </div>
                         <IonButton onClick={handleLogin} style={{width: "100%", marginBottom: "15px"}}>Login</IonButton>
-                        <div>Register</div>
+                        <div className={"register"}>Register</div>
                     </div>
                 </div>
             </IonContent>

@@ -24,6 +24,7 @@ import {
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
 import {checkmarkOutline, trashBin} from "ionicons/icons";
+import {deleteOptions, updateOptions} from "../services/toastOptions";
 
 
 const EditFoodPage: React.FC = () => {
@@ -36,20 +37,6 @@ const EditFoodPage: React.FC = () => {
     const servingSize = 100.0
     const [numberOfServings, setNumberOfServings] = useState(1)
 
-    const deleteOptions: ToastOptions = {
-        message: 'Deleted successfully!',
-        duration: 2000,
-        position: 'top',
-        icon: checkmarkOutline,
-        color: "success",
-    }
-    const updateOptions: ToastOptions = {
-        message: 'Update successfully!',
-        duration: 2000,
-        position: 'top',
-        icon: checkmarkOutline,
-        color: "success",
-    }
     const presentToast = (options: ToastOptions) => {
         present(options).then(() => history.goBack());
     };
@@ -93,11 +80,9 @@ const EditFoodPage: React.FC = () => {
         console.log('value', value)
         if (!!value) {
             setNumberOfServings(value);
-
-        } else {
-            setNumberOfServings(0.10)
+            setFoodDetails({...foodDetails, quantity: numberOfServings * servingSize})
         }
-        setFoodDetails({...foodDetails, quantity: numberOfServings * servingSize});
+
     };
 
 
@@ -120,7 +105,7 @@ const EditFoodPage: React.FC = () => {
                         <p className={"left"}>Number of servings</p>
                         <IonInput className={"right"}
                                   type="number" step="0.1"
-                                  min={0.1}
+                                  min={0}
                                   value={numberOfServings}
                                   placeholder="1"
                                   onIonChange={handleNumberOfServingsChange}
