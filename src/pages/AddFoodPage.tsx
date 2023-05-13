@@ -21,6 +21,7 @@ import {
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
 import {checkmarkOutline} from "ionicons/icons";
+import {addOptions} from "../services/toastOptions";
 
 
 const AddFoodPage: React.FC = () => {
@@ -31,13 +32,7 @@ const AddFoodPage: React.FC = () => {
     const [food, setFood] = useState<Food>();
 
     const [present] = useIonToast();
-    const addOptions: ToastOptions = {
-        message: 'Added successfully!',
-        duration: 1000,
-        position: 'top',
-        icon: checkmarkOutline,
-        color: "success",
-    }
+
     const presentToast = (options: ToastOptions) => {
         present(options).then(() => history.goBack());
     };

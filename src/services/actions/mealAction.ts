@@ -1,6 +1,6 @@
 import axios from "axios";
+import {baseURL} from "./index";
 
-const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 export const requestGetMeal = (mealId: string) => {
     return axios.get(baseURL + `/api/meal/${mealId}`)

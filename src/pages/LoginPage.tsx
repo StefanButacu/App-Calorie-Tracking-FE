@@ -8,7 +8,6 @@ import {
     IonPage,
     IonTitle,
     IonToolbar,
-    ToastOptions,
     useIonToast
 } from "@ionic/react";
 import {loadingReduce, loginReduce, RootState} from "../store";
@@ -16,7 +15,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
-import {warningSharp} from "ionicons/icons";
 import {loginOptions} from "../services/toastOptions";
 
 interface LoginState {

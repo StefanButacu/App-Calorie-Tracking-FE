@@ -16,6 +16,16 @@ export const deleteOptions: ToastOptions = {
     buttons: [cancelToastButton]
 }
 
+export const addOptions: ToastOptions = {
+    message: 'Added successfully!',
+    duration: 1000,
+    position: 'top',
+    icon: checkmarkOutline,
+    color: "success",
+    buttons: [cancelToastButton]
+
+}
+
 export const updateOptions: ToastOptions = {
     message: 'Update successfully!',
     duration: 2000,

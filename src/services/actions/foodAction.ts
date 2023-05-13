@@ -1,8 +1,7 @@
 import axios from "axios";
 import {FoodQuantity} from "../../types/MealFood.types";
-import {authConfig} from "./index";
+import {authConfig, baseURL} from "./index";
 
-const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 export const requestGetFoodDetails = (foodId: number) => {
     return axios.get(baseURL + `/api/food/${foodId}`)

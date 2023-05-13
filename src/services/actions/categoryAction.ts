@@ -1,8 +1,7 @@
 import axios from "axios";
-
-const baseURL = process.env.REACT_APP_PYTHON_API_URL;
+import {basePythonURL} from "./index";
 
 
 export const getCategory = (category_label: number) => {
-    return axios.get(baseURL + `/category/${category_label}`)
+    return axios.get(basePythonURL + `/category/${category_label}`)
 }
