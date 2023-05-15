@@ -10,3 +10,45 @@ export interface UserDetails {
     carbohydrateGoal: number,
     lipidGoal: number
 }
+
+export interface ActivityLevel {
+    key?: string;
+    text?: string;
+}
+
+
+export interface Gender {
+    key?: string;
+    text?: string;
+}
+
+export interface DietType {
+    key?: string;
+    text?: string;
+}
+
+
+export interface WeightGoal {
+    key?: string;
+    text?: string;
+}
+
+
+export interface UserFitnessRequest {
+    age?: number,
+    gender?: string,
+    height?: number,
+    weight?: number,
+    activityLevel?: string,
+    weightGoal?: string,
+    dietType?: string,
+}
+
+
+export interface UserRegisterRequest {
+    username?: string;
+    password?:string;
+    startWeight?: number;
+    goalWeight?: number;
+    userFitnessRequest?: UserFitnessRequest;
+}

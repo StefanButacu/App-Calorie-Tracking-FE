@@ -43,3 +43,21 @@ export const loginOptions: ToastOptions = {
     color: "danger",
     buttons: [cancelToastButton]
 }
+
+export const registerSuccessfullyOptions: ToastOptions = {
+    message: 'Register Successfully!',
+    duration: 3000,
+    position: 'top',
+    icon: checkmarkOutline,
+    color: "success",
+    buttons: [cancelToastButton]
+}
+
+export const registerFailedOptions: ToastOptions = {
+    message: 'Register Failed!',
+    duration: 3000,
+    position: 'top',
+    icon: warningSharp,
+    color: "danger",
+    buttons: [cancelToastButton]
+}

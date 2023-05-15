@@ -16,6 +16,7 @@ import {requestLogin} from "../services/actions/loginAction";
 import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
 import {loginOptions} from "../services/toastOptions";
+import {useHistory} from "react-router";
 
 interface LoginState {
     username?: string;
@@ -24,6 +25,7 @@ interface LoginState {
 
 export const LoginPage: React.FC = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [state, setState] = useState<LoginState>({});
     const isAuthenticated = useSelector((state: RootState) => state.login.isAuthenticated)
     const isLoading = useSelector((state: RootState) => state.loading).isLoading
@@ -78,7 +80,9 @@ export const LoginPage: React.FC = () => {
                             />
                         </div>
                         <IonButton onClick={handleLogin} style={{width: "100%", marginBottom: "15px"}}>Login</IonButton>
-                        <div className={"register"}>Register</div>
+                        <div className={"register"} onClick = {() => {
+                            history.push("/register")
+                        }}>Register</div>
                     </div>
                 </div>
             </IonContent>
