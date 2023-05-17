@@ -52,8 +52,6 @@ const UserPage: React.FC = () => {
     };
 
     const handleUserDetailsChanged = () => {
-        console.log("UserDetailsChanged")
-        // Update User
         setProgressBarWeight(currentWeight);
     }
 
