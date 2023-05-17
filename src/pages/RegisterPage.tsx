@@ -29,6 +29,12 @@ import {
 } from "../services/actions/userAction";
 import {registerFailedOptions, registerSuccessfullyOptions} from "../services/toastOptions";
 import {useHistory} from "react-router";
+import {
+    customAlertActivityLevel,
+    customAlertDietType,
+    customAlertGender,
+    customAlertWeightGoal
+} from "../services/selectOptions";
 
 export const RegisterPage: React.FC = () => {
     const [present] = useIonToast();
@@ -45,9 +51,9 @@ export const RegisterPage: React.FC = () => {
     useEffect(() => {
         requestGetActivityLevels().then(response => setActivityLevelOptions(response.data))
         requestGetDietTypes().then(response => setDietTypeOptions(response.data))
-        requestGetGenders().then(response=> setGenderOptions(response.data))
+        requestGetGenders().then(response => setGenderOptions(response.data))
         requestGetWeightGoals().then(response => setWeightGoalOptions(response.data))
-    },[])
+    }, [])
 
     const [userRegisterRequest, setUserRegisterRequest] = useState<UserRegisterRequest>({});
     const handleFitnessInputChange = (event: SelectCustomEvent) => {
@@ -62,16 +68,16 @@ export const RegisterPage: React.FC = () => {
     const handleRegisterInputChange = (event: InputCustomEvent) => {
         const name = event.target.name
         const value = event.detail.value || ''
-        if(name == 'age' || name == 'height') {
+        if (name == 'age' || name == 'height') {
             setUserRegisterRequest((prevState) => ({
                 ...prevState,
                 userFitnessRequest: {...prevState?.userFitnessRequest, [name]: parseInt(value)}
             }));
         }
-        if(name == 'startWeight') {
+        if (name == 'startWeight') {
             setUserRegisterRequest((prevState) => ({
                 ...prevState,
-                userFitnessRequest: {...prevState?.userFitnessRequest, 'weight' : parseInt(value)}
+                userFitnessRequest: {...prevState?.userFitnessRequest, 'weight': parseInt(value)}
             }));
         }
 
@@ -103,43 +109,47 @@ export const RegisterPage: React.FC = () => {
             </IonHeader>
             <IonContent>
                 <div style={{width: "85%", margin: "5px auto"}}>
-
                     <IonLabel position="stacked">Username</IonLabel>
                     <IonItem fill="solid">
-                        <IonInput id="username" class="custom" name="username"
+                        <IonInput id="username" class="custom" name="username" placeholder="John Doe"
                                   onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
                     <IonLabel position="stacked">Password</IonLabel>
                     <IonItem fill="solid">
-                        <IonInput class="custom" name="password" type="password" onIonChange={handleRegisterInputChange}></IonInput>
+                        <IonInput class="custom" name="password" type="password" placeholder="******"
+                                  onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
                     <IonLabel position="stacked">Age</IonLabel>
                     <IonItem fill="solid">
-                        <IonInput class="custom" type="number" min={0} max={100} name="age"
+                        <IonInput class="custom" type="number" min={18} max={100} name="age" placeholder="18-65"
                                   onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
                     <IonLabel position="stacked">Current Weight</IonLabel>
                     <IonItem fill="solid">
                         <IonInput class="custom" type="number" min={40} max={160} name="startWeight"
+                                  placeholder="40-160 kg"
                                   onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
                     <IonLabel position="stacked">Height</IonLabel>
                     <IonItem fill="solid">
                         <IonInput class="custom" type="number" min={130} max={230} name="height"
+                                  placeholder="130 - 230 cm"
                                   onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
                     <IonLabel position="stacked">Goal Weight</IonLabel>
                     <IonItem fill="solid">
-                        <IonInput class="custom" type="number" min={0} name="goalWeight"
+                        <IonInput class="custom" type="number" min={0} name="goalWeight" placeholder="80 kg"
                                   onIonChange={handleRegisterInputChange}></IonInput>
                     </IonItem>
 
-                    <IonSelect placeholder="Select Gender" name="gender" onIonChange={handleFitnessInputChange}>
+                    <IonSelect placeholder="Select Gender" name="gender"
+                               interfaceOptions={customAlertGender}
+                               onIonChange={handleFitnessInputChange}>
                         {genderOptions.map((option) => (
                             <IonSelectOption key={option.key} value={option.key}>
                                 {option.text}
@@ -147,7 +157,8 @@ export const RegisterPage: React.FC = () => {
                         ))}
                     </IonSelect>
 
-                    <IonSelect placeholder="Select activity level" name="activityLevel"
+                    <IonSelect placeholder="Select Activity Level" name="activityLevel"
+                               interfaceOptions={customAlertActivityLevel}
                                onIonChange={handleFitnessInputChange}>
                         {activityLevelOptions.map((option) => (
                             <IonSelectOption key={option.key} value={option.key}>
@@ -157,6 +168,7 @@ export const RegisterPage: React.FC = () => {
                     </IonSelect>
 
                     <IonSelect placeholder="Select Weight Goal" name="weightGoal"
+                               interfaceOptions={customAlertWeightGoal}
                                onIonChange={handleFitnessInputChange}>
                         {weightGoalOptions.map((option) => (
                             <IonSelectOption key={option.key} value={option.key}>
@@ -166,7 +178,8 @@ export const RegisterPage: React.FC = () => {
                     </IonSelect>
 
                     <IonSelect placeholder="Select Diet Type" name="dietType"
-                               onIonChange={handleFitnessInputChange    }
+                               interfaceOptions={customAlertDietType}
+                               onIonChange={handleFitnessInputChange}
                     >
                         {dietTypeOptions.map((option) => (
                             <IonSelectOption key={option.key} value={option.key}>
@@ -175,7 +188,9 @@ export const RegisterPage: React.FC = () => {
                         ))}
                     </IonSelect>
                 </div>
-                <IonButton onClick={handleRegisterClick}></IonButton>
+                <div style={{width: "100%", display: "flex"}}>
+                    <IonButton onClick={handleRegisterClick} style={{margin: "5px auto"}}>Register</IonButton>
+                </div>
             </IonContent>
 
         </IonPage>

@@ -69,7 +69,7 @@ const DiaryPage: React.FC = () => {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent className="ion-padding">
                 <CalorieGoalComponent/>
                 <div>
                     {
