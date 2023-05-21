@@ -85,6 +85,10 @@ export const loginSlice = createSlice({
             state.token = action.payload.token;
             state.isAuthenticated = true;
         },
+        logoutReduce: (state) => {
+            state.token = '';
+            state.isAuthenticated = false;
+        }
     }
 })
 
@@ -101,7 +105,7 @@ export const loadingSlice = createSlice({
 })
 
 export const {diaryDayReduce, addFoodReduce, removeFoodReduce, updateFoodFromMealReduce} = diarySlice.actions;
-export const {loginReduce} = loginSlice.actions;
+export const {loginReduce, logoutReduce} = loginSlice.actions;
 export const {loadingReduce} = loadingSlice.actions;
 
 

@@ -4,15 +4,17 @@ import Footer from "../components/Footer";
 import {useHistory} from "react-router-dom";
 import {UserDetails} from "../types/User.types";
 import {requestGetUserDetails} from "../services/actions/userAction";
-import {useSelector} from "react-redux";
-import {RootState} from "../store";
+import {useDispatch, useSelector} from "react-redux";
+import {logoutReduce, RootState} from "../store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/styles/user.scss'
 import WeightProgressBar from "../components/WeightProgressBar";
-import {checkmarkOutline} from "ionicons/icons";
+import {checkmarkOutline, exitOutline} from "ionicons/icons";
+import {Preferences} from '@capacitor/preferences';
 
 const UserPage: React.FC = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [currentIcon] = useState("user")
 
     const handleDiaryClick = () => {
@@ -34,6 +36,15 @@ const UserPage: React.FC = () => {
             setUserDetails(response.data);
         })
     }, [])
+
+    const handleLogout = () => {
+        Preferences.remove({key: "token"}).then(() => {
+                dispatch(logoutReduce())
+                history.push('/login')
+            }
+        )
+    }
+
 
     useEffect(() => {
         if (userDetails) {
@@ -59,6 +70,9 @@ const UserPage: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+                    <IonButtons slot="start" >
+                        <IonIcon size="large"  className="flip-icon" icon={exitOutline} onClick={handleLogout}></IonIcon>
+                    </IonButtons>
                     <IonTitle> {userDetails && capitalize(userDetails.username)}</IonTitle>
                     <IonButtons slot="end">
                         <IonIcon icon={checkmarkOutline} size="large" onClick={handleUserDetailsChanged}></IonIcon>
