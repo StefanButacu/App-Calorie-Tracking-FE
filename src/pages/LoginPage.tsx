@@ -17,6 +17,7 @@ import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
 import {loginOptions} from "../services/toastOptions";
 import {useHistory} from "react-router";
+import {warningSharp} from "ionicons/icons";
 
 interface LoginState {
     username?: string;
@@ -44,7 +45,17 @@ export const LoginPage: React.FC = () => {
                 token: response.data
             }))
         })
-            .catch(err => presentToast())
+            .catch(err => {
+                present({
+                    message: err,
+                    duration: 3000,
+                    position: 'top',
+                    icon: warningSharp,
+                    color: "danger",
+                })
+
+                // presentToast()
+            })
             .finally(() => dispatch(loadingReduce({isLoading: false})));
     }
     if (isAuthenticated) {
@@ -80,9 +91,10 @@ export const LoginPage: React.FC = () => {
                             />
                         </div>
                         <IonButton onClick={handleLogin} style={{width: "100%", marginBottom: "15px"}}>Login</IonButton>
-                        <div className={"register"} onClick = {() => {
+                        <div className={"register"} onClick={() => {
                             history.push("/register")
-                        }}>Register</div>
+                        }}>Register
+                        </div>
                     </div>
                 </div>
             </IonContent>

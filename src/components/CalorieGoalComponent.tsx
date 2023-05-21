@@ -21,7 +21,7 @@ const CalorieGoalComponent: React.FC = () => {
             setUserDetails(response.data);
         })
 
-    }, [])
+    }, [token])
 
 
     const totalEatenCalories = diaryDay.mealDTOList.reduce(

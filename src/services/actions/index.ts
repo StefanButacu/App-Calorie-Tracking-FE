@@ -5,8 +5,8 @@ export const authConfig = (token?: string) => ({
     }
 })
 
-// export const baseURL = process.env.REACT_APP_JAVA_API_URL;
-export const baseURL =' http://192.168.17.14:8080';
-
-// export const basePythonURL = process.env.REACT_APP_PYTHON_API_URL
-export const basePythonURL =' http://192.168.17.14:5000'
+export const baseURL = "http://localhost:8080";
+// export const baseURL =' http://10.152.4.129:8080';
+//
+export const basePythonURL = "http://localhost:5000"
+// export const basePythonURL =' http://10.152.4.129:5000'

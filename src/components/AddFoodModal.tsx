@@ -61,7 +61,7 @@ const AddFoodModal = ({
                               }}/>
                 </IonItem>
                 <IonItem>
-                    <IonLabel position="stacked">Enter lipid grams per cent:</IonLabel>
+                    <IonLabel position="stacked">Enter lipid grams percentage:</IonLabel>
                     <IonInput type="number" placeholder="Lipid grams" min="0" onIonChange={(event: CustomEvent) => {
                         const value = parseFloat(event.detail.value);
                         console.log('value', value)

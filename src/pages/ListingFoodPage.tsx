@@ -37,6 +37,7 @@ import MealItemComponent from "../components/MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
 import {OverlayEventDetail} from "@ionic/core/components";
 import AddFoodModal from "../components/AddFoodModal";
+import {baseURL} from "../services/actions";
 
 export interface RouteParams {
     diaryDay: string,
@@ -44,7 +45,6 @@ export interface RouteParams {
     foodId: string
 }
 
-const baseURL = process.env.REACT_APP_JAVA_API_URL;
 
 const ListingFoodPage: React.FC = () => {
     const dispatch = useDispatch();
