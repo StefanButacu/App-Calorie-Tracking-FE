@@ -56,7 +56,7 @@ const AddFoodPage: React.FC = () => {
     }
 
     useEffect(() => {
-        requestGetFoodDetails(parseInt(foodId)).then(response => {
+        requestGetFoodDetails(parseInt(foodId), token).then(response => {
             setFood(response.data);
         })
     }, [])

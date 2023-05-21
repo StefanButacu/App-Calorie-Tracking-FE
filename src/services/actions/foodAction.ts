@@ -3,23 +3,23 @@ import {FoodQuantity} from "../../types/MealFood.types";
 import {authConfig, baseURL} from "./index";
 
 
-export const requestGetFoodDetails = (foodId: number) => {
-    return axios.get(baseURL + `/api/food/${foodId}`)
+export const requestGetFoodDetails = (foodId: number, token: string) => {
+    return axios.get(baseURL + `/api/food/${foodId}`, authConfig(token))
 }
 
-export const requestGetAvailableFoods = (page: number) => {
-    return axios.get(baseURL + `/api/food/foods?page=${page}`)
+export const requestGetAvailableFoods = (page: number, token:string) => {
+    return axios.get(baseURL + `/api/food/foods?page=${page}`, authConfig(token))
 }
 
-export const requestGetFoodsByName = (searchFoodName: string) => {
-    return axios.get(baseURL + `/api/food/foods/search?name=${searchFoodName}`)
+export const requestGetFoodsByName = (searchFoodName: string, token:string) => {
+    return axios.get(baseURL + `/api/food/foods/search?name=${searchFoodName}`, authConfig(token))
 }
 
 export const requestDeleteFoodFormMeal = (diaryDay: string, mealId: string, foodId: string, token: string) => {
     const params = {date: diaryDay, meal: mealId, food: foodId};
     return axios.delete(baseURL + `/api/diary/food`, {
         headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
         },
         params: params,
     })
@@ -29,7 +29,7 @@ export const requestGetFoodFromMeal = (diaryDay: string, mealId: string, foodId:
     const params = {date: diaryDay, meal: mealId, food: foodId};
     return axios.get(baseURL + `/api/diary/food`, {
         headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
         },
         params: params,
     })
@@ -44,7 +44,7 @@ export const requestUpdateFoodFromMeal = (diaryDay: string, mealId: string, food
     }
     return axios.put(baseURL + `/api/diary/food`, foodQuantity, {
         headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
         },
         params: params,
     })

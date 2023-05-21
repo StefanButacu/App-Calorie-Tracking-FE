@@ -67,11 +67,11 @@ const ListingFoodPage: React.FC = () => {
         return await requestPostFoodToMeal(diaryDayDate, mealId, foodId, quantityId, token);
     }
     const handleGetMeal = async (mealId: string) => {
-        return await requestGetMeal(mealId);
+        return await requestGetMeal(mealId, token);
     }
 
     function fetchAvailableFoods() {
-        requestGetAvailableFoods(page)
+        requestGetAvailableFoods(page, token)
             .then(response => {
                 const newAvailableFoods = response.data;
                 setAvailableFoods((prevState) => [...prevState, ...newAvailableFoods])
@@ -84,7 +84,7 @@ const ListingFoodPage: React.FC = () => {
     }
 
     function fetchFoodsByName(searchFoodName: string) {
-        requestGetFoodsByName(searchFoodName)
+        requestGetFoodsByName(searchFoodName, token)
             .then(response => setAvailableFoods(response?.data))
             .catch(err => console.log(err))
     }

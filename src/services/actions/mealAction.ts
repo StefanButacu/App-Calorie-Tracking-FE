@@ -1,7 +1,7 @@
 import axios from "axios";
-import {baseURL} from "./index";
+import {authConfig, baseURL} from "./index";
 
 
-export const requestGetMeal = (mealId: string) => {
-    return axios.get(baseURL + `/api/meal/${mealId}`)
+export const requestGetMeal = (mealId: string, token: string) => {
+    return axios.get(baseURL + `/api/meal/${mealId}`, authConfig(token))
 }

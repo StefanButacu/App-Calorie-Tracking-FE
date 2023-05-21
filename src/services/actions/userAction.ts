@@ -1,10 +1,10 @@
 import axios from "axios";
-import {baseURL} from "./index";
+import {authConfig, baseURL} from "./index";
 import {UserRegisterRequest} from "../../types/User.types";
 
 
-export const requestGetUserDetails = (userId: string) => {
-    return axios.get(baseURL + `/api/user/${userId}`)
+export const requestGetUserDetails = (token: string) => {
+    return axios.get(baseURL + `/api/user`, authConfig(token))
 }
 
 

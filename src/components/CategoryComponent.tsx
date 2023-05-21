@@ -8,6 +8,8 @@ import MealItemComponent from "./MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
 import {useHistory, useParams} from "react-router";
 import {RouteParams} from "../pages/ListingFoodPage";
+import {useSelector} from "react-redux";
+import {RootState} from "../store";
 
 const CategoryComponent: React.FC<CategoryComponentProps> = ({
                                                                  mealId,
@@ -18,7 +20,8 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     const {diaryDay} = useParams<RouteParams>()
     const quantity = 100.0;
     const history = useHistory();
-
+    const loginState = useSelector((state: RootState) => state.login);
+    const token = loginState.token;
     let [food, setFood] = useState<Food>();
 
     const getCategoryHandle = async (category_id: number) => {
@@ -26,7 +29,7 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     }
 
     const getFoodHandle = async (food_id: number) => {
-        return await requestGetFoodDetails(food_id)
+        return await requestGetFoodDetails(food_id, token)
     }
 
     const handleAddToMealClick = (selectedQuantity: number) => {
