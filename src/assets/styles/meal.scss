@@ -6,6 +6,7 @@
   font-weight: bold;
   color: white;
   margin: 0 0 0 5px;
+  padding: 4px;
 }
 
 
@@ -29,7 +30,8 @@
 
 .add-food-label {
   cursor: pointer;
-  text-decoration: underline;
+  //text-decoration: underline;
+  padding: 12px 4px;
 }
 
 .sc-ion-label-md-s > p {

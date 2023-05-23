@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {Redirect, Route} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -14,13 +14,13 @@ export interface PrivateRouteProps {
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({component: Component, ...rest}) => {
     const dispatch = useDispatch();
-    Preferences.get({key: "token"}).then(result => {
-        if (result.value) {
-            dispatch(loginReduce({
-                token: result.value
-            }))
-        }
-    })
+    // Preferences.get({key: "token"}).then(result => {
+    //     if (result.value) {
+    //         dispatch(loginReduce({
+    //             token: result.value
+    //         }))
+    //     }
+    // })
 
     const {isAuthenticated} = useSelector((state: RootState) => state.login)
     return (

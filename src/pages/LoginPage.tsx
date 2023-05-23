@@ -34,7 +34,7 @@ export const LoginPage: React.FC = () => {
     const isLoading = useSelector((state: RootState) => state.loading).isLoading
     const [present] = useIonToast();
     const {username, password} = state;
-    const setToken = async (token: string) => {
+    const saveToken = async (token: string) => {
         await Preferences.set({
             key:'token',
             value: token
@@ -51,7 +51,7 @@ export const LoginPage: React.FC = () => {
             dispatch(loginReduce({
                 token: response.data
             }))
-            setToken(response.data);
+            saveToken(response.data);
         })
             .catch(err => {
                 present({
@@ -66,10 +66,10 @@ export const LoginPage: React.FC = () => {
             })
             .finally(() => dispatch(loadingReduce({isLoading: false})));
     }
+
     if (isAuthenticated) {
         return <Redirect to={{pathname: '/'}}/>
     }
-
     return (
         <IonPage>
             <IonHeader>
