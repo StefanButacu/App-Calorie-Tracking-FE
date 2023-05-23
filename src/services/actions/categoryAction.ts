@@ -1,7 +1,7 @@
 import axios from "axios";
-import {basePythonURL} from "./index";
+import {baseURL} from "./index";
 
 
 export const getCategory = (category_label: number) => {
-    return axios.get(basePythonURL + `/category/${category_label}`)
+    return axios.get(baseURL + `/category/${category_label}`)
 }
