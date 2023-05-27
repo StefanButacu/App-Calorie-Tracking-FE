@@ -54,15 +54,7 @@ export const LoginPage: React.FC = () => {
             saveToken(response.data);
         })
             .catch(err => {
-                present({
-                    message: err,
-                    duration: 3000,
-                    position: 'top',
-                    icon: warningSharp,
-                    color: "danger",
-                })
-
-                // presentToast()
+                presentToast()
             })
             .finally(() => dispatch(loadingReduce({isLoading: false})));
     }
@@ -70,6 +62,7 @@ export const LoginPage: React.FC = () => {
     if (isAuthenticated) {
         return <Redirect to={{pathname: '/'}}/>
     }
+    console.log("Reder login page")
     return (
         <IonPage>
             <IonHeader>

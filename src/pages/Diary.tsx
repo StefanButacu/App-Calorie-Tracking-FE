@@ -55,6 +55,7 @@ const DiaryPage: React.FC = () => {
         history.push("/user");
     };
 
+    console.log("Render diary page")
 
     return (
         <IonPage>

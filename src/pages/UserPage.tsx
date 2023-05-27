@@ -34,8 +34,6 @@ const UserPage: React.FC = () => {
     const handleDiaryClick = () => {
         history.push("/diary");
     };
-    const handleUserClick = () => {
-    };
     const {token} = useSelector((state: RootState) => state.login)
     const [userDetails, setUserDetails] = useState<UserDetails>();
     const [currentWeight, setCurrentWeight] = useState<number>(0);
@@ -47,10 +45,9 @@ const UserPage: React.FC = () => {
 
     useEffect(() => {
         requestGetUserDetails(token).then(response => {
-            console.log(response.data)
             setUserDetails(response.data);
         })
-    }, [])
+    }, [token])
 
     const handleLogout = () => {
         Preferences.remove({key: "token"}).then(() => {
@@ -161,6 +158,10 @@ const UserPage: React.FC = () => {
                                 <p className={"left"}>Weight Goal</p>
                                 <p className={"right"}>{userDetails.weightGoal.text}</p>
                             </div>
+                            <div className="user-detail">
+                                <p className={"left"}>Diet Type</p>
+                                <p className={"right"}>{userDetails.dietType.text}</p>
+                            </div>
                             <div style={{textAlign: "center", marginTop: "25px"}}>
                                 <IonIcon size="large" className="flip-icon" icon={scaleOutline}
                                          style={{width: "125px", "height": "125px"}}></IonIcon>
@@ -177,7 +178,8 @@ const UserPage: React.FC = () => {
                                 >
                                     <IonInput className={"right"}
                                               type="number"
-                                              min={1}
+                                              min={40}
+                                              max={160}
                                               value={currentWeight}
                                               placeholder="Weight (Kg)"
                                               onIonChange={handleCurrentWeightChanged}
@@ -185,15 +187,12 @@ const UserPage: React.FC = () => {
                                     />
                                 </IonPopover>
                             </div>
-
                         </div>
-
-
                     }
                 </div>
 
             </IonContent>
-            <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={handleUserClick}/>
+            <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={() => {}}/>
 
         </IonPage>
 

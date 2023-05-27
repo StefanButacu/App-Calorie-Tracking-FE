@@ -9,13 +9,14 @@
   font-size: 25px;
   margin-bottom: 0;
   font-weight: bold;
-
+  padding: 2px;
 }
 
 .user-detail {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
+  padding: 2px;
 }
 
 .ion-padding {
