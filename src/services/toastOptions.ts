@@ -1,5 +1,5 @@
 import {ToastButton, ToastOptions} from "@ionic/react";
-import {checkmarkOutline, closeOutline, warningSharp} from "ionicons/icons";
+import {checkmarkOutline, closeOutline, thumbsUpSharp, warningSharp} from "ionicons/icons";
 
 const cancelToastButton: ToastButton = {
     icon: closeOutline,
@@ -59,5 +59,13 @@ export const registerFailedOptions: ToastOptions = {
     position: 'top',
     icon: warningSharp,
     color: "danger",
+    buttons: [cancelToastButton]
+}
+export const UserUpdateWeight: ToastOptions = {
+    message: 'Congratulations for your progress!',
+    duration: 3000,
+    position: 'top',
+    icon: thumbsUpSharp,
+    color: "success",
     buttons: [cancelToastButton]
 }

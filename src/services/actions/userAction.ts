@@ -13,17 +13,22 @@ export const requestRegister = (userRegisterRequest: UserRegisterRequest) => {
 }
 
 export const requestGetActivityLevels = () => {
-    return axios.get(baseURL + `/api/user/activity-levels`)
+    return axios.get(baseURL + `/api/user/register/activity-levels`)
 }
 
 export const requestGetGenders = () => {
-    return axios.get(baseURL + `/api/user/genders`)
+    return axios.get(baseURL + `/api/user/register/genders`)
 }
 
 export const requestGetWeightGoals = () => {
-    return axios.get(baseURL + `/api/user/weight-goals`)
+    return axios.get(baseURL + `/api/user/register/weight-goals`)
 }
 
 export const requestGetDietTypes = () => {
-    return axios.get(baseURL + `/api/user/diet-types`)
+    return axios.get(baseURL + `/api/user/register/diet-types`)
 }
+
+export const requestUpdateUserCurrentWeight = (currentWeight: number, token:string) => {
+    return axios.patch(baseURL + `/api/user/weight`,  currentWeight, authConfig(token))
+}
+

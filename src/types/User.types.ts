@@ -8,7 +8,10 @@ export interface UserDetails {
     height: number,
     proteinGoal: number,
     carbohydrateGoal: number,
-    lipidGoal: number
+    lipidGoal: number,
+    activityLevel: ActivityLevel,
+    weightGoal: WeightGoal,
+    dietType: DietType
 }
 
 export interface ActivityLevel {

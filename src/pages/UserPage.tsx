@@ -1,16 +1,30 @@
-import React, {useEffect, useState} from "react";
-import {IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonTitle, IonToolbar} from "@ionic/react";
+import React, {useEffect, useRef, useState} from "react";
+import {
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonLabel,
+    IonPage,
+    IonPopover,
+    IonTitle,
+    IonToolbar,
+    ToastOptions,
+    useIonToast
+} from "@ionic/react";
 import Footer from "../components/Footer";
 import {useHistory} from "react-router-dom";
 import {UserDetails} from "../types/User.types";
-import {requestGetUserDetails} from "../services/actions/userAction";
+import {requestGetUserDetails, requestUpdateUserCurrentWeight} from "../services/actions/userAction";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutReduce, RootState} from "../store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/styles/user.scss'
 import WeightProgressBar from "../components/WeightProgressBar";
-import {checkmarkOutline, exitOutline} from "ionicons/icons";
+import {checkmarkOutline, exitOutline, scaleOutline} from "ionicons/icons";
 import {Preferences} from '@capacitor/preferences';
+import {UserUpdateWeight} from "../services/toastOptions";
 
 const UserPage: React.FC = () => {
     const history = useHistory();
@@ -26,13 +40,14 @@ const UserPage: React.FC = () => {
     const [userDetails, setUserDetails] = useState<UserDetails>();
     const [currentWeight, setCurrentWeight] = useState<number>(0);
     const [progressBarWeight, setProgressBarWeight] = useState<number>(0);
-    // const [protein, setProtein] = useState<number>(0);
-    // const [carbohydrate, setCarbohydrate] = useState<number>(0);
-    // const [lipid, setLipids] = useState<number>(0);
-
+    const [present] = useIonToast();
+    const presentToast = (options: ToastOptions) => {
+        present(options).then();
+    };
 
     useEffect(() => {
         requestGetUserDetails(token).then(response => {
+            console.log(response.data)
             setUserDetails(response.data);
         })
     }, [])
@@ -45,14 +60,19 @@ const UserPage: React.FC = () => {
         )
     }
 
+    const popover = useRef<HTMLIonPopoverElement>(null);
+    const [popoverOpen, setPopoverOpen] = useState(false);
+
+    const openPopover = (e: any) => {
+        popover.current!.event = e;
+        setPopoverOpen(true);
+    };
+
 
     useEffect(() => {
         if (userDetails) {
             setCurrentWeight(userDetails.currentWeight)
             setProgressBarWeight(userDetails.currentWeight);
-            // setProtein(userDetails.currentWeight);
-            // setCarbohydrate(userDetails.currentWeight);
-            // setLipids(userDetails.currentWeight);
         }
     }, [userDetails])
 
@@ -63,15 +83,18 @@ const UserPage: React.FC = () => {
     };
 
     const handleUserDetailsChanged = () => {
-        setProgressBarWeight(currentWeight);
+        requestUpdateUserCurrentWeight(userDetails!.currentWeight, token).then(response => {
+            presentToast(UserUpdateWeight);
+        })
+
     }
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonButtons slot="start" >
-                        <IonIcon size="large"  className="flip-icon" icon={exitOutline} onClick={handleLogout}></IonIcon>
+                    <IonButtons slot="start">
+                        <IonIcon size="large" className="flip-icon" icon={exitOutline} onClick={handleLogout}></IonIcon>
                     </IonButtons>
                     <IonTitle> {userDetails && capitalize(userDetails.username)}</IonTitle>
                     <IonButtons slot="end">
@@ -117,13 +140,7 @@ const UserPage: React.FC = () => {
                             <p className="info-name">Measurements</p>
                             <div className="user-detail">
                                 <p className={"left"}>Weight</p>
-                                <IonInput className={"right"}
-                                          type="number"
-                                          min={1}
-                                          value={currentWeight}
-                                          placeholder="Weight (Kg)"
-                                          onIonChange={handleCurrentWeightChanged}
-                                />
+                                <p className={"right"}>{userDetails.currentWeight}</p>
                             </div>
                             <div className="user-detail">
                                 <p className={"left"}>Height</p>
@@ -131,9 +148,50 @@ const UserPage: React.FC = () => {
                             </div>
                         </div>
                     }
-
-
                 </div>
+                <div>
+                    {userDetails &&
+                        <div>
+                            <p className="info-name">Diet</p>
+                            <div className="user-detail">
+                                <p className={"left"}>Activity Level</p>
+                                <p className={"right"}>{userDetails.activityLevel.text}</p>
+                            </div>
+                            <div className="user-detail">
+                                <p className={"left"}>Weight Goal</p>
+                                <p className={"right"}>{userDetails.weightGoal.text}</p>
+                            </div>
+                            <div style={{textAlign: "center", marginTop: "25px"}}>
+                                <IonIcon size="large" className="flip-icon" icon={scaleOutline}
+                                         style={{width: "125px", "height": "125px"}}></IonIcon>
+
+                                <IonLabel onClick={openPopover} className="add-food-label">
+                                    <p style={{}}>Update your weight</p>
+                                </IonLabel>
+                                <IonPopover ref={popover} isOpen={popoverOpen}
+                                            onDidDismiss={() => {
+                                                setPopoverOpen(false)
+                                                setUserDetails({...userDetails, currentWeight})
+                                            }}
+                                            size="cover"
+                                >
+                                    <IonInput className={"right"}
+                                              type="number"
+                                              min={1}
+                                              value={currentWeight}
+                                              placeholder="Weight (Kg)"
+                                              onIonChange={handleCurrentWeightChanged}
+                                              style={{textAlign: "center"}}
+                                    />
+                                </IonPopover>
+                            </div>
+
+                        </div>
+
+
+                    }
+                </div>
+
             </IonContent>
             <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={handleUserClick}/>
 
