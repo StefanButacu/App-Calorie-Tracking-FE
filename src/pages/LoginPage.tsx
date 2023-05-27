@@ -47,11 +47,12 @@ export const LoginPage: React.FC = () => {
 
     const handleLogin = () => {
         dispatch(loadingReduce({isLoading: true}))
+
         requestLogin(username!, password!).then(response => {
             dispatch(loginReduce({
                 token: response.data
             }))
-            saveToken(response.data);
+            // saveToken(response.data);
         })
             .catch(err => {
                 presentToast()

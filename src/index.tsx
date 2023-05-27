@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {store} from "./store";
 import {defineCustomElements} from '@ionic/pwa-elements/loader';
+import {createRoot} from 'react-dom/client';
 
 // const container = document.getElementById('root');
 // const root = createRoot(container!);
@@ -15,12 +16,18 @@ import {defineCustomElements} from '@ionic/pwa-elements/loader';
 //   </React.StrictMode>
 // );
 
-ReactDOM.render(
+// ReactDOM.render(
+//     document.getElementById('root')
+// )
+
+
+const container = document.getElementById('root');
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
     <Provider store={store}>
         <App/>
-    </Provider>,
-    document.getElementById('root')
-)
+    </Provider>
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

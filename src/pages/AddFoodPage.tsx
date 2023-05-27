@@ -79,6 +79,7 @@ const AddFoodPage: React.FC = () => {
         }
         setQuantiy(numberOfServings * servingSize);
     };
+    console.log("Redenr Add food page")
     return (
         <IonPage>
             <IonHeader>

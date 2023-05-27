@@ -97,6 +97,8 @@ export const RegisterPage: React.FC = () => {
             presentToast(registerFailedOptions)
         })
     }
+    console.log("Render Register Page")
+
     return (
         <IonPage>
             <IonHeader>

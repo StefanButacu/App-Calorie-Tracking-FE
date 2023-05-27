@@ -3,8 +3,7 @@ import React from 'react';
 import {Redirect, Route} from "react-router-dom";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {loginReduce, RootState} from "../../store";
-import {Preferences} from '@capacitor/preferences';
+import {RootState} from "../../store";
 
 export interface PrivateRouteProps {
     component: PropTypes.ReactComponentLike,

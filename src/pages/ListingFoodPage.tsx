@@ -176,6 +176,7 @@ const ListingFoodPage: React.FC = () => {
     }
 
     const quantity = 100.0
+    console.log("Render listing food page")
     return (
         <IonPage>
             <IonHeader>
