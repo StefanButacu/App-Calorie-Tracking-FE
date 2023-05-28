@@ -61,7 +61,7 @@ export const LoginPage: React.FC = () => {
     }
 
     if (isAuthenticated) {
-        return <Redirect to={{pathname: '/'}}/>
+        return <Redirect to={{pathname: '/diary'}}/>
     }
     console.log("Reder login page")
     return (

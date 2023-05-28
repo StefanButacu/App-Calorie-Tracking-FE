@@ -74,7 +74,7 @@ const DiaryPage: React.FC = () => {
     console.log("Render diary page")
 
     return (
-        <IonPage>
+        <>
             <IonHeader>
                 <IonToolbar className="day-scrolling">
                     <IonButtons slot="start">
@@ -130,7 +130,7 @@ const DiaryPage: React.FC = () => {
                     </div>
                 </IonToolbar>
             </IonFooter>
-        </IonPage>
+        </>
     );
 };
 

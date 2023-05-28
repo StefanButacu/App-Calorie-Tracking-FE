@@ -1,6 +1,6 @@
 import {Redirect, Route} from 'react-router-dom';
 
-import {IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
+import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, setupIonicReact} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -26,12 +26,16 @@ import DiaryPage from "./pages/Diary";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
 import {PrivateRoute} from "./services/auth/PrivateRoute";
+import {IonTabs, IonTabButton} from '@ionic/react';
+
 import AddFoodPage from "./pages/AddFoodPage";
 import EditFoodPage from "./pages/EditFoodPage";
 import React from "react";
 import {RegisterPage} from "./pages/RegisterPage";
 import {useSelector} from "react-redux";
 import {RootState} from "./store";
+import {bookOutline, personOutline} from "ionicons/icons";
+import MainTabs from "./pages/MainTabs";
 
 setupIonicReact();
 
@@ -42,69 +46,35 @@ const App: React.FC = () => {
     return (
         <IonApp>
             <IonReactRouter>
-                <IonRouterOutlet>
-                    {/*<PrivateRoute exact path="/add-food/:diaryDay/:mealId" component={ListingFoodPage}/>*/}
-                    {/*<PrivateRoute exact path="/diary" component={DiaryPage}/>*/}
-                    {/*<PrivateRoute exact path="/user" component={UserPage}/>*/}
-
-                    <Route
-                        exact
-                        path="/add-food/:diaryDay/:mealId"
-                        render={(props) => {
-                            return isAuthenticated ? <ListingFoodPage/> : <Redirect to={"/login"}/>;
-                        }}
-                    />
-
-
-                    <Route
-                        exact
-                        path="/diary"
-                        render={(props) => {
-                            return isAuthenticated ? <DiaryPage/> : <Redirect to={"/login"}/>;
-                        }}
-                    />
+                <Route exact path="/register" component={RegisterPage}/>
+                <Route exact path="/login" component={LoginPage}/>
+                <Route path="/" render={() => {
+                    return isAuthenticated ? <MainTabs/> : <Redirect to={"/login"}/>;
+                }}/>
+                <Route
+                    exact
+                    path="/add-food/:diaryDay/:mealId/:foodId"
+                    render={(props) => {
+                        return isAuthenticated ? <AddFoodPage/> : <Redirect to={"/login"}/>;
+                    }}
+                />
 
 
-                    <Route
-                        exact
-                        path="/user"
-                        render={(props) => {
-                            return isAuthenticated ? <UserPage/> : <Redirect to={"/login"}/>;
-                        }}
-                    />
+                <Route
+                    exact
+                    path="/edit-food/:diaryDay/:mealId/:foodId"
+                    render={(props) => {
+                        return isAuthenticated ? <EditFoodPage/> : <Redirect to={"/login"}/>;
+                    }}
+                />
 
-
-                    {/*<PrivateRoute exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage}/>*/}
-                    {/*<PrivateRoute exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage}/>*/}
-                    <Route
-                        exact
-                        path="/add-food/:diaryDay/:mealId/:foodId"
-                        render={(props) => {
-                            return isAuthenticated ? <AddFoodPage/> : <Redirect to={"/login"}/>;
-                        }}
-                    />
-
-
-                    <Route
-                        exact
-                        path="/edit-food/:diaryDay/:mealId/:foodId"
-                        render={(props) => {
-                            return isAuthenticated ? <EditFoodPage/> : <Redirect to={"/login"}/>;
-                        }}
-                    />
-
-                    <Route exact path="/register" component={RegisterPage}/>
-                    {/*<RegisterPage/>*/}
-                    {/*</Route>*/}
-                    <Route exact path="/">
-                        <Redirect to="/diary"/>
-                    </Route>
-                    <Route exact path="/login" component={LoginPage}/>
-
-
-                    <Route render={() => <Redirect to={'/diary'}/>}/>
-
-                </IonRouterOutlet>
+                <Route
+                    exact
+                    path="/add-food/:diaryDay/:mealId"
+                    render={(props) => {
+                        return isAuthenticated ? <ListingFoodPage/> : <Redirect to={"/login"}/>;
+                    }}
+                />
             </IonReactRouter>
         </IonApp>)
 };

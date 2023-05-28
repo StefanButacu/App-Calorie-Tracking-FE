@@ -98,7 +98,7 @@ const UserPage: React.FC = () => {
     }
     console.log("Render user page")
     return (
-        <IonPage>
+        <>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -221,7 +221,7 @@ const UserPage: React.FC = () => {
                     </div>
                 </IonToolbar>
             </IonFooter>
-        </IonPage>
+        </>
 
     )
 }
