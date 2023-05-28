@@ -2,7 +2,6 @@ import React from 'react';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {store} from "./store";
 import {defineCustomElements} from '@ionic/pwa-elements/loader';

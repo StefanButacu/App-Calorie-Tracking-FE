@@ -50,7 +50,7 @@ export interface UserFitnessRequest {
 
 export interface UserRegisterRequest {
     username?: string;
-    password?:string;
+    password?: string;
     startWeight?: number;
     goalWeight?: number;
     userFitnessRequest?: UserFitnessRequest;

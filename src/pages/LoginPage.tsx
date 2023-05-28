@@ -17,8 +17,7 @@ import {Redirect} from "react-router-dom";
 import '../assets/styles/login.scss';
 import {loginOptions} from "../services/toastOptions";
 import {useHistory} from "react-router";
-import {warningSharp} from "ionicons/icons";
-import { Preferences } from '@capacitor/preferences';
+import {Preferences} from '@capacitor/preferences';
 
 
 interface LoginState {
@@ -36,7 +35,7 @@ export const LoginPage: React.FC = () => {
     const {username, password} = state;
     const saveToken = async (token: string) => {
         await Preferences.set({
-            key:'token',
+            key: 'token',
             value: token
         })
     }

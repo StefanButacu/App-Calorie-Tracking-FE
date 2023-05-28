@@ -7,11 +7,11 @@ export const requestGetFoodDetails = (foodId: number, token: string) => {
     return axios.get(baseURL + `/api/food/${foodId}`, authConfig(token))
 }
 
-export const requestGetAvailableFoods = (page: number, token:string) => {
+export const requestGetAvailableFoods = (page: number, token: string) => {
     return axios.get(baseURL + `/api/food/foods?page=${page}`, authConfig(token))
 }
 
-export const requestGetFoodsByName = (searchFoodName: string, token:string) => {
+export const requestGetFoodsByName = (searchFoodName: string, token: string) => {
     return axios.get(baseURL + `/api/food/foods/search?name=${searchFoodName}`, authConfig(token))
 }
 

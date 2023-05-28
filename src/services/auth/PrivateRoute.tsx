@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Redirect, Route} from "react-router-dom";
 import PropTypes from "prop-types";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {RootState} from "../../store";
 
 export interface PrivateRouteProps {

@@ -20,7 +20,6 @@ import {
 } from "@ionic/react";
 import Circle from "../components/CalorieCircle";
 import {calculateCaloriesForQuantity} from "../services/utils";
-import {checkmarkOutline} from "ionicons/icons";
 import {addOptions} from "../services/toastOptions";
 
 

@@ -1,19 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import {
     IonButtons,
-    IonContent, IonFooter,
+    IonContent,
     IonHeader,
     IonIcon,
     IonInput,
     IonLabel,
-    IonPage,
-    IonPopover, IonRippleEffect,
+    IonPopover,
     IonTitle,
     IonToolbar,
     ToastOptions,
     useIonToast
 } from "@ionic/react";
-import Footer from "../components/Footer";
 import {useHistory} from "react-router-dom";
 import {UserDetails} from "../types/User.types";
 import {requestGetUserDetails, requestUpdateUserCurrentWeight} from "../services/actions/userAction";
@@ -23,16 +21,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/styles/user.scss'
 import '../assets/styles/footer.scss'
 import WeightProgressBar from "../components/WeightProgressBar";
-import {
-    bookOutline,
-    bookSharp,
-    checkmarkOutline,
-    exitOutline,
-    personOutline,
-    personSharp,
-    scaleOutline
-} from "ionicons/icons";
-import {Preferences} from '@capacitor/preferences';
+import {checkmarkOutline, exitOutline, scaleOutline} from "ionicons/icons";
 import {UserUpdateWeight} from "../services/toastOptions";
 
 const UserPage: React.FC = () => {
@@ -64,7 +53,7 @@ const UserPage: React.FC = () => {
         console.log("user page logout")
         dispatch(logoutReduce())
         history.push('/login')
-            // }
+        // }
         // )
     }
 
@@ -201,26 +190,7 @@ const UserPage: React.FC = () => {
                         </div>
                     }
                 </div>
-
             </IonContent>
-            {/*<Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={() => {}}/>*/}
-            <IonFooter>
-                <IonToolbar>
-                    <div className="footer">
-                        <div onClick={() => handleDiaryClick()} className="footer-nav ion-activatable ripple-parent">
-                            <IonIcon icon={bookOutline}/>
-                            <span>Diary</span>
-                            <IonRippleEffect/>
-
-                        </div>
-                        <div onClick={()=>{}} className="footer-nav ion-activatable ripple-parent">
-                            <IonIcon icon={personSharp}/>
-                            <span>Me</span>
-                            <IonRippleEffect/>
-                        </div>
-                    </div>
-                </IonToolbar>
-            </IonFooter>
         </>
 
     )

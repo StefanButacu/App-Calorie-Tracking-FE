@@ -28,7 +28,7 @@ export const requestGetDietTypes = () => {
     return axios.get(baseURL + `/api/user/register/diet-types`)
 }
 
-export const requestUpdateUserCurrentWeight = (currentWeight: number, token:string) => {
-    return axios.patch(baseURL + `/api/user/weight`,  currentWeight, authConfig(token))
+export const requestUpdateUserCurrentWeight = (currentWeight: number, token: string) => {
+    return axios.patch(baseURL + `/api/user/weight`, currentWeight, authConfig(token))
 }
 

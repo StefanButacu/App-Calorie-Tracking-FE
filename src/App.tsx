@@ -1,6 +1,6 @@
 import {Redirect, Route} from 'react-router-dom';
 
-import {IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, setupIonicReact} from '@ionic/react';
+import {IonApp, setupIonicReact} from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -22,11 +22,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import ListingFoodPage from "./pages/ListingFoodPage";
-import DiaryPage from "./pages/Diary";
 import LoginPage from "./pages/LoginPage";
-import UserPage from "./pages/UserPage";
-import {PrivateRoute} from "./services/auth/PrivateRoute";
-import {IonTabs, IonTabButton} from '@ionic/react';
 
 import AddFoodPage from "./pages/AddFoodPage";
 import EditFoodPage from "./pages/EditFoodPage";
@@ -34,7 +30,6 @@ import React from "react";
 import {RegisterPage} from "./pages/RegisterPage";
 import {useSelector} from "react-redux";
 import {RootState} from "./store";
-import {bookOutline, personOutline} from "ionicons/icons";
 import MainTabs from "./pages/MainTabs";
 
 setupIonicReact();

@@ -1,15 +1,5 @@
 import DiaryMealComponent from "../components/DiaryMealComponent";
-import {
-    IonButtons,
-    IonContent,
-    IonFooter,
-    IonHeader,
-    IonIcon,
-    IonPage,
-    IonRippleEffect,
-    IonTitle,
-    IonToolbar
-} from "@ionic/react";
+import {IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar} from "@ionic/react";
 import {requestGetDiaryDayMeals} from "../services/actions/diaryDayAction";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,18 +7,10 @@ import {diaryDayReduce, RootState} from "../store";
 import {addDays, format, subDays} from 'date-fns';
 import "../assets/styles/diary-page.scss"
 import CalorieGoalComponent from "../components/CalorieGoalComponent";
-import Footer from "../components/Footer";
 import '../assets/styles/footer.scss'
 
 import {useHistory} from "react-router-dom";
-import {
-    bookOutline,
-    bookSharp,
-    caretBackCircleSharp,
-    caretForwardCircleSharp,
-    personOutline,
-    personSharp
-} from "ionicons/icons";
+import {caretBackCircleSharp, caretForwardCircleSharp} from "ionicons/icons";
 
 const DiaryPage: React.FC = () => {
     const dispatch = useDispatch();
@@ -66,12 +48,6 @@ const DiaryPage: React.FC = () => {
     }, [currentDay])
     const history = useHistory();
 
-    const handleUserClick = () => {
-        console.log("Diary handle user click")
-        history.push("/user");
-    };
-
-    console.log("Render diary page")
 
     return (
         <>
@@ -111,25 +87,6 @@ const DiaryPage: React.FC = () => {
 
                 </div>
             </IonContent>
-            {/*<Footer activeIcon={currentIcon} handleOnDiaryClick={() => {}} handleUserClick={handleUserClick}/>*/}
-            <IonFooter>
-                <IonToolbar>
-                    <div className="footer">
-                        <div onClick={() => {
-                        }} className="footer-nav ion-activatable ripple-parent">
-                            <IonIcon icon={bookSharp}/>
-                            <span>Diary</span>
-                            <IonRippleEffect/>
-
-                        </div>
-                        <div onClick={handleUserClick} className="footer-nav ion-activatable ripple-parent">
-                            <IonIcon icon={personOutline}/>
-                            <span>Me</span>
-                            <IonRippleEffect/>
-                        </div>
-                    </div>
-                </IonToolbar>
-            </IonFooter>
         </>
     );
 };

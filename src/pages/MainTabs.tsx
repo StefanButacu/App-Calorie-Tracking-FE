@@ -7,6 +7,7 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "../store";
 import "../assets/styles/globals.scss"
+
 const MainTabs: React.FC = () => {
     const {isAuthenticated} = useSelector((state: RootState) => state.login)
 
@@ -30,7 +31,7 @@ const MainTabs: React.FC = () => {
                     }}
                 />
 
-                <Redirect exact path='/' to={'/diary'} />
+                <Redirect exact path='/' to={'/diary'}/>
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
                 <IonTabButton tab="home" href="/diary">

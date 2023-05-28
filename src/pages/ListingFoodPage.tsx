@@ -205,18 +205,18 @@ const ListingFoodPage: React.FC = () => {
                             <IonList>
                                 {
                                     categoryResult ? (
-                                        <div>
-                                            <p>Is this what you are eating?</p>
-                                            {
-                                                categoryResult.map(categoryProps =>
-                                                    <CategoryComponent key={categoryProps.category_id}
-                                                                       category_id={categoryProps.category_id}
-                                                                       category_color={categoryProps.category_color}
-                                                                       mealId={parseInt(mealId, 10)}
-                                                                       onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(diaryDay, mealId, foodId, quantity, token)}
-                                                    />)
-                                            }
-                                        </div>)
+                                            <div>
+                                                <p>Is this what you are eating?</p>
+                                                {
+                                                    categoryResult.map(categoryProps =>
+                                                        <CategoryComponent key={categoryProps.category_id}
+                                                                           category_id={categoryProps.category_id}
+                                                                           category_color={categoryProps.category_color}
+                                                                           mealId={parseInt(mealId, 10)}
+                                                                           onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(diaryDay, mealId, foodId, quantity, token)}
+                                                        />)
+                                                }
+                                            </div>)
                                         : <div>Sorry! Didn't find any food :(</div>
                                 }
                             </IonList>

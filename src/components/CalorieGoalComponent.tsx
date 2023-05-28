@@ -41,7 +41,7 @@ const CalorieGoalComponent: React.FC = () => {
         {userDetails ?
             (<div style={{marginTop: "15px"}}>
                 <div className={"calorie-remain"}>
-                    <div className={"text"}> Calories Remaining </div>
+                    <div className={"text"}> Calories Remaining</div>
                     <IonProgressBar type="determinate" value={progress} style={{'--ion-color-custom': '#FF0000'}}
                                     className={"calorie-progressbar"}/>
 
