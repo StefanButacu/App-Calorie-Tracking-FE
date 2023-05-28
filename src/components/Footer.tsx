@@ -13,6 +13,7 @@ export interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({activeIcon, handleOnDiaryClick, handleUserClick}) => {
 
+    console.log("footer state ")
     return (
         <IonFooter>
             <IonToolbar>

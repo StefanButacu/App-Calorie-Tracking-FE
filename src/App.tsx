@@ -30,30 +30,83 @@ import AddFoodPage from "./pages/AddFoodPage";
 import EditFoodPage from "./pages/EditFoodPage";
 import React from "react";
 import {RegisterPage} from "./pages/RegisterPage";
+import {useSelector} from "react-redux";
+import {RootState} from "./store";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-    <IonApp>
-        <IonReactRouter>
-            <IonRouterOutlet>
-                <PrivateRoute exact={true} path="/add-food/:diaryDay/:mealId" component={ListingFoodPage}/>
-                <PrivateRoute exact={true} path="/diary" component={DiaryPage}/>
-                <PrivateRoute exact={true} path="/user" component={UserPage}/>
-                <PrivateRoute exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage}/>
-                <PrivateRoute exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage}/>
-                <Route exact path="/register">
-                    <RegisterPage/>
-                </Route>
-                <Route exact path="/">
-                    <Redirect to="/diary"/>
-                </Route>
-                <Route exact path="/login">
-                    <LoginPage/>
-                </Route>
-            </IonRouterOutlet>
-        </IonReactRouter>
-    </IonApp>
-);
+const App: React.FC = () => {
+
+    const {isAuthenticated} = useSelector((state: RootState) => state.login)
+    console.log("Is authenticated", isAuthenticated)
+    return (
+        <IonApp>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    {/*<PrivateRoute exact path="/add-food/:diaryDay/:mealId" component={ListingFoodPage}/>*/}
+                    {/*<PrivateRoute exact path="/diary" component={DiaryPage}/>*/}
+                    {/*<PrivateRoute exact path="/user" component={UserPage}/>*/}
+
+                    <Route
+                        exact
+                        path="/add-food/:diaryDay/:mealId"
+                        render={(props) => {
+                            return isAuthenticated ? <ListingFoodPage/> : <Redirect to={"/login"}/>;
+                        }}
+                    />
+
+
+                    <Route
+                        exact
+                        path="/diary"
+                        render={(props) => {
+                            return isAuthenticated ? <DiaryPage/> : <Redirect to={"/login"}/>;
+                        }}
+                    />
+
+
+                    <Route
+                        exact
+                        path="/user"
+                        render={(props) => {
+                            return isAuthenticated ? <UserPage/> : <Redirect to={"/login"}/>;
+                        }}
+                    />
+
+
+                    {/*<PrivateRoute exact path={'/add-food/:diaryDay/:mealId/:foodId'} component={AddFoodPage}/>*/}
+                    {/*<PrivateRoute exact path={'/edit-food/:diaryDay/:mealId/:foodId'} component={EditFoodPage}/>*/}
+                    <Route
+                        exact
+                        path="/add-food/:diaryDay/:mealId/:foodId"
+                        render={(props) => {
+                            return isAuthenticated ? <AddFoodPage/> : <Redirect to={"/login"}/>;
+                        }}
+                    />
+
+
+                    <Route
+                        exact
+                        path="/edit-food/:diaryDay/:mealId/:foodId"
+                        render={(props) => {
+                            return isAuthenticated ? <EditFoodPage/> : <Redirect to={"/login"}/>;
+                        }}
+                    />
+
+                    <Route exact path="/register" component={RegisterPage}/>
+                    {/*<RegisterPage/>*/}
+                    {/*</Route>*/}
+                    <Route exact path="/">
+                        <Redirect to="/diary"/>
+                    </Route>
+                    <Route exact path="/login" component={LoginPage}/>
+
+
+                    <Route render={() => <Redirect to={'/diary'}/>}/>
+
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </IonApp>)
+};
 
 export default App;

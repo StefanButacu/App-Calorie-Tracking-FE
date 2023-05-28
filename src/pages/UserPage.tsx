@@ -1,13 +1,13 @@
 import React, {useEffect, useRef, useState} from "react";
 import {
     IonButtons,
-    IonContent,
+    IonContent, IonFooter,
     IonHeader,
     IonIcon,
     IonInput,
     IonLabel,
     IonPage,
-    IonPopover,
+    IonPopover, IonRippleEffect,
     IonTitle,
     IonToolbar,
     ToastOptions,
@@ -21,8 +21,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {logoutReduce, RootState} from "../store";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/styles/user.scss'
+import '../assets/styles/footer.scss'
 import WeightProgressBar from "../components/WeightProgressBar";
-import {checkmarkOutline, exitOutline, scaleOutline} from "ionicons/icons";
+import {
+    bookOutline,
+    bookSharp,
+    checkmarkOutline,
+    exitOutline,
+    personOutline,
+    personSharp,
+    scaleOutline
+} from "ionicons/icons";
 import {Preferences} from '@capacitor/preferences';
 import {UserUpdateWeight} from "../services/toastOptions";
 
@@ -32,6 +41,7 @@ const UserPage: React.FC = () => {
     const [currentIcon] = useState("user")
 
     const handleDiaryClick = () => {
+        console.log("Diary click")
         history.push("/diary");
     };
     const {token} = useSelector((state: RootState) => state.login)
@@ -47,14 +57,15 @@ const UserPage: React.FC = () => {
         requestGetUserDetails(token).then(response => {
             setUserDetails(response.data);
         })
-    }, [token])
+    }, [])
 
     const handleLogout = () => {
-        Preferences.remove({key: "token"}).then(() => {
-                dispatch(logoutReduce())
-                history.push('/login')
-            }
-        )
+        // Preferences.remove({key: "token"}).then(() => {
+        console.log("user page logout")
+        dispatch(logoutReduce())
+        history.push('/login')
+            // }
+        // )
     }
 
     const popover = useRef<HTMLIonPopoverElement>(null);
@@ -192,8 +203,24 @@ const UserPage: React.FC = () => {
                 </div>
 
             </IonContent>
-            <Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={() => {}}/>
+            {/*<Footer activeIcon={currentIcon} handleOnDiaryClick={handleDiaryClick} handleUserClick={() => {}}/>*/}
+            <IonFooter>
+                <IonToolbar>
+                    <div className="footer">
+                        <div onClick={() => handleDiaryClick()} className="footer-nav ion-activatable ripple-parent">
+                            <IonIcon icon={bookOutline}/>
+                            <span>Diary</span>
+                            <IonRippleEffect/>
 
+                        </div>
+                        <div onClick={()=>{}} className="footer-nav ion-activatable ripple-parent">
+                            <IonIcon icon={personSharp}/>
+                            <span>Me</span>
+                            <IonRippleEffect/>
+                        </div>
+                    </div>
+                </IonToolbar>
+            </IonFooter>
         </IonPage>
 
     )

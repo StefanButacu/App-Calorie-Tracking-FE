@@ -290,8 +290,7 @@ const ListingFoodPage: React.FC = () => {
                 </div>
             </IonContent>
         </IonPage>
-    )
-        ;
+    );
 
 };
 
