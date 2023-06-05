@@ -6,15 +6,16 @@ interface State {
     isLoading: boolean,
     mealDTOList: MealFood[]
     token: string
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    date: string,
 }
-
-
+const today = new Date().toISOString().slice(0, 10)
 const initialState: State = {
     isLoading: false,
     mealDTOList: [],
     token: '',
     isAuthenticated: false,
+    date: today,
 }
 
 
@@ -22,7 +23,14 @@ export const diarySlice = createSlice({
     name: 'diary',
     initialState,
     reducers: {
+        diaryDateSub: (state, action: PayloadAction<{ date:string }>) => {
+            state.date = action.payload.date;
+        },
+        diaryDateAdd: (state, action: PayloadAction<{ date:string }>) => {
+            state.date = action.payload.date;
+        },
         diaryDayReduce: (state, action: PayloadAction<DiaryDayMealFood>) => {
+            state.date = action.payload.diaryDay;
             state.mealDTOList = action.payload.mealDTOList;
         },
         addFoodReduce: (state, action: PayloadAction<{ mealId: number, food: FoodWithCalorie }>) => {
@@ -104,7 +112,14 @@ export const loadingSlice = createSlice({
     }
 })
 
-export const {diaryDayReduce, addFoodReduce, removeFoodReduce, updateFoodFromMealReduce} = diarySlice.actions;
+export const {
+    diaryDateAdd,
+    diaryDateSub,
+    diaryDayReduce,
+    addFoodReduce,
+    removeFoodReduce,
+    updateFoodFromMealReduce
+} = diarySlice.actions;
 export const {loginReduce, logoutReduce} = loginSlice.actions;
 export const {loadingReduce} = loadingSlice.actions;
 

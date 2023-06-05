@@ -1,5 +1,5 @@
 export interface DiaryDayMealFood {
-    diaryDayDate: string,
+    diaryDay: string,
     mealDTOList: MealFood[];
 }
 

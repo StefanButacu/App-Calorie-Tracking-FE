@@ -1,7 +1,6 @@
 // AddFoodPage.tsx
 import React, {useEffect, useRef, useState} from 'react';
 import {
-    IonBackButton,
     IonButton,
     IonButtons,
     IonContent,
@@ -38,6 +37,7 @@ import {calculateCaloriesForQuantity} from "../services/utils";
 import {OverlayEventDetail} from "@ionic/core/components";
 import AddFoodModal from "../components/AddFoodModal";
 import {baseURL} from "../services/actions";
+import {Preferences} from "@capacitor/preferences";
 
 export interface RouteParams {
     diaryDay: string,
@@ -146,7 +146,6 @@ const ListingFoodPage: React.FC = () => {
         });
     }
 
-
     async function uploadImageByUser(imageUploadedByUser: Blob) {
         const formData = new FormData();
         formData.append('image', imageUploadedByUser);
@@ -176,13 +175,58 @@ const ListingFoodPage: React.FC = () => {
     }
 
     const quantity = 100.0
-    console.log("Render listing food page")
+
+    const setStorageOverlayImage = async (overlayImage: string) => {
+        await Preferences.set({key: 'overlay_image', value: overlayImage})
+    }
+    const setStorageCategoryValues = async (categoryValues: CategoryProps[]) => {
+        await Preferences.set({key: 'category_values', value: JSON.stringify(categoryValues)})
+    }
+    const removeOverlayImage = async () => {
+        await Preferences.remove({key: 'overlay_image'})
+    }
+    const removeCategoryValues = async () => {
+        await Preferences.remove({key: 'category_values'})
+    }
+    const checkOverlayImage = async () => {
+        const {value} = await Preferences.get({key: 'overlay_image'})
+        if (value)
+            await setSegmentedImage(value);
+    }
+
+    const checkCategoryValues = async () => {
+        const {value} = await Preferences.get({key: 'category_values'})
+        if (value) {
+            setCategoryResult(JSON.parse(value));
+        }
+    }
+    useEffect(() => {
+        if (segmentedImage)
+            setStorageOverlayImage(segmentedImage);
+        if (categoryResult)
+            setStorageCategoryValues(categoryResult);
+    }, [segmentedImage, categoryResult])
+
+    useEffect(() => {
+        checkOverlayImage();
+        checkCategoryValues();
+    }, [])
+    const clearLocalStorage = () => {
+        removeCategoryValues();
+        removeOverlayImage();
+    }
+
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
-                        <IonBackButton icon={caretBack}></IonBackButton>
+                        <IonButton onClick={() => {
+                            clearLocalStorage();
+                            history.goBack();
+                        }}>
+                            <IonIcon icon={caretBack}></IonIcon>
+                        </IonButton>
                     </IonButtons>
                     <IonTitle>{mealDetails?.name}</IonTitle>
                 </IonToolbar>
