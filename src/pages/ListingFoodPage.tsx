@@ -156,16 +156,7 @@ const ListingFoodPage: React.FC = () => {
         });
         dispatch(loadingReduce({isLoading: true}))
         sendImage.then(r => {
-            const result_category_data = r.data.category;
-            const categoryList: CategoryProps[] = [];
-            for (const key in result_category_data) {
-                const category_id = parseInt(key);
-                const category_color = result_category_data[key];
-                categoryList.push({
-                    category_id,
-                    category_color,
-                });
-            }
+            const categoryList: CategoryProps[] = r.data.category;
             setCategoryResult(categoryList)
             const base64ImageString = r.data.overlay;
             setSegmentedImage(base64ImageString);
@@ -253,9 +244,9 @@ const ListingFoodPage: React.FC = () => {
                                                 <p>Is this what you are eating?</p>
                                                 {
                                                     categoryResult.map(categoryProps =>
-                                                        <CategoryComponent key={categoryProps.category_id}
-                                                                           category_id={categoryProps.category_id}
-                                                                           category_color={categoryProps.category_color}
+                                                        <CategoryComponent key={categoryProps.categoryId}
+                                                                           categoryId={categoryProps.categoryId}
+                                                                           categoryColor={categoryProps.categoryColor}
                                                                            mealId={parseInt(mealId, 10)}
                                                                            onAddFoodToMealClick={(foodId, quantity) => handleAddFoodToMeal(diaryDay, mealId, foodId, quantity, token)}
                                                         />)

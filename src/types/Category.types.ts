@@ -1,6 +1,6 @@
 export interface CategoryProps {
-    category_id: number
-    category_color: number[]
+    categoryId: number
+    categoryColor: number[]
     onAddFoodToMealClick?: (foodId: number, quantity: number) => any;
 }
 

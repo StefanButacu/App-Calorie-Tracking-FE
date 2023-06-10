@@ -13,8 +13,8 @@ import {RootState} from "../store";
 
 const CategoryComponent: React.FC<CategoryComponentProps> = ({
                                                                  mealId,
-                                                                 category_id,
-                                                                 category_color,
+                                                                 categoryId,
+                                                                 categoryColor,
                                                                  onAddFoodToMealClick
                                                              }) => {
     const {diaryDay} = useParams<RouteParams>()
@@ -24,8 +24,8 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
     const token = loginState.token;
     let [food, setFood] = useState<Food>();
 
-    const getCategoryHandle = async (category_id: number) => {
-        return await getCategory(category_id)
+    const getCategoryHandle = async (categoryId: number) => {
+        return await getCategory(categoryId)
     }
 
     const getFoodHandle = async (food_id: number) => {
@@ -34,15 +34,15 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
 
     const handleAddToMealClick = (selectedQuantity: number) => {
         if (onAddFoodToMealClick) {
-            onAddFoodToMealClick(category_id, selectedQuantity);
+            onAddFoodToMealClick(categoryId, selectedQuantity);
         }
     };
 
 
     useEffect(() => {
-        getCategoryHandle(category_id)
+        getCategoryHandle(categoryId)
             .then((r) => {
-                getFoodHandle(category_id).then((foodResponse) => {
+                getFoodHandle(categoryId).then((foodResponse) => {
                     if (foodResponse.status === 200) {
                         setFood({...foodResponse.data, onAddFoodToMealClick: handleAddToMealClick})
                     } else {
@@ -53,7 +53,7 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
             .catch(err => console.log("Error" + err))
     }, []);
 
-    const rgbColor = `rgb(${category_color[0]}, ${category_color[1]}, ${category_color[2]})`;
+    const rgbColor = `rgb(${categoryColor[0]}, ${categoryColor[1]}, ${categoryColor[2]})`;
     return (
 
         <>{
