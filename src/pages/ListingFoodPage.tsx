@@ -16,8 +16,8 @@ import {
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    SearchbarCustomEvent,
-    useIonModal
+    SearchbarCustomEvent, ToastOptions,
+    useIonModal, useIonToast
 } from "@ionic/react";
 import CategoryComponent from "../components/CategoryComponent";
 import {addOutline, camera, caretBack, fastFoodOutline} from "ionicons/icons";
@@ -37,6 +37,7 @@ import {calculateCaloriesForQuantity} from "../services/utils";
 import {OverlayEventDetail} from "@ionic/core/components";
 import AddFoodModal from "../components/AddFoodModal";
 import {baseURL} from "../services/actions";
+import {errorOptions} from "../services/toastOptions";
 
 export interface RouteParams {
     diaryDay: string,
@@ -61,7 +62,10 @@ const ListingFoodPage: React.FC = () => {
     const [allPagesFetched, setAllPagesFetched] = useState<boolean>(false);
     const [searchFoodName, setSearchFoodName] = useState<string>('');
     const refToTop = useRef<HTMLHeadingElement>(null);
-
+    const [ionToast] = useIonToast();
+    const presentIonToast = (options: ToastOptions) => {
+        ionToast(options);
+    };
     const handleAddFoodToMeal = async (diaryDayDate: string, mealId: string, foodId: number, quantityId: number, token: string) => {
         return await requestPostFoodToMeal(diaryDayDate, mealId, foodId, quantityId, token);
     }
@@ -79,13 +83,13 @@ const ListingFoodPage: React.FC = () => {
                     setAllPagesFetched(true);
                 }
             })
-            .catch(err => console.log("Error:", err))
+            .catch(err => presentIonToast(errorOptions))
     }
 
     function fetchFoodsByName(searchFoodName: string) {
         requestGetFoodsByName(searchFoodName, token)
             .then(response => setAvailableFoods(response?.data))
-            .catch(err => console.log(err))
+            .catch(err => presentIonToast(errorOptions))
     }
 
     useEffect(() => {
@@ -103,7 +107,7 @@ const ListingFoodPage: React.FC = () => {
     useEffect(() => {
         handleGetMeal(mealId).then((response) => {
             setMealDetails(response.data);
-        }).catch(err => console.log("Error" + err))
+        }).catch(err => presentIonToast(errorOptions))
     }, [mealId])
 
     const handleSearch = (event: SearchbarCustomEvent) => {
@@ -136,7 +140,7 @@ const ListingFoodPage: React.FC = () => {
                             setAvailableFoods([...availableFoods, response.data]);
                         }
                     ).catch(err => {
-                        alert(err.message)
+                        presentIonToast(errorOptions)
                     });
 
                 }
@@ -144,7 +148,7 @@ const ListingFoodPage: React.FC = () => {
         });
     }
 
-    async function uploadImageByUser(imageUploadedByUser: Blob) {
+    function uploadImageByUser(imageUploadedByUser: Blob) {
         const formData = new FormData();
         formData.append('image', imageUploadedByUser);
         let sendImage = axios.post(baseURL + '/image', Object.fromEntries(formData), {
@@ -158,9 +162,7 @@ const ListingFoodPage: React.FC = () => {
             const base64ImageString = r.data.overlay;
             handleSetSegmentationResult(base64ImageString, categoryList);
 
-        }).catch(err => {
-            console.log(err);
-        }).finally(() => dispatch(loadingReduce(({isLoading: false}))))
+        }).catch(err => presentIonToast(errorOptions)).finally(() => dispatch(loadingReduce(({isLoading: false}))))
     }
 
     const quantity = 100.0
@@ -169,7 +171,7 @@ const ListingFoodPage: React.FC = () => {
         dispatch(removeSegmentationResult())
     }
 
-    const handleSetSegmentationResult = (segmentationResult: string, categoryResult: CategoryProps[]) =>{
+    const handleSetSegmentationResult = (segmentationResult: string, categoryResult: CategoryProps[]) => {
         dispatch(setSegmentationResult({segmentationResult: segmentationResult, categoryResults: categoryResult}))
     }
     return (
@@ -233,7 +235,7 @@ const ListingFoodPage: React.FC = () => {
                         {
                             availableFoods.length > 0 ?
                                 availableFoods.map(food =>
-                                    <MealItemComponent id={food.id} handleAction={(foodId) => {
+                                    <MealItemComponent key={food.id} id={food.id} handleAction={(foodId) => {
                                         history.push(`/add-food/${diaryDay}/${mealId}/${foodId}`)
                                     }}
                                                        name={food.name}
@@ -271,7 +273,6 @@ const ListingFoodPage: React.FC = () => {
                                         }, 100)
                                     }
                                 })
-
                             }}>
                                 <IonIcon icon={camera}/>
                             </IonFabButton>

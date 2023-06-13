@@ -69,8 +69,9 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                         }}
                     ></div>
                     <div style={{width: "100%"}}>
-                        <MealItemComponent id={food!.id} handleAction={(foodId) => {
-                            console.log("available food" + foodId)
+                        <MealItemComponent key={food!.id}
+                                           id={food!.id}
+                                           handleAction={(foodId) => {
                             history.push(`/add-food/${diaryDay}/${mealId}/${foodId}`)
                         }}
                                            name={food.name}

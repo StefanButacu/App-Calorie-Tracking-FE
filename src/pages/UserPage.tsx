@@ -22,17 +22,12 @@ import '../assets/styles/user.scss'
 import '../assets/styles/footer.scss'
 import WeightProgressBar from "../components/WeightProgressBar";
 import {checkmarkOutline, exitOutline, scaleOutline} from "ionicons/icons";
-import {UserUpdateWeight} from "../services/toastOptions";
+import {errorOptions, UserUpdateWeight} from "../services/toastOptions";
 
 const UserPage: React.FC = () => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [currentIcon] = useState("user")
 
-    const handleDiaryClick = () => {
-        console.log("Diary click")
-        history.push("/diary");
-    };
     const {token} = useSelector((state: RootState) => state.login)
     const [userDetails, setUserDetails] = useState<UserDetails>();
     const [currentWeight, setCurrentWeight] = useState<number>(0);
@@ -45,16 +40,14 @@ const UserPage: React.FC = () => {
     useEffect(() => {
         requestGetUserDetails(token).then(response => {
             setUserDetails(response.data);
+        }).catch(err => {
+            presentToast(errorOptions)
         })
     }, [])
 
     const handleLogout = () => {
         // Preferences.remove({key: "token"}).then(() => {
-        console.log("user page logout")
         dispatch(logoutReduce())
-        history.push('/login')
-        // }
-        // )
     }
 
     const popover = useRef<HTMLIonPopoverElement>(null);
@@ -82,10 +75,9 @@ const UserPage: React.FC = () => {
     const handleUserDetailsChanged = () => {
         requestUpdateUserCurrentWeight(userDetails!.currentWeight, token).then(response => {
             presentToast(UserUpdateWeight);
-        })
+        }).catch(err => presentToast(errorOptions))
 
     }
-    console.log("Render user page")
     return (
         <>
             <IonHeader>
