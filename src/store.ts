@@ -1,6 +1,7 @@
 import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {DiaryDayMealFood, FoodWithCalorie, MealFood} from "./types/MealFood.types";
 import {loggingMiddleware} from "./reducers/loggingMiddleware";
+import {CategoryProps} from "./types/Category.types";
 
 interface State {
     isLoading: boolean,
@@ -8,7 +9,10 @@ interface State {
     token: string
     isAuthenticated: boolean,
     date: string,
+    segmentationResult?: string | null,
+    categoryResults?: CategoryProps[],
 }
+
 const today = new Date().toISOString().slice(0, 10)
 const initialState: State = {
     isLoading: false,
@@ -16,6 +20,7 @@ const initialState: State = {
     token: '',
     isAuthenticated: false,
     date: today,
+    categoryResults: []
 }
 
 
@@ -23,10 +28,10 @@ export const diarySlice = createSlice({
     name: 'diary',
     initialState,
     reducers: {
-        diaryDateSub: (state, action: PayloadAction<{ date:string }>) => {
+        diaryDateSub: (state, action: PayloadAction<{ date: string }>) => {
             state.date = action.payload.date;
         },
-        diaryDateAdd: (state, action: PayloadAction<{ date:string }>) => {
+        diaryDateAdd: (state, action: PayloadAction<{ date: string }>) => {
             state.date = action.payload.date;
         },
         diaryDayReduce: (state, action: PayloadAction<DiaryDayMealFood>) => {
@@ -82,7 +87,16 @@ export const diarySlice = createSlice({
                     foodItem.quantity = quantity;
                 }
             }
+        },
+        removeSegmentationResult: (state) => {
+            state.segmentationResult = null
+            state.categoryResults = []
+        },
+        setSegmentationResult: (state, action: PayloadAction<{ segmentationResult: string, categoryResults: CategoryProps[] }>) => {
+            state.segmentationResult = action.payload.segmentationResult;
+            state.categoryResults = action.payload.categoryResults;
         }
+
     },
 })
 export const loginSlice = createSlice({
@@ -118,7 +132,9 @@ export const {
     diaryDayReduce,
     addFoodReduce,
     removeFoodReduce,
-    updateFoodFromMealReduce
+    updateFoodFromMealReduce,
+    removeSegmentationResult,
+    setSegmentationResult
 } = diarySlice.actions;
 export const {loginReduce, logoutReduce} = loginSlice.actions;
 export const {loadingReduce} = loadingSlice.actions;

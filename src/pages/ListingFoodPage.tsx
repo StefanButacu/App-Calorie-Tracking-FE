@@ -31,13 +31,12 @@ import {Food, FoodUpdate, MealDetailsProps} from "../types/MealFood.types";
 import "../assets/styles/add-food-page.scss"
 import {requestGetAvailableFoods, requestGetFoodsByName, requestPostFood} from "../services/actions/foodAction";
 import {useDispatch, useSelector} from "react-redux";
-import {loadingReduce, RootState} from "../store";
+import {loadingReduce, removeSegmentationResult, RootState, setSegmentationResult} from "../store";
 import MealItemComponent from "../components/MealItemComponent";
 import {calculateCaloriesForQuantity} from "../services/utils";
 import {OverlayEventDetail} from "@ionic/core/components";
 import AddFoodModal from "../components/AddFoodModal";
 import {baseURL} from "../services/actions";
-import {Preferences} from "@capacitor/preferences";
 
 export interface RouteParams {
     diaryDay: string,
@@ -50,11 +49,11 @@ const ListingFoodPage: React.FC = () => {
     const dispatch = useDispatch();
     const loginState = useSelector((state: RootState) => state.login);
     const isLoading = useSelector((state: RootState) => state.loading).isLoading
+    const segmentedImage = useSelector((state: RootState) => state.diaryDay.segmentationResult)
+    const categoryResult = useSelector((state: RootState) => state.diaryDay.categoryResults)
     const token = loginState.token;
     const history = useHistory();
     const {diaryDay, mealId} = useParams<RouteParams>()
-    const [segmentedImage, setSegmentedImage] = useState('');
-    const [categoryResult, setCategoryResult] = useState<CategoryProps[]>();
     const [mealDetails, setMealDetails] = useState<MealDetailsProps>();
     const {photoBase64, takePhoto} = usePhotoGallery();
     const [page, setPage] = useState<number>(0);
@@ -134,7 +133,6 @@ const ListingFoodPage: React.FC = () => {
                     requestPostFood(searchFoodName, ev.detail.data.proteinPerCent,
                         ev.detail.data.carbohydratePerCent, ev.detail.data.lipidPerCent,
                         token).then((response) => {
-                            console.log(response.data);
                             setAvailableFoods([...availableFoods, response.data]);
                         }
                     ).catch(err => {
@@ -157,9 +155,9 @@ const ListingFoodPage: React.FC = () => {
         dispatch(loadingReduce({isLoading: true}))
         sendImage.then(r => {
             const categoryList: CategoryProps[] = r.data.category;
-            setCategoryResult(categoryList)
             const base64ImageString = r.data.overlay;
-            setSegmentedImage(base64ImageString);
+            handleSetSegmentationResult(base64ImageString, categoryList);
+
         }).catch(err => {
             console.log(err);
         }).finally(() => dispatch(loadingReduce(({isLoading: false}))))
@@ -167,53 +165,20 @@ const ListingFoodPage: React.FC = () => {
 
     const quantity = 100.0
 
-    const setStorageOverlayImage = async (overlayImage: string) => {
-        await Preferences.set({key: 'overlay_image', value: overlayImage})
-    }
-    const setStorageCategoryValues = async (categoryValues: CategoryProps[]) => {
-        await Preferences.set({key: 'category_values', value: JSON.stringify(categoryValues)})
-    }
-    const removeOverlayImage = async () => {
-        await Preferences.remove({key: 'overlay_image'})
-    }
-    const removeCategoryValues = async () => {
-        await Preferences.remove({key: 'category_values'})
-    }
-    const checkOverlayImage = async () => {
-        const {value} = await Preferences.get({key: 'overlay_image'})
-        if (value)
-            await setSegmentedImage(value);
+    const handleRemoveSegmentationResult = () => {
+        dispatch(removeSegmentationResult())
     }
 
-    const checkCategoryValues = async () => {
-        const {value} = await Preferences.get({key: 'category_values'})
-        if (value) {
-            setCategoryResult(JSON.parse(value));
-        }
+    const handleSetSegmentationResult = (segmentationResult: string, categoryResult: CategoryProps[]) =>{
+        dispatch(setSegmentationResult({segmentationResult: segmentationResult, categoryResults: categoryResult}))
     }
-    useEffect(() => {
-        if (segmentedImage)
-            setStorageOverlayImage(segmentedImage);
-        if (categoryResult)
-            setStorageCategoryValues(categoryResult);
-    }, [segmentedImage, categoryResult])
-
-    useEffect(() => {
-        checkOverlayImage();
-        checkCategoryValues();
-    }, [])
-    const clearLocalStorage = () => {
-        removeCategoryValues();
-        removeOverlayImage();
-    }
-
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot="start">
                         <IonButton onClick={() => {
-                            clearLocalStorage();
+                            handleRemoveSegmentationResult();
                             history.goBack();
                         }}>
                             <IonIcon icon={caretBack}></IonIcon>
@@ -230,7 +195,6 @@ const ListingFoodPage: React.FC = () => {
                         <img src={`data:image/jpeg;base64,${photoBase64}`} width={"256px"} height={"256px"}
                              alt="Your food"/>
                     ) : (
-                        // <div className="photo-preview"></div> // Create a dummy image here?
                         <></>
                     )}
                 <div>
@@ -239,7 +203,7 @@ const ListingFoodPage: React.FC = () => {
                             <img src={`data:image/png;base64,${segmentedImage}`} alt="Your meal segmented"/>
                             <IonList>
                                 {
-                                    categoryResult ? (
+                                    categoryResult && categoryResult.length > 0 ? (
                                             <div>
                                                 <p>Is this what you are eating?</p>
                                                 {

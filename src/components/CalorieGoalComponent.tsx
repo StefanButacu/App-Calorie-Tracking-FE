@@ -19,6 +19,8 @@ const CalorieGoalComponent: React.FC = () => {
     useEffect(() => {
         requestGetUserDetails(token).then(response => {
             setUserDetails(response.data);
+        }).catch(err => {
+            console.log(err)
         })
 
     }, [token])

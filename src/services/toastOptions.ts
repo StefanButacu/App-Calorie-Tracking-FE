@@ -69,3 +69,13 @@ export const UserUpdateWeight: ToastOptions = {
     color: "success",
     buttons: [cancelToastButton]
 }
+
+export const errorOptions: ToastOptions = {
+    message: 'Something went wrong!',
+    duration: 3000,
+    position: 'top',
+    icon: warningSharp,
+    color: "danger",
+    buttons: [cancelToastButton]
+}
+
