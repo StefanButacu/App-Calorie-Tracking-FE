@@ -37,7 +37,6 @@ setupIonicReact();
 const App: React.FC = () => {
 
     const {isAuthenticated} = useSelector((state: RootState) => state.login)
-    console.log("Is authenticated", isAuthenticated)
     return (
         <IonApp>
             <IonReactRouter>

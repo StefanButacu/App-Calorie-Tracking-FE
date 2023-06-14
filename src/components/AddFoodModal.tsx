@@ -43,7 +43,6 @@ const AddFoodModal = ({
                     <IonLabel position="stacked">Enter protein percentage:</IonLabel>
                     <IonInput type="number" placeholder="Protein grams" min="0" onIonChange={(event: CustomEvent) => {
                         const value = parseFloat(event.detail.value);
-                        console.log('value', value)
                         if (!!value) {
                             setFoodUpdate({...foodUpdate, proteinPerCent: value});
                         }
@@ -54,7 +53,6 @@ const AddFoodModal = ({
                     <IonInput type="number" placeholder="Carbohydrate grams" min="0"
                               onIonChange={(event: CustomEvent) => {
                                   const value = parseFloat(event.detail.value);
-                                  console.log('value', value)
                                   if (!!value) {
                                       setFoodUpdate({...foodUpdate, carbohydratePerCent: value});
                                   }
@@ -64,7 +62,6 @@ const AddFoodModal = ({
                     <IonLabel position="stacked">Enter lipid grams percentage:</IonLabel>
                     <IonInput type="number" placeholder="Lipid grams" min="0" onIonChange={(event: CustomEvent) => {
                         const value = parseFloat(event.detail.value);
-                        console.log('value', value)
                         if (!!value) {
                             setFoodUpdate({...foodUpdate, lipidPerCent: value});
                         }

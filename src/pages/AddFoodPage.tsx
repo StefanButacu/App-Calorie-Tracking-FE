@@ -70,7 +70,6 @@ const AddFoodPage: React.FC = () => {
 
     const handleNumberOfServingsChange = (event: CustomEvent) => {
         const value = parseFloat(event.detail.value);
-        console.log('value', value)
         if (!!value) {
             setNumberOfServings(value);
         } else {
@@ -78,7 +77,6 @@ const AddFoodPage: React.FC = () => {
         }
         setQuantiy(numberOfServings * servingSize);
     };
-    console.log("Redenr Add food page")
     return (
         <IonPage>
             <IonHeader>

@@ -46,7 +46,7 @@ const CategoryComponent: React.FC<CategoryComponentProps> = ({
                     if (foodResponse.status === 200) {
                         setFood({...foodResponse.data, onAddFoodToMealClick: handleAddToMealClick})
                     } else {
-                        console.log("Error response")
+
                     }
                 }).catch(err => console.log("Food handle err", err))
             })

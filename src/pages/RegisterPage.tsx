@@ -93,7 +93,6 @@ export const RegisterPage: React.FC = () => {
                 history.push('/login')
             }
         ).catch(err => {
-            console.log(err)
             presentToast(registerFailedOptions)
         })
     }

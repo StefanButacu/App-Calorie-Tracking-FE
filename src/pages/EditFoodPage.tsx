@@ -77,7 +77,6 @@ const EditFoodPage: React.FC = () => {
 
     const handleNumberOfServingsChange = (event: CustomEvent) => {
         const value = parseFloat(event.detail.value);
-        console.log('value', value)
         if (!!value) {
             setNumberOfServings(value);
             setFoodDetails({...foodDetails, quantity: numberOfServings * servingSize})

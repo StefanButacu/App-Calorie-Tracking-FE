@@ -24,7 +24,6 @@ const DiaryPage: React.FC = () => {
         // Go back one day
         // setCurrentDay(subDays(currentDay, 1));
         const newDate = subDays(new Date(date), 1).toISOString().slice(0, 10)
-        console.log("PrevClick" + newDate)
         dispatch(diaryDateSub({date: newDate}))
         handleGetDiaryDayMeals(newDate, token)
     };

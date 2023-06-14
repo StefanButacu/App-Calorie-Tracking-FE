@@ -21,6 +21,7 @@ const CalorieGoalComponent: React.FC = () => {
             setUserDetails(response.data);
         }).catch(err => {
             console.log(err)
+
         })
 
     }, [token])
