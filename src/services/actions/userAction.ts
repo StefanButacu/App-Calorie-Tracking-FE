@@ -9,7 +9,7 @@ export const requestGetUserDetails = (token: string) => {
 
 
 export const requestRegister = (userRegisterRequest: UserRegisterRequest) => {
-    return axios.post(baseURL + "/api/user", userRegisterRequest)
+    return axios.post(baseURL + "/api/user/register", userRegisterRequest)
 }
 
 export const requestGetActivityLevels = () => {
